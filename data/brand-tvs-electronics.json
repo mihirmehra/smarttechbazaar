@@ -1,0 +1,19 @@
+{
+  "_id": {
+    "$oid": "6a01bb3e43b05938a30b4fa0"
+  },
+  "name": "TVS Electronics",
+  "slug": "tvs-electronics",
+  "description": "TVS Electronics Limited is a leading Indian company that manufactures and sells personal and productivity products, point of sale (POS) solutions, keyboards, printers, barcode scanners, cash counters, and IT peripherals. With over four decades of experience, TVS Electronics is trusted by over 10,000+ partners across India with pan-India service reach through 345+ walk-in centers.",
+  "logo": "",
+  "isActive": true,
+  "sortOrder": 50,
+  "productCount": 22,
+  "createdAt": {
+    "$date": "2026-05-13T10:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T10:00:00.000Z"
+  },
+  "__v": 0
+}

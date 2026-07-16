@@ -1,0 +1,1260 @@
+[
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3001"
+    },
+    "name": "TVS Electronics Blaze MD-30 ANWI Laser Printer",
+    "slug": "tvs-blaze-md-30-anwi-laser-printer",
+    "description": "The TVS Electronics Blaze MD-30 ANWI is a high-performance multifunction laser printer with print, scan, and copy capabilities plus Auto Document Feeder (ADF). Designed for business productivity, it delivers fast 30 pages per minute print speed with sharp 203 DPI resolution. Features include 512MB RAM, 667 MHz processor, auto duplex printing, and multiple connectivity options including USB, Ethernet, WiFi, and WiFi-Direct. Built for high-volume environments with a 60,000 pages duty cycle and 50-page ADF capacity.",
+    "shortDescription": "Print/Scan/Copy with ADF, 30PPM, USB/Ethernet/WiFi, Auto Duplex, 60,000 Pages Duty Cycle",
+    "sku": "TVS-MD30-ANWI",
+    "barcode": "890001234501",
+    "priceB2C": 28500,
+    "priceB2B": 26000,
+    "mrp": 32000,
+    "costPrice": 24500,
+    "gstRate": 18,
+    "hsnCode": "84433210",
+    "stock": 25,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800",
+      "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Function", "value": "Print, Scan & Copy with ADF" },
+      { "key": "Print Speed (A4/Letter)", "value": "30PPM/32PPM" },
+      { "key": "Connectivity", "value": "USB, Ethernet, WiFi, WiFi-Direct" },
+      { "key": "Memory", "value": "512MB RAM" },
+      { "key": "Processor Speed", "value": "667 MHz" },
+      { "key": "ADF Capacity", "value": "50 Pages" },
+      { "key": "Auto Duplex", "value": "Yes" },
+      { "key": "Duty Cycle", "value": "60,000 Pages" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Technology", "value": "Laser" }
+    ],
+    "tags": ["tvs", "laser-printer", "multifunction", "adf", "wifi", "duplex", "office"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics Blaze MD-30 ANWI Laser Printer - Buy Online",
+      "metaDescription": "Buy TVS Blaze MD-30 ANWI multifunction laser printer with ADF, 30PPM print speed, WiFi connectivity at best price.",
+      "keywords": ["tvs laser printer", "md-30 anwi", "multifunction printer", "adf printer"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3002"
+    },
+    "name": "TVS Electronics Blaze MD-30 WI Laser Printer",
+    "slug": "tvs-blaze-md-30-wi-laser-printer",
+    "description": "The TVS Electronics Blaze MD-30 WI is a versatile multifunction laser printer with print, scan, and copy functions. Perfect for small to medium businesses, it offers 30 pages per minute print speed with USB, Ethernet, WiFi, and WiFi-Direct connectivity. Features 512MB RAM, 667 MHz processor, auto duplex printing, and a robust 60,000 pages duty cycle for reliable high-volume printing.",
+    "shortDescription": "Print/Scan/Copy, 30PPM, USB/Ethernet/WiFi, Auto Duplex, 60,000 Pages Duty Cycle",
+    "sku": "TVS-MD30-WI",
+    "barcode": "890001234502",
+    "priceB2C": 24500,
+    "priceB2B": 22500,
+    "mrp": 28000,
+    "costPrice": 21000,
+    "gstRate": 18,
+    "hsnCode": "84433210",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800",
+      "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Function", "value": "Print, Scan & Copy" },
+      { "key": "Print Speed (A4/Letter)", "value": "30PPM/32PPM" },
+      { "key": "Connectivity", "value": "USB, Ethernet, WiFi, WiFi-Direct" },
+      { "key": "Memory", "value": "512MB RAM" },
+      { "key": "Processor Speed", "value": "667 MHz" },
+      { "key": "Auto Duplex", "value": "Yes" },
+      { "key": "Duty Cycle", "value": "60,000 Pages" },
+      { "key": "Print Technology", "value": "Laser" }
+    ],
+    "tags": ["tvs", "laser-printer", "multifunction", "wifi", "duplex", "office"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics Blaze MD-30 WI Laser Printer - Buy Online",
+      "metaDescription": "Buy TVS Blaze MD-30 WI multifunction laser printer with 30PPM print speed, WiFi connectivity at best price.",
+      "keywords": ["tvs laser printer", "md-30 wi", "multifunction printer", "wifi printer"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3003"
+    },
+    "name": "TVS Electronics Blaze MD-30 W Laser Printer",
+    "slug": "tvs-blaze-md-30-w-laser-printer",
+    "description": "The TVS Electronics Blaze MD-30 W is a high-speed mono laser printer designed for print-only environments. Delivering 30 pages per minute with crisp quality, it features USB, Ethernet, WiFi, and WiFi-Direct connectivity. With 512MB RAM, 667 MHz processor, auto duplex, and 60,000 pages duty cycle, it's perfect for offices requiring fast, reliable printing.",
+    "shortDescription": "Print Only, 30PPM, USB/Ethernet/WiFi, Auto Duplex, 60,000 Pages Duty Cycle",
+    "sku": "TVS-MD30-W",
+    "barcode": "890001234503",
+    "priceB2C": 18500,
+    "priceB2B": 16800,
+    "mrp": 22000,
+    "costPrice": 15500,
+    "gstRate": 18,
+    "hsnCode": "84433210",
+    "stock": 40,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800",
+      "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Function", "value": "Print Only" },
+      { "key": "Print Speed (A4/Letter)", "value": "30PPM/32PPM" },
+      { "key": "Connectivity", "value": "USB, Ethernet, WiFi, WiFi-Direct" },
+      { "key": "Memory", "value": "512MB RAM" },
+      { "key": "Processor Speed", "value": "667 MHz" },
+      { "key": "Auto Duplex", "value": "Yes" },
+      { "key": "Duty Cycle", "value": "60,000 Pages" },
+      { "key": "Print Technology", "value": "Laser" }
+    ],
+    "tags": ["tvs", "laser-printer", "wifi", "duplex", "office", "mono"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics Blaze MD-30 W Laser Printer - Buy Online",
+      "metaDescription": "Buy TVS Blaze MD-30 W mono laser printer with 30PPM print speed, WiFi connectivity at best price.",
+      "keywords": ["tvs laser printer", "md-30 w", "mono printer", "wifi printer"]
+    },
+    "averageRating": 4.3,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3004"
+    },
+    "name": "TVS Electronics TP 816 Touch POS System",
+    "slug": "tvs-tp-816-touch-pos-system",
+    "description": "The TVS Electronics TP 816 is a powerful all-in-one Touch POS System featuring a 15.6-inch 10-point capacitive touch display. Powered by Intel Core i5 12th Gen processor with 8GB RAM (upgradable to 32GB) and 128GB SSD (upgradable to 512GB). Includes 7 USB ports, HDMI, Serial, Ethernet, and mDP connectivity. Built-in WiFi, Bluetooth, and speaker. Comes with optional 11.6-inch secondary display and 3 years warranty.",
+    "shortDescription": "15.6\" Touch, Intel i5 12th Gen, 8GB RAM, 128GB SSD, WiFi/BT, 3 Years Warranty",
+    "sku": "TVS-TP816",
+    "barcode": "890001234510",
+    "priceB2C": 68000,
+    "priceB2B": 62000,
+    "mrp": 78000,
+    "costPrice": 58000,
+    "gstRate": 18,
+    "hsnCode": "84714100",
+    "stock": 15,
+    "lowStockThreshold": 2,
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0001"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Display", "value": "15.6 inch 10-point Capacitive Touch" },
+      { "key": "Processor", "value": "Intel Core i5 12th Gen" },
+      { "key": "RAM", "value": "8GB (Upgradable to 32GB)" },
+      { "key": "Storage", "value": "128GB SSD (Upgradable to 512GB)" },
+      { "key": "Interfaces", "value": "7 USB, HDMI, Serial, Ethernet, mDP Port" },
+      { "key": "Built-in Features", "value": "WiFi, Bluetooth, Speaker" },
+      { "key": "Secondary Display", "value": "Optional 11.6 inch" },
+      { "key": "Warranty", "value": "3 Years" }
+    ],
+    "tags": ["tvs", "pos", "touch-pos", "billing", "retail", "intel-i5", "all-in-one"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics TP 816 Touch POS System - Buy Online",
+      "metaDescription": "Buy TVS TP 816 Touch POS System with Intel i5, 15.6 inch touch display, 3 years warranty at best price.",
+      "keywords": ["tvs pos", "tp 816", "touch pos", "billing system", "retail pos"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3005"
+    },
+    "name": "TVS Electronics TP 816 with 80mm Printer POS System",
+    "slug": "tvs-tp-816-with-80mm-printer-pos-system",
+    "description": "The TVS Electronics TP 816 All-in-One POS System with integrated 80mm thermal printer and auto cutter. Features 15.6-inch 10-point capacitive touch display, Intel Core i5 12th Gen processor, 8GB RAM, 128GB SSD. Complete billing solution with built-in WiFi, Bluetooth, speaker, and optional 11.6-inch secondary display. Perfect for retail and restaurant environments.",
+    "shortDescription": "15.6\" Touch, Intel i5, 80mm Printer with Auto Cutter, WiFi/BT, 3 Years Warranty",
+    "sku": "TVS-TP816-80P",
+    "barcode": "890001234511",
+    "priceB2C": 78000,
+    "priceB2B": 72000,
+    "mrp": 88000,
+    "costPrice": 68000,
+    "gstRate": 18,
+    "hsnCode": "84714100",
+    "stock": 12,
+    "lowStockThreshold": 2,
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0001"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Display", "value": "15.6 inch 10-point Capacitive Touch" },
+      { "key": "Processor", "value": "Intel Core i5 12th Gen" },
+      { "key": "RAM", "value": "8GB (Upgradable to 32GB)" },
+      { "key": "Storage", "value": "128GB SSD (Upgradable to 512GB)" },
+      { "key": "Interfaces", "value": "7 USB, HDMI, Serial, Ethernet, mDP Port" },
+      { "key": "Printer", "value": "80mm Thermal Printer with Auto Cutter" },
+      { "key": "Built-in Features", "value": "WiFi, Bluetooth, Speaker" },
+      { "key": "Secondary Display", "value": "Optional 11.6 inch" },
+      { "key": "Warranty", "value": "3 Years" }
+    ],
+    "tags": ["tvs", "pos", "touch-pos", "billing", "retail", "thermal-printer", "all-in-one"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics TP 816 with 80mm Printer POS System - Buy Online",
+      "metaDescription": "Buy TVS TP 816 POS System with built-in 80mm thermal printer, Intel i5, touch display at best price.",
+      "keywords": ["tvs pos printer", "tp 816 printer", "pos with printer", "billing machine"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3006"
+    },
+    "name": "TVS Electronics TP 415cA Prime Android POS",
+    "slug": "tvs-tp-415ca-prime-android-pos",
+    "description": "The TVS Electronics TP 415cA Prime is an Android-based POS system featuring 15.6-inch capacitive multi-touch display with 1920x1080 resolution. Powered by RK3568 Quad-core Cortex-A55 processor at 2.0GHz, 4GB RAM, and 128GB flash storage. Includes built-in WiFi, Bluetooth, and 1W speaker. Perfect for modern retail and hospitality environments with 2 years warranty.",
+    "shortDescription": "15.6\" FHD Touch, Android, RK3568 Quad-core, 4GB RAM, 128GB, WiFi/BT, 2 Years Warranty",
+    "sku": "TVS-TP415CA-PRIME",
+    "barcode": "890001234512",
+    "priceB2C": 42000,
+    "priceB2B": 38000,
+    "mrp": 48000,
+    "costPrice": 35000,
+    "gstRate": 18,
+    "hsnCode": "84714100",
+    "stock": 20,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0001"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Display", "value": "15.6 inch Capacitive Multi-Touch" },
+      { "key": "Resolution", "value": "1920 x 1080 (Full HD)" },
+      { "key": "Operating System", "value": "Android" },
+      { "key": "Processor", "value": "RK3568 Quad-core Cortex-A55, 2.0GHz" },
+      { "key": "RAM", "value": "4GB" },
+      { "key": "Storage", "value": "128GB Flash" },
+      { "key": "Built-in Features", "value": "WiFi, Bluetooth, 1W Speaker" },
+      { "key": "Warranty", "value": "2 Years" }
+    ],
+    "tags": ["tvs", "pos", "android-pos", "touch-pos", "billing", "retail"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics TP 415cA Prime Android POS - Buy Online",
+      "metaDescription": "Buy TVS TP 415cA Prime Android POS system with 15.6 inch FHD touch display at best price.",
+      "keywords": ["tvs android pos", "tp 415ca", "android billing", "touch pos"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3007"
+    },
+    "name": "TVS Electronics TP 4103 Mobile Android POS",
+    "slug": "tvs-tp-4103-mobile-android-pos",
+    "description": "The TVS Electronics TP 4103 is a compact mobile Android POS device with 10.1-inch touch display. Running Android 12 with Octa-Core processor up to 2.0GHz, 4GB RAM, and 32GB flash storage. Features built-in 3-inch printer, barcode scanner, NFC, 4G connectivity, WiFi, Bluetooth, and GPS. Perfect for delivery, field sales, and mobile billing applications with 2 years warranty.",
+    "shortDescription": "10.1\" Touch, Android 12, Built-in Printer/Scanner/NFC, 4G/WiFi/BT/GPS, 2 Years Warranty",
+    "sku": "TVS-TP4103",
+    "barcode": "890001234513",
+    "priceB2C": 55000,
+    "priceB2B": 50000,
+    "mrp": 62000,
+    "costPrice": 46000,
+    "gstRate": 18,
+    "hsnCode": "84714100",
+    "stock": 18,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0001"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Display", "value": "10.1 inch Touch" },
+      { "key": "Operating System", "value": "Android 12" },
+      { "key": "Processor", "value": "Octa-Core, Up to 2.0GHz" },
+      { "key": "RAM", "value": "4GB" },
+      { "key": "Storage", "value": "32GB Flash" },
+      { "key": "Connectivity", "value": "4G, WiFi, Bluetooth, GPS, NFC" },
+      { "key": "Built-in Printer", "value": "3 inch Thermal" },
+      { "key": "Built-in Scanner", "value": "Barcode Scanner" },
+      { "key": "Warranty", "value": "2 Years" }
+    ],
+    "tags": ["tvs", "mobile-pos", "android-pos", "portable", "delivery", "field-sales", "4g"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics TP 4103 Mobile Android POS - Buy Online",
+      "metaDescription": "Buy TVS TP 4103 mobile Android POS with built-in printer, scanner, NFC, 4G connectivity at best price.",
+      "keywords": ["tvs mobile pos", "tp 4103", "portable pos", "delivery billing"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3008"
+    },
+    "name": "TVS Electronics RP 3300 Star Receipt Printer",
+    "slug": "tvs-rp-3300-star-receipt-printer",
+    "description": "The TVS Electronics RP 3300 Star is a premium 3-inch thermal receipt printer with voice-enabled printing feature. Delivers 150 mm/sec print speed at 203 DPI resolution with drop-in, low-maintenance design. Includes USB and Serial connectivity with optional Ethernet, Bluetooth, and WiFi. Perfect for retail billing and POS applications.",
+    "shortDescription": "3 inch, 203 DPI, 150mm/sec, Voice-Enabled, USB+Serial, Drop-in Design",
+    "sku": "TVS-RP3300-STAR",
+    "barcode": "890001234520",
+    "priceB2C": 12500,
+    "priceB2B": 11000,
+    "mrp": 15000,
+    "costPrice": 10000,
+    "gstRate": 18,
+    "hsnCode": "84433230",
+    "stock": 50,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Width", "value": "3 inch" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Speed", "value": "150 mm/sec" },
+      { "key": "Design", "value": "Drop-in & Low Maintenance" },
+      { "key": "Voice Feature", "value": "Voice-Enabled Printing" },
+      { "key": "Interface", "value": "USB + Serial" },
+      { "key": "Optional Interface", "value": "Ethernet, Bluetooth, WiFi" },
+      { "key": "Print Technology", "value": "Direct Thermal" }
+    ],
+    "tags": ["tvs", "receipt-printer", "thermal-printer", "pos-printer", "billing", "voice-enabled"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics RP 3300 Star Receipt Printer - Buy Online",
+      "metaDescription": "Buy TVS RP 3300 Star thermal receipt printer with voice-enabled printing, 150mm/sec speed at best price.",
+      "keywords": ["tvs receipt printer", "rp 3300 star", "thermal printer", "pos printer"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3009"
+    },
+    "name": "TVS Electronics RP 3100 Receipt Printer",
+    "slug": "tvs-rp-3100-receipt-printer",
+    "description": "The TVS Electronics RP 3100 is a high-speed 3-inch thermal receipt printer delivering 260 mm/sec print speed at 203 DPI resolution. Features compact design with 8MB flash memory and USB, Serial, and Ethernet connectivity. Ideal for high-volume retail and hospitality environments requiring fast, reliable receipt printing.",
+    "shortDescription": "3 inch, 203 DPI, 260mm/sec, USB+Serial+Ethernet, 8MB Flash, Compact Design",
+    "sku": "TVS-RP3100",
+    "barcode": "890001234521",
+    "priceB2C": 11000,
+    "priceB2B": 9800,
+    "mrp": 13500,
+    "costPrice": 9000,
+    "gstRate": 18,
+    "hsnCode": "84433230",
+    "stock": 60,
+    "lowStockThreshold": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Width", "value": "3 inch" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Speed", "value": "260 mm/sec" },
+      { "key": "Design", "value": "Compact" },
+      { "key": "Memory", "value": "8MB Flash" },
+      { "key": "Interface", "value": "USB + Serial + Ethernet" },
+      { "key": "Print Technology", "value": "Direct Thermal" }
+    ],
+    "tags": ["tvs", "receipt-printer", "thermal-printer", "pos-printer", "high-speed", "ethernet"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics RP 3100 Receipt Printer - Buy Online",
+      "metaDescription": "Buy TVS RP 3100 high-speed thermal receipt printer with 260mm/sec speed, Ethernet connectivity at best price.",
+      "keywords": ["tvs receipt printer", "rp 3100", "high speed printer", "pos printer"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3010"
+    },
+    "name": "TVS Electronics RP 3300 BT Receipt Printer",
+    "slug": "tvs-rp-3300-bt-receipt-printer",
+    "description": "The TVS Electronics RP 3300 BT is a compact 3-inch thermal receipt printer with Bluetooth connectivity for wireless printing. Delivers 120 mm/sec print speed at 203 DPI with USB and Bluetooth interfaces. Features 4MB flash memory and compact design, perfect for mobile billing and wireless POS setups.",
+    "shortDescription": "3 inch, 203 DPI, 120mm/sec, USB+Bluetooth, 4MB Flash, Compact Design",
+    "sku": "TVS-RP3300-BT",
+    "barcode": "890001234522",
+    "priceB2C": 9500,
+    "priceB2B": 8500,
+    "mrp": 11500,
+    "costPrice": 7800,
+    "gstRate": 18,
+    "hsnCode": "84433230",
+    "stock": 45,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Width", "value": "3 inch" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Speed", "value": "120 mm/sec" },
+      { "key": "Design", "value": "Compact" },
+      { "key": "Memory", "value": "4MB Flash" },
+      { "key": "Interface", "value": "USB + Bluetooth" },
+      { "key": "Print Technology", "value": "Direct Thermal" }
+    ],
+    "tags": ["tvs", "receipt-printer", "thermal-printer", "bluetooth", "wireless", "mobile-billing"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics RP 3300 BT Receipt Printer - Buy Online",
+      "metaDescription": "Buy TVS RP 3300 BT Bluetooth thermal receipt printer for wireless POS billing at best price.",
+      "keywords": ["tvs bluetooth printer", "rp 3300 bt", "wireless printer", "mobile billing"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3011"
+    },
+    "name": "TVS Electronics LP 46 PRO Barcode Label Printer",
+    "slug": "tvs-lp-46-pro-barcode-label-printer",
+    "description": "The TVS Electronics LP 46 PRO is a professional 4-inch barcode label printer with USB, Serial, and Ethernet connectivity. Delivers 5 inches per second print speed at 203 DPI resolution. Features 16MB flash and 32MB SDRAM with compact, durable design. Perfect for warehouses, logistics, and retail labeling applications.",
+    "shortDescription": "4 inch, 203 DPI, 5 IPS, USB+Serial+Ethernet, 16MB Flash, Compact & Durable",
+    "sku": "TVS-LP46-PRO",
+    "barcode": "890001234530",
+    "priceB2C": 18500,
+    "priceB2B": 16500,
+    "mrp": 22000,
+    "costPrice": 15000,
+    "gstRate": 18,
+    "hsnCode": "84433230",
+    "stock": 35,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Width", "value": "4 inch" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Speed", "value": "5 Inches Per Second" },
+      { "key": "Flash Memory", "value": "16MB" },
+      { "key": "SDRAM", "value": "32MB" },
+      { "key": "Design", "value": "Compact & Durable" },
+      { "key": "Interface", "value": "USB + Serial + Ethernet" },
+      { "key": "Print Technology", "value": "Direct Thermal / Thermal Transfer" }
+    ],
+    "tags": ["tvs", "label-printer", "barcode-printer", "thermal", "ethernet", "warehouse", "logistics"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics LP 46 PRO Barcode Label Printer - Buy Online",
+      "metaDescription": "Buy TVS LP 46 PRO barcode label printer with Ethernet, 5 IPS speed for warehouse and logistics at best price.",
+      "keywords": ["tvs label printer", "lp 46 pro", "barcode printer", "warehouse printer"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3012"
+    },
+    "name": "TVS Electronics LP 46 MAX Barcode Label Printer",
+    "slug": "tvs-lp-46-max-barcode-label-printer",
+    "description": "The TVS Electronics LP 46 MAX is a high-performance 4-inch barcode label printer with USB, Serial, Ethernet, and WiFi connectivity. Delivers faster 7 inches per second print speed at 203 DPI resolution. Features 16MB flash and 32MB SDRAM with compact, durable design. Ideal for high-volume labeling operations requiring wireless connectivity.",
+    "shortDescription": "4 inch, 203 DPI, 7 IPS, USB+Serial+Ethernet+WiFi, 16MB Flash, High Speed",
+    "sku": "TVS-LP46-MAX",
+    "barcode": "890001234531",
+    "priceB2C": 22500,
+    "priceB2B": 20000,
+    "mrp": 26000,
+    "costPrice": 18500,
+    "gstRate": 18,
+    "hsnCode": "84433230",
+    "stock": 25,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Width", "value": "4 inch" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Speed", "value": "7 Inches Per Second" },
+      { "key": "Flash Memory", "value": "16MB" },
+      { "key": "SDRAM", "value": "32MB" },
+      { "key": "Design", "value": "Compact & Durable" },
+      { "key": "Interface", "value": "USB + Serial + Ethernet + WiFi" },
+      { "key": "Print Technology", "value": "Direct Thermal / Thermal Transfer" }
+    ],
+    "tags": ["tvs", "label-printer", "barcode-printer", "wifi", "high-speed", "warehouse", "logistics"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics LP 46 MAX Barcode Label Printer - Buy Online",
+      "metaDescription": "Buy TVS LP 46 MAX WiFi barcode label printer with 7 IPS speed for high-volume labeling at best price.",
+      "keywords": ["tvs label printer", "lp 46 max", "wifi barcode printer", "high speed printer"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3013"
+    },
+    "name": "TVS Electronics BS L100 PLUS Barcode Scanner",
+    "slug": "tvs-bs-l100-plus-barcode-scanner",
+    "description": "The TVS Electronics BS L100 PLUS is a powerful 1D laser barcode scanner with 300 scans per second speed. Features USB connectivity, 1.5m drop resistance for durability, and a powerful scan engine optimized for fast billing operations. Perfect for retail checkout and inventory management.",
+    "shortDescription": "1D Laser, 300 scans/sec, USB, 1.5m Drop Resistance, Fast Billing",
+    "sku": "TVS-BSL100-PLUS",
+    "barcode": "890001234540",
+    "priceB2C": 2800,
+    "priceB2B": 2400,
+    "mrp": 3500,
+    "costPrice": 2200,
+    "gstRate": 18,
+    "hsnCode": "84716060",
+    "stock": 100,
+    "lowStockThreshold": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0052"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Type", "value": "1D Laser Barcode Scanner" },
+      { "key": "Scan Speed", "value": "300 scans/sec" },
+      { "key": "Interface", "value": "USB" },
+      { "key": "Durability", "value": "1.5m Drop Resistance" },
+      { "key": "Performance", "value": "Powerful Scan Engine for Fast Billing" }
+    ],
+    "tags": ["tvs", "barcode-scanner", "1d-scanner", "laser", "usb", "retail", "billing"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics BS L100 PLUS Barcode Scanner - Buy Online",
+      "metaDescription": "Buy TVS BS L100 PLUS 1D laser barcode scanner with 300 scans/sec speed for retail billing at best price.",
+      "keywords": ["tvs barcode scanner", "bs l100 plus", "1d scanner", "retail scanner"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3014"
+    },
+    "name": "TVS Electronics BS i201T 2D Barcode Scanner",
+    "slug": "tvs-bs-i201t-2d-barcode-scanner",
+    "description": "The TVS Electronics BS i201T is a rugged 2D imager barcode scanner with IP54 protection rating. Delivers 300 scans per second speed via USB connectivity. Made in India with rugged design for demanding environments. Perfect for warehouse, logistics, and outdoor scanning applications.",
+    "shortDescription": "2D Imager, 300 scans/sec, USB, IP54 Rated, Rugged Design, Made in India",
+    "sku": "TVS-BSI201T",
+    "barcode": "890001234541",
+    "priceB2C": 4500,
+    "priceB2B": 4000,
+    "mrp": 5500,
+    "costPrice": 3600,
+    "gstRate": 18,
+    "hsnCode": "84716060",
+    "stock": 70,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0052"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Type", "value": "2D Imager Scanner" },
+      { "key": "Scan Speed", "value": "300 scans/sec" },
+      { "key": "Interface", "value": "USB" },
+      { "key": "Durability", "value": "IP54 Protection + Rugged Design" },
+      { "key": "Origin", "value": "Made in India" }
+    ],
+    "tags": ["tvs", "barcode-scanner", "2d-scanner", "rugged", "ip54", "warehouse", "made-in-india"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics BS i201T 2D Barcode Scanner - Buy Online",
+      "metaDescription": "Buy TVS BS i201T rugged 2D barcode scanner with IP54 protection, Made in India at best price.",
+      "keywords": ["tvs 2d scanner", "bs i201t", "rugged scanner", "ip54 scanner"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3015"
+    },
+    "name": "TVS Electronics BS i302 G Desktop Scanner",
+    "slug": "tvs-bs-i302-g-desktop-scanner",
+    "description": "The TVS Electronics BS i302 G is an omni-directional desktop barcode scanner with ultra-fast 2500 scans per second capability. Features IP54 rating for dust and water resistance with ability to read damaged and low-contrast barcodes. USB connectivity makes it perfect for high-volume checkout counters.",
+    "shortDescription": "Omni-Directional, 2500 scans/sec, USB, IP54 Rated, Reads Damaged Barcodes",
+    "sku": "TVS-BSI302G",
+    "barcode": "890001234542",
+    "priceB2C": 8500,
+    "priceB2B": 7500,
+    "mrp": 10000,
+    "costPrice": 6800,
+    "gstRate": 18,
+    "hsnCode": "84716060",
+    "stock": 40,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0052"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Type", "value": "Omni-Directional Desktop Scanner" },
+      { "key": "Scan Speed", "value": "2500 scans/sec" },
+      { "key": "Interface", "value": "USB" },
+      { "key": "Durability", "value": "IP54 Rated" },
+      { "key": "Capability", "value": "Reads Damaged & Low-Contrast Codes" }
+    ],
+    "tags": ["tvs", "desktop-scanner", "omni-directional", "high-speed", "checkout", "retail"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics BS i302 G Desktop Scanner - Buy Online",
+      "metaDescription": "Buy TVS BS i302 G omni-directional desktop scanner with 2500 scans/sec speed at best price.",
+      "keywords": ["tvs desktop scanner", "bs i302 g", "omni scanner", "checkout scanner"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3016"
+    },
+    "name": "TVS Electronics MLP 370S Mobile Printer",
+    "slug": "tvs-mlp-370s-mobile-printer",
+    "description": "The TVS Electronics MLP 370S is a portable 4-inch mobile printer with USB and Bluetooth connectivity. Delivers 150 mm/sec print speed at 203 DPI resolution. Features 2500 mAh battery for extended use and supports multiple emulation modes including ESC/POS, TSPL, CPCL, ZPL, DPL, and EPL. Perfect for delivery, field service, and mobile billing.",
+    "shortDescription": "4 inch, 203 DPI, 150mm/sec, USB+Bluetooth, 2500mAh Battery, Multi-Emulation",
+    "sku": "TVS-MLP370S",
+    "barcode": "890001234550",
+    "priceB2C": 16500,
+    "priceB2B": 14500,
+    "mrp": 19000,
+    "costPrice": 13500,
+    "gstRate": 18,
+    "hsnCode": "84433230",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Width", "value": "4 inch" },
+      { "key": "Resolution", "value": "203 DPI" },
+      { "key": "Print Speed", "value": "150 mm/sec" },
+      { "key": "Interface", "value": "USB + Bluetooth" },
+      { "key": "Battery", "value": "2500 mAh" },
+      { "key": "Emulation", "value": "ESC/POS, TSPL, CPCL, ZPL, DPL, EPL" },
+      { "key": "Print Technology", "value": "Direct Thermal" }
+    ],
+    "tags": ["tvs", "mobile-printer", "portable", "bluetooth", "delivery", "field-service"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics MLP 370S Mobile Printer - Buy Online",
+      "metaDescription": "Buy TVS MLP 370S 4-inch mobile printer with Bluetooth for delivery and field service at best price.",
+      "keywords": ["tvs mobile printer", "mlp 370s", "portable printer", "delivery printer"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3017"
+    },
+    "name": "TVS Electronics CC-710 Advanced Cash Counter",
+    "slug": "tvs-cc-710-advanced-cash-counter",
+    "description": "The TVS Electronics CC-710 is an advanced cash counting machine with 1500 notes per minute speed. Features Dual CIS, UV, MG, IR, MT, 3D, and Color detection for comprehensive counterfeit protection. Includes TFT touch screen display, mixed value counting with denomination breakup, customer display, and voice output. Supports USB, RS232, and SD Card connectivity.",
+    "shortDescription": "1500 Notes/Min, Dual CIS, UV/MG/IR Detection, Touch Screen, Mixed Value Counting",
+    "sku": "TVS-CC710",
+    "barcode": "890001234560",
+    "priceB2C": 42000,
+    "priceB2B": 38000,
+    "mrp": 48000,
+    "costPrice": 35000,
+    "gstRate": 18,
+    "hsnCode": "84729090",
+    "stock": 15,
+    "lowStockThreshold": 2,
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0001"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Counting Speed", "value": "1500 Notes/Min" },
+      { "key": "Detection", "value": "Dual CIS, UV, MG, IR, MT, 3D & Color" },
+      { "key": "Function", "value": "Add, Batch, Sort & Report" },
+      { "key": "Mixed Value Counting", "value": "Yes (with Denomination Breakup)" },
+      { "key": "Display", "value": "TFT Touch Screen" },
+      { "key": "Operation", "value": "Manual/Automatic Counting Mode" },
+      { "key": "Connectivity", "value": "USB Port, RS232, SD Card" },
+      { "key": "Extras", "value": "Customer Display + Voice Output" }
+    ],
+    "tags": ["tvs", "cash-counter", "note-counter", "counterfeit-detection", "banking", "retail"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics CC-710 Advanced Cash Counter - Buy Online",
+      "metaDescription": "Buy TVS CC-710 advanced cash counter with 1500 notes/min speed, counterfeit detection at best price.",
+      "keywords": ["tvs cash counter", "cc-710", "note counter", "fake note detector"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3018"
+    },
+    "name": "TVS Electronics MSP 240 Plus Dot Matrix Printer",
+    "slug": "tvs-msp-240-plus-dot-matrix-printer",
+    "description": "The TVS Electronics MSP 240 Plus is a heavy-duty 24-wire dot matrix printer designed for high-volume multi-part printing. Delivers up to 300 CPS print speed with 200 million character print head life. Supports 1 original + 4 copies and features 15,000 power-on hours reliability. Perfect for invoicing, receipts, and form printing in demanding environments.",
+    "shortDescription": "24-Wire, 80 Column, 300 CPS, 1+4 Copies, 200M Character Life, 15,000 Hours",
+    "sku": "TVS-MSP240-PLUS",
+    "barcode": "890001234570",
+    "priceB2C": 22000,
+    "priceB2B": 20000,
+    "mrp": 26000,
+    "costPrice": 18500,
+    "gstRate": 18,
+    "hsnCode": "84433210",
+    "stock": 25,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0051"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Print Head", "value": "24-Wire, 80 Column Dot Matrix" },
+      { "key": "Print Speed", "value": "Up to 300 CPS" },
+      { "key": "Print Head Life", "value": "200 Million Characters" },
+      { "key": "Copy Capability", "value": "1 Original + 4 Copies" },
+      { "key": "Reliability", "value": "15,000 Power-On Hours" },
+      { "key": "Print Technology", "value": "Impact Dot Matrix" }
+    ],
+    "tags": ["tvs", "dot-matrix", "impact-printer", "multi-part", "invoicing", "heavy-duty"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics MSP 240 Plus Dot Matrix Printer - Buy Online",
+      "metaDescription": "Buy TVS MSP 240 Plus 24-wire dot matrix printer for heavy-duty multi-part printing at best price.",
+      "keywords": ["tvs dot matrix", "msp 240 plus", "impact printer", "multi-part printer"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3019"
+    },
+    "name": "TVS Electronics Champ Pro Keyboard",
+    "slug": "tvs-champ-pro-keyboard",
+    "description": "The TVS Electronics Champ Pro is a professional-grade 104-key membrane keyboard built for reliability. Features 50 million keystroke durability with dustproof, laser-etched keycaps. Industrial-grade construction with USB plug & play connectivity and 1.5 meter cable. Perfect for offices and high-usage environments.",
+    "shortDescription": "104 Keys, 50M Keystrokes, Dustproof, Laser-Etched, USB, Industrial-Grade",
+    "sku": "TVS-CHAMP-PRO",
+    "barcode": "890001234580",
+    "priceB2C": 650,
+    "priceB2B": 550,
+    "mrp": 850,
+    "costPrice": 480,
+    "gstRate": 18,
+    "hsnCode": "84716060",
+    "stock": 200,
+    "lowStockThreshold": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+      "https://images.unsplash.com/photo-1561112078-7d24e04c3407?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0041"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Keys", "value": "104 Key Layout" },
+      { "key": "Durability", "value": "50 Million Keystrokes" },
+      { "key": "Design", "value": "Dustproof, Laser-Etched" },
+      { "key": "Connectivity", "value": "USB Plug & Play" },
+      { "key": "Build", "value": "Industrial-Grade Reliability" },
+      { "key": "Cable", "value": "1.5 Meter USB Cable" },
+      { "key": "Type", "value": "Membrane" }
+    ],
+    "tags": ["tvs", "keyboard", "membrane", "office", "dustproof", "reliable"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics Champ Pro Keyboard - Buy Online",
+      "metaDescription": "Buy TVS Champ Pro professional keyboard with 50M keystroke durability for office use at best price.",
+      "keywords": ["tvs keyboard", "champ pro", "office keyboard", "membrane keyboard"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3020"
+    },
+    "name": "TVS Electronics Platina Mechanical Keyboard",
+    "slug": "tvs-platina-mechanical-keyboard",
+    "description": "The TVS Electronics Platina Mechanical is a premium 104-key mechanical keyboard with Outemu Blue switches for tactile typing experience. Features 50 million keystroke durability, RGB backlighting, strong tilt legs, and laser-etched keycaps. USB connectivity with robust build quality for gaming and professional use.",
+    "shortDescription": "104 Keys, Outemu Blue, RGB, 50M Keystrokes, Laser-Etched, USB",
+    "sku": "TVS-PLATINA-MECH",
+    "barcode": "890001234581",
+    "priceB2C": 2500,
+    "priceB2B": 2200,
+    "mrp": 3000,
+    "costPrice": 2000,
+    "gstRate": 18,
+    "hsnCode": "84716060",
+    "stock": 80,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+      "https://images.unsplash.com/photo-1561112078-7d24e04c3407?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0041"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Keys", "value": "104 Key Layout" },
+      { "key": "Switch Type", "value": "Outemu Blue Switch" },
+      { "key": "Durability", "value": "50 Million Keystrokes" },
+      { "key": "Backlighting", "value": "RGB" },
+      { "key": "Design", "value": "Strong Tilt Legs, Laser-Etched" },
+      { "key": "Connectivity", "value": "USB" },
+      { "key": "Type", "value": "Mechanical" }
+    ],
+    "tags": ["tvs", "mechanical-keyboard", "rgb", "gaming", "outemu-blue", "tactile"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics Platina Mechanical Keyboard - Buy Online",
+      "metaDescription": "Buy TVS Platina Mechanical keyboard with Outemu Blue switches, RGB backlighting at best price.",
+      "keywords": ["tvs mechanical keyboard", "platina", "rgb keyboard", "gaming keyboard"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3021"
+    },
+    "name": "TVS Electronics KMC 107 Wireless Mouse",
+    "slug": "tvs-kmc-107-wireless-mouse",
+    "description": "The TVS Electronics KMC 107 is a reliable wireless mouse with 10m range and 1200 DPI optical sensor. Features 3 buttons with 3 million clicks life. Compatible with Windows, Linux, Mac, and Android. Perfect for everyday office and home use with plug-and-play USB receiver.",
+    "shortDescription": "Wireless, 10m Range, 1200 DPI, 3 Buttons, 3M Clicks, Multi-OS Compatible",
+    "sku": "TVS-KMC107",
+    "barcode": "890001234590",
+    "priceB2C": 450,
+    "priceB2B": 380,
+    "mrp": 599,
+    "costPrice": 320,
+    "gstRate": 18,
+    "hsnCode": "84716060",
+    "stock": 150,
+    "lowStockThreshold": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800",
+      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0042"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Connectivity", "value": "Wireless (10m Range), 1200 DPI" },
+      { "key": "Buttons", "value": "3 Buttons" },
+      { "key": "Durability", "value": "3 Million Clicks Life" },
+      { "key": "Compatibility", "value": "Windows, Linux, Mac, Android" },
+      { "key": "Type", "value": "Optical" }
+    ],
+    "tags": ["tvs", "wireless-mouse", "optical", "office", "multi-os"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics KMC 107 Wireless Mouse - Buy Online",
+      "metaDescription": "Buy TVS KMC 107 wireless mouse with 10m range, 1200 DPI for office and home use at best price.",
+      "keywords": ["tvs wireless mouse", "kmc 107", "office mouse", "optical mouse"]
+    },
+    "averageRating": 4.3,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e3022"
+    },
+    "name": "TVS Electronics Champ Cam 700 Webcam",
+    "slug": "tvs-champ-cam-700-webcam",
+    "description": "The TVS Electronics Champ Cam 700 is a high-resolution webcam with 2592x1944p (5MP) sensor and 30fps frame rate. Features premium glass lens for sharp, clear video, built-in microphone for audio, and USB plug & play connectivity. Perfect for video conferencing, streaming, and online meetings.",
+    "shortDescription": "5MP (2592x1944p), 30fps, Glass Lens, Built-in Mic, USB Plug & Play",
+    "sku": "TVS-CHAMPCAM700",
+    "barcode": "890001234595",
+    "priceB2C": 2200,
+    "priceB2B": 1900,
+    "mrp": 2800,
+    "costPrice": 1700,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 60,
+    "lowStockThreshold": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=800",
+      "https://images.unsplash.com/photo-1563203369-26f2e4a5ccf7?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0044"
+    },
+    "brand": "TVS Electronics",
+    "specifications": [
+      { "key": "Resolution", "value": "2592 x 1944p (5MP)" },
+      { "key": "Frame Rate", "value": "30fps" },
+      { "key": "Lens", "value": "Glass Lens" },
+      { "key": "Microphone", "value": "Built-in Mic" },
+      { "key": "Connectivity", "value": "USB Plug & Play" }
+    ],
+    "tags": ["tvs", "webcam", "5mp", "video-conferencing", "streaming", "glass-lens"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "TVS Electronics Champ Cam 700 Webcam - Buy Online",
+      "metaDescription": "Buy TVS Champ Cam 700 5MP webcam with glass lens for video conferencing and streaming at best price.",
+      "keywords": ["tvs webcam", "champ cam 700", "5mp webcam", "video conference"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  }
+]

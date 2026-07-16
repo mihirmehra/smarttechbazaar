@@ -1,0 +1,20 @@
+{
+  "_id": {
+    "$oid": "6a01bb3e43b05938a30b5001"
+  },
+  "name": "Trueview",
+  "slug": "trueview",
+  "description": "Trueview by Warner Electronics (I) Pvt. Ltd. is a leading manufacturer of BIS certified CCTV cameras, NVRs, DVRs, PoE switches, 4G routers, and solar power systems. Known for innovative Wi-Fi and 4G security cameras with smart features including human detection, smart tracking, and Alexa support.",
+  "logo": "https://ik.imagekit.io/sabkatechbazar/stb-uploads/brand-trueview.png",
+  "website": "https://www.trueview.co.in",
+  "isActive": true,
+  "isFeatured": true,
+  "sortOrder": 25,
+  "createdAt": {
+    "$date": "2026-05-13T10:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T10:00:00.000Z"
+  },
+  "__v": 0
+}

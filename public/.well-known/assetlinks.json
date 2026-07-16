@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.smarttechbazaar.app",
+      "sha256_cert_fingerprints": [
+        "82:60:EA:EC:BB:B6:62:0E:B8:AC:29:64:C6:50:12:EC:6E:9F:77:61:A4:0D:28:32:8C:A2:34:14:F2:9D:05:17"
+      ]
+    }
+  }
+]

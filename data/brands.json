@@ -1,0 +1,629 @@
+[
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f72"
+    },
+    "name": "TVS Electronics",
+    "slug": "tvs-electronics",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 3,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f82"
+    },
+    "name": "Dahua",
+    "slug": "dahua",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 2,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f83"
+    },
+    "name": "S4T",
+    "slug": "s4t",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 3,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f84"
+    },
+    "name": "Prama",
+    "slug": "prama",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 4,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f85"
+    },
+    "name": "D-Link",
+    "slug": "dlink",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 5,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f86"
+    },
+    "name": "TP-Link",
+    "slug": "tplink",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 6,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f87"
+    },
+    "name": "Ant Esports",
+    "slug": "antesports",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 7,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f88"
+    },
+    "name": "DeepCool",
+    "slug": "deepcool",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 8,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f89"
+    },
+    "name": "Cooler Master",
+    "slug": "cooler-master",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 9,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f8a"
+    },
+    "name": "Gigabyte",
+    "slug": "gigabyte",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 10,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f8b"
+    },
+    "name": "Dell",
+    "slug": "dell",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 11,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f8c"
+    },
+    "name": "HP",
+    "slug": "hp",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 12,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f8d"
+    },
+    "name": "Lenovo",
+    "slug": "lenovo",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 13,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f8e"
+    },
+    "name": "Acer",
+    "slug": "acer",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 14,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f8f"
+    },
+    "name": "Galax",
+    "slug": "galax",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 15,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f90"
+    },
+    "name": "Lapcare",
+    "slug": "lapcare",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 16,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f91"
+    },
+    "name": "Zebra",
+    "slug": "zebra",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 17,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f92"
+    },
+    "name": "TVS",
+    "slug": "tvs",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 18,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f93"
+    },
+    "name": "Intel",
+    "slug": "intel",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 19,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f94"
+    },
+    "name": "MSI",
+    "slug": "msi",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 20,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f95"
+    },
+    "name": "AMD",
+    "slug": "amd",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 21,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f96"
+    },
+    "name": "ASUS",
+    "slug": "asus",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 22,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f97"
+    },
+    "name": "Geonix",
+    "slug": "geonix",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 23,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f98"
+    },
+    "name": "Zebion",
+    "slug": "zebion",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 24,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f99"
+    },
+    "name": "Consistent",
+    "slug": "consistent",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 25,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f9a"
+    },
+    "name": "EVM",
+    "slug": "evm",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 26,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f9b"
+    },
+    "name": "Fyber",
+    "slug": "fyber",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 27,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f9c"
+    },
+    "name": "Secureye",
+    "slug": "secureye",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 28,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4f9d"
+    },
+    "name": "Krysta",
+    "slug": "krysta",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 29,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4fa0"
+    },
+    "name": "Crucial",
+    "slug": "crucial",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 30,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4fa1"
+    },
+    "name": "Corsair",
+    "slug": "corsair",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 31,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4fa2"
+    },
+    "name": "Numeric",
+    "slug": "numeric",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 32,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a01bb3e43b05938a30b4fa3"
+    },
+    "name": "Circle",
+    "slug": "circle",
+    "description": "",
+    "logo": "",
+    "isActive": true,
+    "sortOrder": 33,
+    "productCount": 0,
+    "createdAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-11T11:19:26.637Z"
+    },
+    "__v": 0
+  }
+]

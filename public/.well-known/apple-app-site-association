@@ -1,0 +1,25 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "5TGG836W7V.com.smarttechbazaar.app",
+        "paths": [
+          "/products/*",
+          "/product/*",
+          "/category/*",
+          "/brands/*",
+          "/dashboard/*",
+          "/cart",
+          "/checkout/*",
+          "/order/*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "5TGG836W7V.com.smarttechbazaar.app"
+    ]
+  }
+}

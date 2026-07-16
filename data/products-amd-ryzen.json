@@ -1,0 +1,1509 @@
+[
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2001"
+    },
+    "name": "AMD Ryzen 5 8500G Desktop Processor",
+    "slug": "amd-ryzen-5-8500g-desktop-processor",
+    "description": "The AMD Ryzen 5 8500G is the ultimate all-in-one desktop processor with AMD Radeon 740M Graphics capabilities. Built on the advanced Zen 4 architecture with 6 cores and 12 threads, it delivers exceptional performance for everyday computing, content creation, and gaming without requiring a discrete graphics card. Features up to 5.0 GHz max boost clock, 16MB L3 cache, and supports DDR5 memory on the AM5 platform.",
+    "shortDescription": "6-Core, 12-Thread, Up to 5.0 GHz, Radeon 740M Graphics, AM5 Socket, 65W TDP",
+    "sku": "AMD-R5-8500G-BOX",
+    "barcode": "730143316309",
+    "priceB2C": 16000,
+    "priceB2B": 14800,
+    "mrp": 18500,
+    "costPrice": 14000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 50,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6 (2x Zen 4 + 4x Zen 4c)" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 5.0 GHz" },
+      { "key": "Base Clock", "value": "3.5 GHz" },
+      { "key": "L2 Cache", "value": "6 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Process Node", "value": "TSMC 4nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon 740M" },
+      { "key": "GPU Cores", "value": "4" },
+      { "key": "GPU Frequency", "value": "2800 MHz" },
+      { "key": "PCIe Version", "value": "PCIe 4.0" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "8500g", "integrated-graphics", "am5"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 8500G Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 8500G Desktop Processor with Radeon 740M Graphics, 6 cores, 12 threads, up to 5.0 GHz boost clock at best price.",
+      "keywords": ["amd ryzen 5 8500g", "ryzen 8500g", "am5 processor", "integrated graphics cpu"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2002"
+    },
+    "name": "AMD Ryzen 5 8500G OEM Desktop Processor",
+    "slug": "amd-ryzen-5-8500g-oem-desktop-processor",
+    "description": "The AMD Ryzen 5 8500G OEM is the ultimate all-in-one desktop processor with AMD Radeon 740M Graphics capabilities. This is the OEM/Tray version without retail packaging and cooler. Built on the advanced Zen 4 architecture with 6 cores and 12 threads, it delivers exceptional performance for everyday computing, content creation, and gaming without requiring a discrete graphics card.",
+    "shortDescription": "6-Core, 12-Thread, Up to 5.0 GHz, Radeon 740M Graphics, AM5 Socket, OEM/Tray Version",
+    "sku": "AMD-R5-8500G-OEM",
+    "barcode": "730143316310",
+    "priceB2C": 14500,
+    "priceB2B": 13500,
+    "mrp": 16000,
+    "costPrice": 12800,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6 (2x Zen 4 + 4x Zen 4c)" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 5.0 GHz" },
+      { "key": "Base Clock", "value": "3.5 GHz" },
+      { "key": "L2 Cache", "value": "6 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Package Type", "value": "OEM/Tray" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon 740M" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "8500g", "oem", "tray"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 8500G OEM Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 8500G OEM Desktop Processor with Radeon 740M Graphics at best price. OEM/Tray version.",
+      "keywords": ["amd ryzen 5 8500g oem", "ryzen 8500g tray", "am5 processor"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2003"
+    },
+    "name": "AMD Ryzen 7 7700X Desktop Processor",
+    "slug": "amd-ryzen-7-7700x-desktop-processor",
+    "description": "The AMD Ryzen 7 7700X is a dominant gaming desktop processor that comes with 8 CPU cores, 16 threads, and a max boost clock speed of up to 5.4GHz. Built on the cutting-edge Zen 4 architecture with TSMC 5nm process technology, it delivers exceptional single-threaded and multi-threaded performance. Features 32MB L3 cache, PCIe 5.0 support, and DDR5 memory compatibility for next-generation gaming and content creation.",
+    "shortDescription": "8-Core, 16-Thread, Up to 5.4 GHz, 32MB Cache, AM5 Socket, 105W TDP, Unlocked",
+    "sku": "AMD-R7-7700X-WOF",
+    "barcode": "730143314473",
+    "priceB2C": 28000,
+    "priceB2B": 26000,
+    "mrp": 32000,
+    "costPrice": 25000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 40,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 5.4 GHz" },
+      { "key": "Base Clock", "value": "4.5 GHz" },
+      { "key": "L1 Cache", "value": "512 KB" },
+      { "key": "L2 Cache", "value": "8 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "105W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Process Node", "value": "TSMC 5nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "7700x", "gaming", "am5", "unlocked"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 7700X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 7700X Desktop Processor with 8 cores, 16 threads, up to 5.4 GHz boost clock at best price.",
+      "keywords": ["amd ryzen 7 7700x", "ryzen 7700x", "am5 gaming processor", "zen 4"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2004"
+    },
+    "name": "AMD Ryzen 7 8700G Processor with Radeon Graphics",
+    "slug": "amd-ryzen-7-8700g-processor-radeon-graphics",
+    "description": "The AMD Ryzen 7 8700G is a powerful desktop APU featuring 8 cores and 16 threads based on the advanced Zen 4 architecture. With integrated AMD Radeon 780M Graphics, it delivers exceptional 1080p gaming performance without the need for a discrete GPU. Features up to 5.1 GHz boost clock, 16MB L3 cache, and DDR5 memory support for outstanding productivity and gaming in a single chip solution.",
+    "shortDescription": "8-Core, 16-Thread, Up to 5.1 GHz, Radeon 780M Graphics, AM5 Socket, 65W TDP",
+    "sku": "AMD-R7-8700G-BOX",
+    "barcode": "730143316315",
+    "priceB2C": 30000,
+    "priceB2B": 28000,
+    "mrp": 34000,
+    "costPrice": 27000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 35,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 5.1 GHz" },
+      { "key": "Base Clock", "value": "4.2 GHz" },
+      { "key": "L2 Cache", "value": "8 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Process Node", "value": "TSMC 4nm FinFET" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon 780M" },
+      { "key": "GPU Cores", "value": "12" },
+      { "key": "Memory Support", "value": "DDR5-5200" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "8700g", "integrated-graphics", "am5", "apu"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 8700G Processor with Radeon Graphics - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 8700G Processor with Radeon 780M Graphics, 8 cores, 16 threads at best price.",
+      "keywords": ["amd ryzen 7 8700g", "ryzen 8700g", "radeon 780m", "am5 apu"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2005"
+    },
+    "name": "AMD Ryzen 7 9700X Desktop Processor",
+    "slug": "amd-ryzen-7-9700x-desktop-processor",
+    "description": "The AMD Ryzen 7 9700X is the new standard for a gaming processor, built on the groundbreaking Zen 5 architecture. With 8 cores, 16 threads, and up to 5.5 GHz boost clock, it delivers exceptional gaming and productivity performance. Features 32MB L3 cache, PCIe 5.0 support, DDR5-5600 memory compatibility, and only 65W TDP for excellent power efficiency.",
+    "shortDescription": "8-Core, 16-Thread, Up to 5.5 GHz, 32MB Cache, AM5 Socket, 65W TDP, Zen 5",
+    "sku": "AMD-R7-9700X-WOF",
+    "barcode": "730143316401",
+    "priceB2C": 30200,
+    "priceB2B": 28200,
+    "mrp": 35000,
+    "costPrice": 27500,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 25,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 5.5 GHz" },
+      { "key": "Base Clock", "value": "3.8 GHz" },
+      { "key": "L1 Cache", "value": "640 KB" },
+      { "key": "L2 Cache", "value": "8 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 5" },
+      { "key": "Process Node", "value": "TSMC 4nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5600" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "9700x", "gaming", "am5", "zen5", "unlocked"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 9700X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 9700X Desktop Processor with Zen 5 architecture, 8 cores, 16 threads, up to 5.5 GHz at best price.",
+      "keywords": ["amd ryzen 7 9700x", "ryzen 9700x", "zen 5 processor", "am5"]
+    },
+    "averageRating": 4.9,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2006"
+    },
+    "name": "AMD Ryzen 7 9800X3D Processor with Radeon Graphics",
+    "slug": "amd-ryzen-7-9800x3d-processor-radeon-graphics",
+    "description": "The AMD Ryzen 7 9800X3D is the ultimate gaming processor featuring AMD 3D V-Cache technology with a massive 96MB of total cache. Built on Zen 5 architecture with 8 cores and 16 threads, it delivers unmatched gaming performance with up to 5.2 GHz boost clock. The revolutionary 3D V-Cache stacking technology provides exceptional frame rates in demanding games.",
+    "shortDescription": "8-Core, 16-Thread, Up to 5.2 GHz, 96MB 3D V-Cache, AM5 Socket, 120W TDP",
+    "sku": "AMD-R7-9800X3D-WOF",
+    "barcode": "730143316450",
+    "priceB2C": 47600,
+    "priceB2B": 45000,
+    "mrp": 55000,
+    "costPrice": 43000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 15,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 5.2 GHz" },
+      { "key": "Base Clock", "value": "4.7 GHz" },
+      { "key": "L2 Cache", "value": "8 MB" },
+      { "key": "L3 Cache", "value": "96 MB (64MB 3D V-Cache + 32MB)" },
+      { "key": "Total Cache", "value": "104 MB" },
+      { "key": "TDP", "value": "120W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 5 + 3D V-Cache" },
+      { "key": "Memory Support", "value": "DDR5-5600" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "9800x3d", "gaming", "am5", "3d-vcache", "zen5"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 9800X3D Processor with 3D V-Cache - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 9800X3D with 3D V-Cache, 96MB cache, 8 cores for ultimate gaming performance.",
+      "keywords": ["amd ryzen 7 9800x3d", "ryzen 9800x3d", "3d v-cache", "gaming processor"]
+    },
+    "averageRating": 4.9,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2007"
+    },
+    "name": "AMD Ryzen 7 5700G Processor with Radeon Graphics",
+    "slug": "amd-ryzen-7-5700g-processor-radeon-graphics",
+    "description": "The AMD Ryzen 7 5700G is a powerful desktop APU featuring 8 Zen 3 cores and 16 threads with integrated Radeon Vega 8 Graphics. Perfect for gaming without a discrete GPU, it delivers excellent 1080p gaming and productivity performance. Features up to 4.6 GHz boost clock, 16MB L3 cache, and includes a Wraith Stealth cooler in the box.",
+    "shortDescription": "8-Core, 16-Thread, Up to 4.6 GHz, Radeon Vega 8 Graphics, AM4 Socket, 65W TDP",
+    "sku": "AMD-R7-5700G-BOX",
+    "barcode": "730143313414",
+    "priceB2C": 20230,
+    "priceB2B": 18800,
+    "mrp": 24000,
+    "costPrice": 18000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 45,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 4.6 GHz" },
+      { "key": "Base Clock", "value": "3.8 GHz" },
+      { "key": "L2 Cache", "value": "4 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Process Node", "value": "TSMC 7nm FinFET" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon Vega 8" },
+      { "key": "GPU Cores", "value": "8" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5700g", "integrated-graphics", "am4", "apu"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 5700G Processor with Radeon Graphics - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 5700G Processor with Radeon Vega 8 Graphics, 8 cores, 16 threads at best price.",
+      "keywords": ["amd ryzen 7 5700g", "ryzen 5700g", "radeon vega 8", "am4 apu"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2008"
+    },
+    "name": "AMD Ryzen 5 5500 Processor",
+    "slug": "amd-ryzen-5-5500-processor",
+    "description": "The AMD Ryzen 5 5500 is an affordable 6-core, 12-thread desktop processor based on Zen 3 architecture. Delivering excellent performance for gaming and productivity at a budget-friendly price point. Features up to 4.2 GHz boost clock, 16MB L3 cache, and includes the Wraith Stealth cooler. Perfect for budget gaming builds on the AM4 platform.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.2 GHz, 16MB Cache, AM4 Socket, 65W TDP",
+    "sku": "AMD-R5-5500-BOX",
+    "barcode": "730143314268",
+    "priceB2C": 8500,
+    "priceB2B": 7800,
+    "mrp": 10500,
+    "costPrice": 7500,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 80,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.2 GHz" },
+      { "key": "Base Clock", "value": "3.6 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5500", "budget", "am4"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5500 Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5500 Processor with 6 cores, 12 threads at best budget price for gaming.",
+      "keywords": ["amd ryzen 5 5500", "ryzen 5500", "budget processor", "am4"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2009"
+    },
+    "name": "AMD Ryzen 3 3200G Processor with Radeon Vega 8 Graphics",
+    "slug": "amd-ryzen-3-3200g-processor-radeon-vega-8",
+    "description": "The AMD Ryzen 3 3200G is an entry-level desktop APU featuring 4 Zen+ cores with integrated Radeon Vega 8 Graphics. Perfect for budget builds that need basic gaming and everyday computing without a discrete GPU. Features up to 4.0 GHz boost clock, 4MB L3 cache, and includes the Wraith Stealth cooler.",
+    "shortDescription": "4-Core, 4-Thread, Up to 4.0 GHz, Radeon Vega 8 Graphics, AM4 Socket, 65W TDP",
+    "sku": "AMD-R3-3200G-BOX",
+    "barcode": "730143309851",
+    "priceB2C": 6000,
+    "priceB2B": 5500,
+    "mrp": 7500,
+    "costPrice": 5200,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "4" },
+      { "key": "Threads", "value": "4" },
+      { "key": "Max Boost Clock", "value": "Up to 4.0 GHz" },
+      { "key": "Base Clock", "value": "3.6 GHz" },
+      { "key": "L2 Cache", "value": "2 MB" },
+      { "key": "L3 Cache", "value": "4 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen+" },
+      { "key": "Process Node", "value": "12nm" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon Vega 8" },
+      { "key": "GPU Cores", "value": "8" },
+      { "key": "Memory Support", "value": "DDR4-2933" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "3200g", "integrated-graphics", "am4", "budget", "apu"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 3 3200G Processor with Radeon Vega 8 - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 3 3200G Processor with Radeon Vega 8 Graphics at best budget price.",
+      "keywords": ["amd ryzen 3 3200g", "ryzen 3200g", "budget apu", "radeon vega 8"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2010"
+    },
+    "name": "AMD Ryzen 5 5500GT Processor with Radeon Graphics",
+    "slug": "amd-ryzen-5-5500gt-processor-radeon-graphics",
+    "description": "The AMD Ryzen 5 5500GT is a versatile desktop APU featuring 6 Zen 3 cores and 12 threads with integrated Radeon Graphics. Delivers excellent performance for productivity and casual gaming without requiring a discrete GPU. Features up to 4.4 GHz boost clock, 16MB L3 cache, and includes the Wraith Stealth cooler.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.4 GHz, Radeon Graphics, AM4 Socket, 65W TDP",
+    "sku": "AMD-R5-5500GT-BOX",
+    "barcode": "730143316101",
+    "priceB2C": 12500,
+    "priceB2B": 11500,
+    "mrp": 15000,
+    "costPrice": 11000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 40,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.4 GHz" },
+      { "key": "Base Clock", "value": "3.6 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon Graphics" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5500gt", "integrated-graphics", "am4", "apu"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5500GT Processor with Radeon Graphics - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5500GT Processor with Radeon Graphics, 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 5500gt", "ryzen 5500gt", "am4 apu", "radeon graphics"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2011"
+    },
+    "name": "AMD Ryzen 5 5600G Processor with Radeon Graphics",
+    "slug": "amd-ryzen-5-5600g-processor-radeon-graphics",
+    "description": "The AMD Ryzen 5 5600G is a powerful desktop APU featuring 6 Zen 3 cores and 12 threads with integrated Radeon Vega 7 Graphics. Delivers excellent 1080p gaming performance without requiring a discrete GPU. Features up to 4.4 GHz boost clock, 16MB L3 cache, and includes the Wraith Stealth cooler for a complete solution.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.4 GHz, Radeon Vega 7 Graphics, AM4 Socket, 65W TDP",
+    "sku": "AMD-R5-5600G-BOX",
+    "barcode": "730143313391",
+    "priceB2C": 14000,
+    "priceB2B": 13000,
+    "mrp": 17000,
+    "costPrice": 12500,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 55,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.4 GHz" },
+      { "key": "Base Clock", "value": "3.9 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon Vega 7" },
+      { "key": "GPU Cores", "value": "7" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5600g", "integrated-graphics", "am4", "apu"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5600G Processor with Radeon Graphics - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5600G Processor with Radeon Vega 7 Graphics, 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 5600g", "ryzen 5600g", "radeon vega 7", "am4 apu"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2012"
+    },
+    "name": "AMD Ryzen 5 5600X Desktop Processor",
+    "slug": "amd-ryzen-5-5600x-desktop-processor",
+    "description": "The AMD Ryzen 5 5600X is a legendary gaming processor featuring 6 Zen 3 cores and 12 threads. Delivering exceptional single-threaded and multi-threaded performance, it's the go-to choice for 1080p gaming. Features up to 4.6 GHz boost clock, 32MB L3 cache, and includes the Wraith Stealth cooler.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.6 GHz, 32MB Cache, AM4 Socket, 65W TDP",
+    "sku": "AMD-R5-5600X-BOX",
+    "barcode": "730143312042",
+    "priceB2C": 13500,
+    "priceB2B": 12500,
+    "mrp": 16500,
+    "costPrice": 12000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 50,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.6 GHz" },
+      { "key": "Base Clock", "value": "3.7 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "PCIe Version", "value": "PCIe 4.0" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5600x", "gaming", "am4"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5600X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5600X Desktop Processor with 6 cores, 12 threads, up to 4.6 GHz at best price.",
+      "keywords": ["amd ryzen 5 5600x", "ryzen 5600x", "gaming processor", "am4"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2013"
+    },
+    "name": "AMD Ryzen 7 7800X3D Desktop Processor",
+    "slug": "amd-ryzen-7-7800x3d-desktop-processor",
+    "description": "The AMD Ryzen 7 7800X3D is the world's fastest gaming processor featuring AMD 3D V-Cache technology. With 8 Zen 4 cores, 16 threads, and a massive 96MB of L3 cache, it delivers unmatched gaming frame rates. Features up to 5.0 GHz boost clock, PCIe 5.0 support, and DDR5 memory compatibility.",
+    "shortDescription": "8-Core, 16-Thread, Up to 5.0 GHz, 96MB 3D V-Cache, AM5 Socket, 120W TDP",
+    "sku": "AMD-R7-7800X3D-WOF",
+    "barcode": "730143314893",
+    "priceB2C": 39100,
+    "priceB2B": 37000,
+    "mrp": 45000,
+    "costPrice": 35500,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 20,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 5.0 GHz" },
+      { "key": "Base Clock", "value": "4.2 GHz" },
+      { "key": "L2 Cache", "value": "8 MB" },
+      { "key": "L3 Cache", "value": "96 MB (64MB 3D V-Cache + 32MB)" },
+      { "key": "TDP", "value": "120W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4 + 3D V-Cache" },
+      { "key": "Process Node", "value": "TSMC 5nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "7800x3d", "gaming", "am5", "3d-vcache"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 7800X3D Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 7800X3D with 3D V-Cache, the world's fastest gaming processor.",
+      "keywords": ["amd ryzen 7 7800x3d", "ryzen 7800x3d", "3d v-cache", "best gaming processor"]
+    },
+    "averageRating": 4.9,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2014"
+    },
+    "name": "AMD Ryzen 5 9600X Desktop Processor",
+    "slug": "amd-ryzen-5-9600x-desktop-processor",
+    "description": "The AMD Ryzen 5 9600X is built on the new Zen 5 architecture, delivering exceptional performance for gaming and productivity. With 6 cores, 12 threads, and up to 5.4 GHz boost clock, it offers outstanding single-threaded performance at an efficient 65W TDP. Features DDR5-5600 support and PCIe 5.0.",
+    "shortDescription": "6-Core, 12-Thread, Up to 5.4 GHz, 32MB Cache, AM5 Socket, 65W TDP, Zen 5",
+    "sku": "AMD-R5-9600X-WOF",
+    "barcode": "730143316395",
+    "priceB2C": 21200,
+    "priceB2B": 19500,
+    "mrp": 25000,
+    "costPrice": 19000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 35,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 5.4 GHz" },
+      { "key": "Base Clock", "value": "3.9 GHz" },
+      { "key": "L2 Cache", "value": "6 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 5" },
+      { "key": "Process Node", "value": "TSMC 4nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5600" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "9600x", "gaming", "am5", "zen5"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 9600X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 9600X with Zen 5 architecture, 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 9600x", "ryzen 9600x", "zen 5", "am5 processor"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2015"
+    },
+    "name": "AMD Ryzen 9 9950X Desktop Processor",
+    "slug": "amd-ryzen-9-9950x-desktop-processor",
+    "description": "The AMD Ryzen 9 9950X is the flagship Zen 5 desktop processor with 16 cores, 32 threads, and up to 5.7 GHz boost clock. Delivering uncompromising performance for content creators, streamers, and power users. Features 64MB L3 cache, PCIe 5.0 support, and DDR5-5600 memory compatibility at 170W TDP.",
+    "shortDescription": "16-Core, 32-Thread, Up to 5.7 GHz, 64MB Cache, AM5 Socket, 170W TDP, Zen 5",
+    "sku": "AMD-R9-9950X-WOF",
+    "barcode": "730143316425",
+    "priceB2C": 57200,
+    "priceB2B": 54000,
+    "mrp": 65000,
+    "costPrice": 52000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 10,
+    "lowStockThreshold": 2,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "16" },
+      { "key": "Threads", "value": "32" },
+      { "key": "Max Boost Clock", "value": "Up to 5.7 GHz" },
+      { "key": "Base Clock", "value": "4.3 GHz" },
+      { "key": "L2 Cache", "value": "16 MB" },
+      { "key": "L3 Cache", "value": "64 MB" },
+      { "key": "TDP", "value": "170W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 5" },
+      { "key": "Process Node", "value": "TSMC 4nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5600" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "9950x", "flagship", "am5", "zen5", "workstation"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 9 9950X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 9 9950X flagship processor with 16 cores, 32 threads, up to 5.7 GHz.",
+      "keywords": ["amd ryzen 9 9950x", "ryzen 9950x", "zen 5 flagship", "workstation cpu"]
+    },
+    "averageRating": 4.9,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2016"
+    },
+    "name": "AMD Ryzen 9 9900X Desktop Processor",
+    "slug": "amd-ryzen-9-9900x-desktop-processor",
+    "description": "The AMD Ryzen 9 9900X is a high-performance Zen 5 desktop processor with 12 cores, 24 threads, and up to 5.6 GHz boost clock. Delivering exceptional multi-threaded performance for content creation and productivity. Features 64MB L3 cache, PCIe 5.0 support, and DDR5-5600 memory compatibility at 120W TDP.",
+    "shortDescription": "12-Core, 24-Thread, Up to 5.6 GHz, 64MB Cache, AM5 Socket, 120W TDP, Zen 5",
+    "sku": "AMD-R9-9900X-WOF",
+    "barcode": "730143316418",
+    "priceB2C": 42000,
+    "priceB2B": 39500,
+    "mrp": 48000,
+    "costPrice": 38000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 15,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "12" },
+      { "key": "Threads", "value": "24" },
+      { "key": "Max Boost Clock", "value": "Up to 5.6 GHz" },
+      { "key": "Base Clock", "value": "4.4 GHz" },
+      { "key": "L2 Cache", "value": "12 MB" },
+      { "key": "L3 Cache", "value": "64 MB" },
+      { "key": "TDP", "value": "120W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 5" },
+      { "key": "Process Node", "value": "TSMC 4nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5600" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "9900x", "am5", "zen5", "workstation"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 9 9900X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 9 9900X processor with 12 cores, 24 threads, up to 5.6 GHz at best price.",
+      "keywords": ["amd ryzen 9 9900x", "ryzen 9900x", "zen 5", "content creator cpu"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2017"
+    },
+    "name": "AMD Ryzen 5 7600X Desktop Processor",
+    "slug": "amd-ryzen-5-7600x-desktop-processor",
+    "description": "The AMD Ryzen 5 7600X is a powerful Zen 4 gaming processor with 6 cores, 12 threads, and up to 5.3 GHz boost clock. Delivering excellent gaming and productivity performance on the AM5 platform. Features 32MB L3 cache, PCIe 5.0 support, and DDR5 memory compatibility.",
+    "shortDescription": "6-Core, 12-Thread, Up to 5.3 GHz, 32MB Cache, AM5 Socket, 105W TDP",
+    "sku": "AMD-R5-7600X-WOF",
+    "barcode": "730143314459",
+    "priceB2C": 18600,
+    "priceB2B": 17200,
+    "mrp": 22000,
+    "costPrice": 16500,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 45,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 5.3 GHz" },
+      { "key": "Base Clock", "value": "4.7 GHz" },
+      { "key": "L2 Cache", "value": "6 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "105W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Process Node", "value": "TSMC 5nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "7600x", "gaming", "am5"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 7600X Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 7600X processor with 6 cores, 12 threads, up to 5.3 GHz at best price.",
+      "keywords": ["amd ryzen 5 7600x", "ryzen 7600x", "am5 gaming", "zen 4"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2018"
+    },
+    "name": "AMD Ryzen 7 7700 Gaming Processor",
+    "slug": "amd-ryzen-7-7700-gaming-processor",
+    "description": "The AMD Ryzen 7 7700 is a powerful gaming processor with 8 Zen 4 cores, 16 threads, and up to 5.3 GHz boost clock. With a more efficient 65W TDP compared to the 7700X, it delivers excellent performance while running cooler. Features 32MB L3 cache and includes the Wraith Prism RGB cooler.",
+    "shortDescription": "8-Core, 16-Thread, Up to 5.3 GHz, 32MB Cache, AM5 Socket, 65W TDP, Cooler Included",
+    "sku": "AMD-R7-7700-BOX",
+    "barcode": "730143314831",
+    "priceB2C": 29500,
+    "priceB2B": 27500,
+    "mrp": 34000,
+    "costPrice": 26500,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "8" },
+      { "key": "Threads", "value": "16" },
+      { "key": "Max Boost Clock", "value": "Up to 5.3 GHz" },
+      { "key": "Base Clock", "value": "3.8 GHz" },
+      { "key": "L2 Cache", "value": "8 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Cooler Included", "value": "Wraith Prism RGB" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "7700", "gaming", "am5", "efficient"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 7 7700 Gaming Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 7 7700 processor with cooler included, 8 cores, 16 threads at best price.",
+      "keywords": ["amd ryzen 7 7700", "ryzen 7700", "65w processor", "am5"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2019"
+    },
+    "name": "AMD Ryzen 9 7900X Processor with Radeon Graphics",
+    "slug": "amd-ryzen-9-7900x-processor-radeon-graphics",
+    "description": "The AMD Ryzen 9 7900X is a high-performance Zen 4 desktop processor with 12 cores, 24 threads, and up to 5.6 GHz boost clock. Delivering exceptional multi-threaded performance for content creation, streaming, and gaming. Features 64MB L3 cache, PCIe 5.0 support, and DDR5 memory compatibility.",
+    "shortDescription": "12-Core, 24-Thread, Up to 5.6 GHz, 64MB Cache, AM5 Socket, 170W TDP",
+    "sku": "AMD-R9-7900X-WOF",
+    "barcode": "730143314503",
+    "priceB2C": 35000,
+    "priceB2B": 33000,
+    "mrp": 42000,
+    "costPrice": 32000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 20,
+    "lowStockThreshold": 3,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "12" },
+      { "key": "Threads", "value": "24" },
+      { "key": "Max Boost Clock", "value": "Up to 5.6 GHz" },
+      { "key": "Base Clock", "value": "4.7 GHz" },
+      { "key": "L2 Cache", "value": "12 MB" },
+      { "key": "L3 Cache", "value": "64 MB" },
+      { "key": "TDP", "value": "170W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Process Node", "value": "TSMC 5nm FinFET" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "7900x", "workstation", "am5", "content-creation"],
+    "isFeatured": true,
+    "isNewArrival": false,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 9 7900X Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 9 7900X processor with 12 cores, 24 threads, up to 5.6 GHz at best price.",
+      "keywords": ["amd ryzen 9 7900x", "ryzen 7900x", "content creator", "am5"]
+    },
+    "averageRating": 4.8,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2020"
+    },
+    "name": "AMD Ryzen 5 7500F Desktop Processor",
+    "slug": "amd-ryzen-5-7500f-desktop-processor",
+    "description": "The AMD Ryzen 5 7500F is a budget-friendly Zen 4 processor without integrated graphics, designed for gaming with a discrete GPU. With 6 cores, 12 threads, and up to 5.0 GHz boost clock, it delivers excellent gaming performance at an attractive price point. Features 32MB L3 cache and includes the Wraith Stealth cooler.",
+    "shortDescription": "6-Core, 12-Thread, Up to 5.0 GHz, 32MB Cache, AM5 Socket, 65W TDP, No iGPU",
+    "sku": "AMD-R5-7500F-BOX",
+    "barcode": "730143315210",
+    "priceB2C": 15000,
+    "priceB2B": 13800,
+    "mrp": 18000,
+    "costPrice": 13200,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 5.0 GHz" },
+      { "key": "Base Clock", "value": "3.7 GHz" },
+      { "key": "L2 Cache", "value": "6 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 4" },
+      { "key": "Integrated Graphics", "value": "None" },
+      { "key": "Memory Support", "value": "DDR5-5200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "7500f", "gaming", "am5", "budget", "no-igpu"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 7500F Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 7500F budget gaming processor with 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 7500f", "ryzen 7500f", "budget am5", "gaming processor"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2021"
+    },
+    "name": "AMD Ryzen 9 9950X3D Gaming and Content Creation Processor",
+    "slug": "amd-ryzen-9-9950x3d-gaming-content-creation-processor",
+    "description": "The AMD Ryzen 9 9950X3D is the ultimate hybrid processor combining 16 Zen 5 cores with revolutionary 3D V-Cache technology. Delivering unprecedented performance for both gaming and content creation with a massive 128MB of L3 cache. Features up to 5.7 GHz boost clock, PCIe 5.0 support, and DDR5-5600 memory compatibility.",
+    "shortDescription": "16-Core, 32-Thread, Up to 5.7 GHz, 128MB 3D V-Cache, AM5 Socket, 170W TDP",
+    "sku": "AMD-R9-9950X3D-WOF",
+    "barcode": "730143316480",
+    "priceB2C": 71000,
+    "priceB2B": 67000,
+    "mrp": 82000,
+    "costPrice": 65000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 5,
+    "lowStockThreshold": 2,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "16" },
+      { "key": "Threads", "value": "32" },
+      { "key": "Max Boost Clock", "value": "Up to 5.7 GHz" },
+      { "key": "Base Clock", "value": "4.3 GHz" },
+      { "key": "L2 Cache", "value": "16 MB" },
+      { "key": "L3 Cache", "value": "128 MB (3D V-Cache)" },
+      { "key": "Total Cache", "value": "144 MB" },
+      { "key": "TDP", "value": "170W" },
+      { "key": "Socket", "value": "AM5" },
+      { "key": "Architecture", "value": "Zen 5 + 3D V-Cache" },
+      { "key": "Memory Support", "value": "DDR5-5600" },
+      { "key": "PCIe Version", "value": "PCIe 5.0" },
+      { "key": "Unlocked", "value": "Yes" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "9950x3d", "flagship", "am5", "3d-vcache", "zen5", "gaming", "workstation"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 9 9950X3D Processor with 3D V-Cache - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 9 9950X3D ultimate hybrid processor with 128MB 3D V-Cache for gaming and content creation.",
+      "keywords": ["amd ryzen 9 9950x3d", "ryzen 9950x3d", "3d v-cache flagship", "ultimate processor"]
+    },
+    "averageRating": 5.0,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2022"
+    },
+    "name": "AMD Ryzen 5 5600F Desktop Processor",
+    "slug": "amd-ryzen-5-5600f-desktop-processor",
+    "description": "The AMD Ryzen 5 5600F is a budget-friendly Zen 3 processor without integrated graphics, designed for gaming with a discrete GPU. With 6 cores, 12 threads, and up to 4.4 GHz boost clock, it delivers excellent gaming performance at an attractive price point. Features 32MB L3 cache and includes the Wraith Stealth cooler.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.4 GHz, 32MB Cache, AM4 Socket, 65W TDP, No iGPU",
+    "sku": "AMD-R5-5600F-BOX",
+    "barcode": "730143315101",
+    "priceB2C": 11000,
+    "priceB2B": 10200,
+    "mrp": 13500,
+    "costPrice": 9800,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 65,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.4 GHz" },
+      { "key": "Base Clock", "value": "3.5 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Integrated Graphics", "value": "None" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5600f", "gaming", "am4", "budget", "no-igpu"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5600F Desktop Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5600F budget gaming processor with 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 5600f", "ryzen 5600f", "budget am4", "gaming processor"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2023"
+    },
+    "name": "AMD Ryzen 5 5600 Processor",
+    "slug": "amd-ryzen-5-5600-processor",
+    "description": "The AMD Ryzen 5 5600 is a mid-range Zen 3 processor offering excellent value for gaming and productivity. With 6 cores, 12 threads, and up to 4.4 GHz boost clock, it delivers strong performance for most workloads. Features 32MB L3 cache and includes the Wraith Stealth cooler.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.4 GHz, 32MB Cache, AM4 Socket, 65W TDP",
+    "sku": "AMD-R5-5600-BOX",
+    "barcode": "730143314312",
+    "priceB2C": 11500,
+    "priceB2B": 10600,
+    "mrp": 14000,
+    "costPrice": 10200,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 55,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.4 GHz" },
+      { "key": "Base Clock", "value": "3.5 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "32 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "PCIe Version", "value": "PCIe 4.0" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5600", "gaming", "am4", "value"],
+    "isFeatured": false,
+    "isNewArrival": false,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5600 Processor - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5600 value gaming processor with 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 5600", "ryzen 5600", "am4 processor", "value gaming"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e2024"
+    },
+    "name": "AMD Ryzen 5 5600GT Processor with Radeon Graphics",
+    "slug": "amd-ryzen-5-5600gt-processor-radeon-graphics",
+    "description": "The AMD Ryzen 5 5600GT is an upgraded APU featuring 6 Zen 3 cores and 12 threads with improved Radeon Graphics. Delivers better gaming performance than the 5500GT without requiring a discrete GPU. Features up to 4.6 GHz boost clock, 16MB L3 cache, and includes the Wraith Stealth cooler.",
+    "shortDescription": "6-Core, 12-Thread, Up to 4.6 GHz, Radeon Graphics, AM4 Socket, 65W TDP",
+    "sku": "AMD-R5-5600GT-BOX",
+    "barcode": "730143316115",
+    "priceB2C": 14500,
+    "priceB2B": 13500,
+    "mrp": 17500,
+    "costPrice": 13000,
+    "gstRate": 18,
+    "hsnCode": "84733010",
+    "stock": 40,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+      "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0002"
+    },
+    "brand": "AMD",
+    "specifications": [
+      { "key": "CPU Cores", "value": "6" },
+      { "key": "Threads", "value": "12" },
+      { "key": "Max Boost Clock", "value": "Up to 4.6 GHz" },
+      { "key": "Base Clock", "value": "3.6 GHz" },
+      { "key": "L2 Cache", "value": "3 MB" },
+      { "key": "L3 Cache", "value": "16 MB" },
+      { "key": "TDP", "value": "65W" },
+      { "key": "Socket", "value": "AM4" },
+      { "key": "Architecture", "value": "Zen 3" },
+      { "key": "Integrated Graphics", "value": "AMD Radeon Graphics" },
+      { "key": "GPU Cores", "value": "7" },
+      { "key": "Memory Support", "value": "DDR4-3200" },
+      { "key": "Cooler Included", "value": "Wraith Stealth" }
+    ],
+    "tags": ["amd", "ryzen", "processor", "cpu", "desktop", "5600gt", "integrated-graphics", "am4", "apu"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "AMD Ryzen 5 5600GT Processor with Radeon Graphics - Buy Online",
+      "metaDescription": "Buy AMD Ryzen 5 5600GT Processor with Radeon Graphics, 6 cores, 12 threads at best price.",
+      "keywords": ["amd ryzen 5 5600gt", "ryzen 5600gt", "am4 apu", "radeon graphics"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  }
+]

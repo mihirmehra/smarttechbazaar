@@ -1,0 +1,1763 @@
+[
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4001"
+    },
+    "name": "Trueview T18161S Wi-Fi Robot PT Camera 3MP",
+    "slug": "trueview-t18161s-wifi-robot-pt-camera-3mp",
+    "description": "The Trueview T18161S is a BIS Certified Wi-Fi Robot PT Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Features 352-degree horizontal and 58-degree vertical rotation with 10x digital zoom, 6 preset points for favorite locations, full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, tampering detection, and smart tracking with mobile notifications. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, QR code scanning for network connection, and Alexa support. Monitor via Mobile or Web CMS (TrueCloud Plus).",
+    "shortDescription": "3MP Wi-Fi PT Camera, 352° Rotation, All-Time Color Vision, Smart Tracking, Alexa Support",
+    "sku": "TV-T18161S",
+    "barcode": "8906123450001",
+    "priceB2C": 2100,
+    "priceB2B": 1600,
+    "mrp": 2500,
+    "costPrice": 1400,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 100,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18161S" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "Wi-Fi" },
+      { "key": "Camera Type", "value": "Robot PT Camera" },
+      { "key": "Horizontal Rotation", "value": "352°" },
+      { "key": "Vertical Rotation", "value": "58°" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Preset Points", "value": "6" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection, Smart Tracking" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "wifi-camera", "cctv", "pt-camera", "smart-camera", "alexa", "3mp"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18161S Wi-Fi Robot PT Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18161S 3MP Wi-Fi Robot PT Camera with 352° rotation, smart tracking, Alexa support at best price.",
+      "keywords": ["trueview wifi camera", "pt camera", "smart cctv", "alexa camera"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4002"
+    },
+    "name": "Trueview T18237S Wi-Fi Dome Camera 3MP",
+    "slug": "trueview-t18237s-wifi-dome-camera-3mp",
+    "description": "The Trueview T18237S is a BIS Certified Wi-Fi Dome Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Features 10x digital zoom, full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, and tampering detection with mobile notifications. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, QR code scanning for network connection, and Alexa support. Monitor via Mobile or Web CMS (TrueCloud Plus).",
+    "shortDescription": "3MP Wi-Fi Dome Camera, All-Time Color Vision, Smart Detection, Alexa Support",
+    "sku": "TV-T18237S",
+    "barcode": "8906123450002",
+    "priceB2C": 2400,
+    "priceB2B": 1800,
+    "mrp": 2800,
+    "costPrice": 1600,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 100,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18237S" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "Wi-Fi" },
+      { "key": "Camera Type", "value": "Dome Camera" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "wifi-camera", "cctv", "dome-camera", "smart-camera", "alexa", "3mp"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18237S Wi-Fi Dome Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18237S 3MP Wi-Fi Dome Camera with smart detection, Alexa support at best price.",
+      "keywords": ["trueview dome camera", "wifi cctv", "smart dome camera"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4003"
+    },
+    "name": "Trueview T18238S Wi-Fi Bullet Camera 3MP",
+    "slug": "trueview-t18238s-wifi-bullet-camera-3mp",
+    "description": "The Trueview T18238S is a BIS Certified Wi-Fi Bullet Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Features 10x digital zoom, full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, and tampering detection with mobile notifications. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, QR code scanning for network connection, and Alexa support. IP66 weatherproof with 4,000V lightning protection for outdoor use. Monitor via Mobile or Web CMS (TrueCloud Plus).",
+    "shortDescription": "3MP Wi-Fi Bullet Camera, IP66, 4000V Lightning Protection, Smart Detection, Alexa Support",
+    "sku": "TV-T18238S",
+    "barcode": "8906123450003",
+    "priceB2C": 2500,
+    "priceB2B": 1900,
+    "mrp": 2900,
+    "costPrice": 1700,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 100,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18238S" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "Wi-Fi" },
+      { "key": "Camera Type", "value": "Bullet Camera" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection" },
+      { "key": "IP Rating", "value": "IP66" },
+      { "key": "Lightning Protection", "value": "4,000V" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "wifi-camera", "cctv", "bullet-camera", "outdoor-camera", "ip66", "alexa", "3mp"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18238S Wi-Fi Bullet Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18238S 3MP Wi-Fi Bullet Camera with IP66 weatherproof, smart detection at best price.",
+      "keywords": ["trueview bullet camera", "outdoor wifi camera", "ip66 camera"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4004"
+    },
+    "name": "Trueview T18135S Wi-Fi Mini PT Camera 3MP",
+    "slug": "trueview-t18135s-wifi-mini-pt-camera-3mp",
+    "description": "The Trueview T18135S is a BIS Certified Wi-Fi Mini PT Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Compact design with 266-degree horizontal and 90-degree vertical rotation, 10x digital zoom, and 6 preset points for favorite locations. Features full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, tampering detection, and smart tracking with mobile notifications. IP65 weatherproof with 4,000V lightning protection. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, and Alexa support.",
+    "shortDescription": "3MP Wi-Fi Mini PT Camera, 266° Rotation, IP65, Smart Tracking, Alexa Support",
+    "sku": "TV-T18135S",
+    "barcode": "8906123450004",
+    "priceB2C": 3300,
+    "priceB2B": 2500,
+    "mrp": 3800,
+    "costPrice": 2200,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 75,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18135S" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "Wi-Fi" },
+      { "key": "Camera Type", "value": "Mini PT Camera" },
+      { "key": "Horizontal Rotation", "value": "266°" },
+      { "key": "Vertical Rotation", "value": "90°" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Preset Points", "value": "6" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection, Smart Tracking" },
+      { "key": "IP Rating", "value": "IP65" },
+      { "key": "Lightning Protection", "value": "4,000V" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "wifi-camera", "cctv", "mini-pt-camera", "outdoor-camera", "ip65", "alexa", "3mp"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18135S Wi-Fi Mini PT Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18135S 3MP Wi-Fi Mini PT Camera with IP65, smart tracking, Alexa support at best price.",
+      "keywords": ["trueview mini pt camera", "outdoor wifi camera", "smart tracking camera"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4005"
+    },
+    "name": "Trueview T18185SF 4G Dome Camera 3MP",
+    "slug": "trueview-t18185sf-4g-dome-camera-3mp",
+    "description": "The Trueview T18185SF is a BIS Certified 4G Dome Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Works with all 4G/5G SIM cards for locations without Wi-Fi. Features 10x digital zoom, full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, and tampering detection with mobile notifications. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, QR code scanning for network connection, and Alexa support. Monitor via Mobile or Web CMS (TrueCloud Plus).",
+    "shortDescription": "3MP 4G Dome Camera, 4G/5G SIM Support, All-Time Color Vision, Smart Detection, Alexa Support",
+    "sku": "TV-T18185SF",
+    "barcode": "8906123450005",
+    "priceB2C": 2900,
+    "priceB2B": 2200,
+    "mrp": 3400,
+    "costPrice": 1950,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18185SF" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "4G/5G SIM Card" },
+      { "key": "Camera Type", "value": "Dome Camera" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "4g-camera", "cctv", "dome-camera", "sim-camera", "alexa", "3mp"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18185SF 4G Dome Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18185SF 3MP 4G Dome Camera with SIM card support, smart detection at best price.",
+      "keywords": ["trueview 4g camera", "sim card cctv", "4g dome camera"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4006"
+    },
+    "name": "Trueview T18175SF 4G Bullet Camera 3MP",
+    "slug": "trueview-t18175sf-4g-bullet-camera-3mp",
+    "description": "The Trueview T18175SF is a BIS Certified 4G Bullet Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Works with all 4G/5G SIM cards for locations without Wi-Fi. Features 10x digital zoom, full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, and tampering detection with mobile notifications. IP66 weatherproof with 4,000V lightning protection for outdoor use. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, and Alexa support.",
+    "shortDescription": "3MP 4G Bullet Camera, IP66, 4G/5G SIM Support, 4000V Lightning Protection, Alexa Support",
+    "sku": "TV-T18175SF",
+    "barcode": "8906123450006",
+    "priceB2C": 3000,
+    "priceB2B": 2300,
+    "mrp": 3500,
+    "costPrice": 2050,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18175SF" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "4G/5G SIM Card" },
+      { "key": "Camera Type", "value": "Bullet Camera" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection" },
+      { "key": "IP Rating", "value": "IP66" },
+      { "key": "Lightning Protection", "value": "4,000V" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "4g-camera", "cctv", "bullet-camera", "outdoor-camera", "sim-camera", "ip66", "alexa", "3mp"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18175SF 4G Bullet Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18175SF 3MP 4G Bullet Camera with IP66, SIM card support at best price.",
+      "keywords": ["trueview 4g bullet camera", "outdoor 4g camera", "sim card bullet camera"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4007"
+    },
+    "name": "Trueview T18120SF 4G Mini PT Camera 3MP",
+    "slug": "trueview-t18120sf-4g-mini-pt-camera-3mp",
+    "description": "The Trueview T18120SF is a BIS Certified 4G Mini PT Camera with 3MP (2304 x 1296) resolution and All-Time Color Vision. Works with all 4G/5G SIM cards for remote locations without Wi-Fi. Features 266-degree horizontal and 90-degree vertical rotation, 10x digital zoom, and 6 preset points. Full-duplex audio intercom with built-in high-sensitivity mic and speaker. Smart features include human detection, motion detection, tampering detection, and smart tracking. IP65 weatherproof with 4,000V lightning protection. Supports Micro SD Card up to 256GB, cloud storage, NVR compatibility, and Alexa support.",
+    "shortDescription": "3MP 4G Mini PT Camera, 266° Rotation, IP65, 4G/5G SIM Support, Smart Tracking, Alexa Support",
+    "sku": "TV-T18120SF",
+    "barcode": "8906123450007",
+    "priceB2C": 4100,
+    "priceB2B": 3100,
+    "mrp": 4800,
+    "costPrice": 2750,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 50,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18120SF" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Connectivity", "value": "4G/5G SIM Card" },
+      { "key": "Camera Type", "value": "Mini PT Camera" },
+      { "key": "Horizontal Rotation", "value": "266°" },
+      { "key": "Vertical Rotation", "value": "90°" },
+      { "key": "Digital Zoom", "value": "10x" },
+      { "key": "Preset Points", "value": "6" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Night Vision", "value": "All-Time Color Vision" },
+      { "key": "Smart Features", "value": "Human Detection, Motion Detection, Tampering Detection, Smart Tracking" },
+      { "key": "IP Rating", "value": "IP65" },
+      { "key": "Lightning Protection", "value": "4,000V" },
+      { "key": "Storage", "value": "Micro SD Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "NVR Compatible", "value": "Yes" },
+      { "key": "Voice Assistant", "value": "Alexa Support" },
+      { "key": "Certification", "value": "BIS Certified with ER:01 Compliance" }
+    ],
+    "tags": ["trueview", "4g-camera", "cctv", "mini-pt-camera", "outdoor-camera", "sim-camera", "ip65", "alexa", "3mp", "smart-tracking"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18120SF 4G Mini PT Camera 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T18120SF 3MP 4G Mini PT Camera with SIM support, IP65, smart tracking at best price.",
+      "keywords": ["trueview 4g pt camera", "4g smart tracking camera", "sim card pt camera"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4008"
+    },
+    "name": "Trueview T38236-A WiFi 10Ch NVR",
+    "slug": "trueview-t38236-a-wifi-10ch-nvr",
+    "description": "The Trueview T38236-A is a WiFi 10-Channel NVR supporting up to 8MP/5MP/3MP/1080P cameras with dual-band 2.4G/5.8G networks. Features H.264/H.265/H.265+ compression for efficient storage. Supports multiple alarm push motion detection (Sound/email/etc.) with strong anti-interference ability and can transmit through several walls. P2P TrueCloud for fluent and fast remote access. Built-in speaker for audio out. Supports Memory Card up to 256GB and 2.5 inch SSD up to 6TB.",
+    "shortDescription": "10Ch WiFi NVR, Dual-Band 2.4G/5.8G, H.265+, Up to 8MP, 6TB SSD Support",
+    "sku": "TV-T38236-A",
+    "barcode": "8906123450008",
+    "priceB2C": 6500,
+    "priceB2B": 5000,
+    "mrp": 7500,
+    "costPrice": 4400,
+    "gstRate": 18,
+    "hsnCode": "85219090",
+    "stock": 40,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1551033406-611cf9a28f67?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0062"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38236-A" },
+      { "key": "Channels", "value": "10" },
+      { "key": "Connectivity", "value": "WiFi Dual Band 2.4G/5.8G" },
+      { "key": "Camera Support", "value": "8MP/5MP/3MP/1080P" },
+      { "key": "Compression", "value": "H.264/H.265/H.265+" },
+      { "key": "Alarm Features", "value": "Multiple Alarm Push Motion Detection (Sound/Email/etc.)" },
+      { "key": "Remote Access", "value": "P2P TrueCloud" },
+      { "key": "Audio Output", "value": "Built-in Speaker" },
+      { "key": "Memory Card Support", "value": "Up to 256GB" },
+      { "key": "SSD Support", "value": "2.5 inch SSD up to 6TB" },
+      { "key": "Wall Penetration", "value": "Transmits through several walls" }
+    ],
+    "tags": ["trueview", "nvr", "wifi-nvr", "10-channel", "h265", "cctv-recorder"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38236-A WiFi 10Ch NVR - Buy Online",
+      "metaDescription": "Buy Trueview T38236-A 10-Channel WiFi NVR with dual-band, H.265+ compression at best price.",
+      "keywords": ["trueview nvr", "wifi nvr", "10 channel nvr", "wireless nvr"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4009"
+    },
+    "name": "Trueview T291273 18W Solar Power Hub with Battery",
+    "slug": "trueview-t291273-18w-solar-power-hub-battery",
+    "description": "The Trueview T291273 is an 18W CCTV Solar Power System featuring highly efficient monocrystalline photovoltaic panel with built-in 13.5 AH chargeable Lithium Ion battery. Smart battery management with over-temperature protection, short circuit/reverse polarity protection, and low-battery protection. 3 light indicators for battery status monitoring. Perfect for powering CCTV cameras in remote locations without electrical access.",
+    "shortDescription": "18W Solar Panel, 13.5AH Li-Ion Battery, Smart Battery Management, 3 Light Indicators",
+    "sku": "TV-T291273",
+    "barcode": "8906123450009",
+    "priceB2C": 5900,
+    "priceB2B": 4500,
+    "mrp": 6800,
+    "costPrice": 4000,
+    "gstRate": 18,
+    "hsnCode": "85414011",
+    "stock": 50,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T291273" },
+      { "key": "Solar Panel Power", "value": "18W" },
+      { "key": "Panel Type", "value": "Monocrystalline Photovoltaic" },
+      { "key": "Battery Capacity", "value": "13.5 AH" },
+      { "key": "Battery Type", "value": "Lithium Ion" },
+      { "key": "Battery Management", "value": "Smart Battery Management" },
+      { "key": "Protection Features", "value": "Over-Temperature, Short Circuit, Reverse Polarity, Low-Battery" },
+      { "key": "Indicators", "value": "3 Light Indicators" },
+      { "key": "Application", "value": "CCTV Solar Power System" }
+    ],
+    "tags": ["trueview", "solar-panel", "cctv-power", "solar-battery", "off-grid-power"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T291273 18W Solar Power Hub - Buy Online",
+      "metaDescription": "Buy Trueview T291273 18W Solar Power Hub with 13.5AH battery for CCTV cameras at best price.",
+      "keywords": ["cctv solar panel", "solar power cctv", "18w solar panel"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4010"
+    },
+    "name": "Trueview T18107-AE 40W CCTV Solar Power System",
+    "slug": "trueview-t18107-ae-40w-cctv-solar-power-system",
+    "description": "The Trueview T18107-AE is a 40W CCTV Solar Power System featuring highly efficient monocrystalline photovoltaic panel with 12 AH chargeable Lithium Ferro Phosphate battery for longer life and better performance. Smart battery management with over-temperature protection, short circuit/reverse polarity protection, and low-battery protection. Camera is not included in this kit. Perfect for powering CCTV cameras in remote locations without electrical access.",
+    "shortDescription": "40W Solar Panel, 12AH LiFePO4 Battery, Smart Battery Management, Camera Not Included",
+    "sku": "TV-T18107-AE",
+    "barcode": "8906123450010",
+    "priceB2C": 11700,
+    "priceB2B": 8950,
+    "mrp": 13500,
+    "costPrice": 7900,
+    "gstRate": 18,
+    "hsnCode": "85414011",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18107-AE" },
+      { "key": "Solar Panel Power", "value": "40W" },
+      { "key": "Panel Type", "value": "Monocrystalline Photovoltaic" },
+      { "key": "Battery Capacity", "value": "12 AH" },
+      { "key": "Battery Type", "value": "Lithium Ferro Phosphate (LiFePO4)" },
+      { "key": "Battery Management", "value": "Smart Battery Management" },
+      { "key": "Protection Features", "value": "Over-Temperature, Short Circuit, Reverse Polarity, Low-Battery" },
+      { "key": "Application", "value": "CCTV Solar Power System" },
+      { "key": "Camera Included", "value": "No" }
+    ],
+    "tags": ["trueview", "solar-panel", "cctv-power", "solar-battery", "off-grid-power", "lifepo4"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18107-AE 40W CCTV Solar Power System - Buy Online",
+      "metaDescription": "Buy Trueview T18107-AE 40W Solar Power System with LiFePO4 battery for CCTV at best price.",
+      "keywords": ["40w cctv solar panel", "lifepo4 solar cctv", "cctv solar power"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4011"
+    },
+    "name": "Trueview T18146-AE 75W CCTV Solar Power System for PTZ",
+    "slug": "trueview-t18146-ae-75w-cctv-solar-power-system-ptz",
+    "description": "The Trueview T18146-AE is a 75W CCTV Solar Power System specifically designed for PTZ cameras featuring highly efficient monocrystalline photovoltaic panel with 24 AH chargeable Lithium Ferro Phosphate battery. Smart battery management with over-temperature protection, short circuit/reverse polarity protection, and low-battery protection. Camera is not included in this kit. Perfect for powering PTZ CCTV cameras in remote locations without electrical access.",
+    "shortDescription": "75W Solar Panel, 24AH LiFePO4 Battery, For PTZ Cameras, Smart Battery Management",
+    "sku": "TV-T18146-AE",
+    "barcode": "8906123450011",
+    "priceB2C": 25500,
+    "priceB2B": 19500,
+    "mrp": 29000,
+    "costPrice": 17200,
+    "gstRate": 18,
+    "hsnCode": "85414011",
+    "stock": 20,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18146-AE" },
+      { "key": "Solar Panel Power", "value": "75W" },
+      { "key": "Panel Type", "value": "Monocrystalline Photovoltaic" },
+      { "key": "Battery Capacity", "value": "24 AH" },
+      { "key": "Battery Type", "value": "Lithium Ferro Phosphate (LiFePO4)" },
+      { "key": "Battery Management", "value": "Smart Battery Management" },
+      { "key": "Protection Features", "value": "Over-Temperature, Short Circuit, Reverse Polarity, Low-Battery" },
+      { "key": "Application", "value": "CCTV Solar Power System for PTZ Camera" },
+      { "key": "Camera Included", "value": "No" }
+    ],
+    "tags": ["trueview", "solar-panel", "cctv-power", "solar-battery", "off-grid-power", "lifepo4", "ptz-solar"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18146-AE 75W CCTV Solar Power System for PTZ - Buy Online",
+      "metaDescription": "Buy Trueview T18146-AE 75W Solar Power System for PTZ cameras with 24AH LiFePO4 battery at best price.",
+      "keywords": ["75w ptz solar panel", "solar ptz camera power", "lifepo4 ptz solar"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4012"
+    },
+    "name": "Trueview T18258-A 4G Router R300",
+    "slug": "trueview-t18258-a-4g-router-r300",
+    "description": "The Trueview T18258-A R300 is a plug & play 4G router. Simply plug in any 5G/4G SIM card and connect network devices like phones, PCs, or CCTV devices. Features internal antenna for long range and high speed connectivity. Offers both Wi-Fi and LAN port connection. Web UI for device security and device management. Supports Windows, Android, Linux, and iOS operating systems.",
+    "shortDescription": "4G Router, Plug & Play, Internal Antenna, Wi-Fi + LAN, Multi-OS Support",
+    "sku": "TV-T18258-A",
+    "barcode": "8906123450012",
+    "priceB2C": 1750,
+    "priceB2B": 1325,
+    "mrp": 2000,
+    "costPrice": 1175,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 150,
+    "lowStockThreshold": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0071"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18258-A (R300)" },
+      { "key": "Connectivity", "value": "4G/5G SIM Card" },
+      { "key": "Antenna", "value": "Internal Antenna" },
+      { "key": "Ports", "value": "Wi-Fi + LAN Port" },
+      { "key": "Management", "value": "Web UI" },
+      { "key": "OS Support", "value": "Windows, Android, Linux, iOS" },
+      { "key": "Setup", "value": "Plug & Play" }
+    ],
+    "tags": ["trueview", "4g-router", "sim-router", "wifi-router", "portable-router"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18258-A 4G Router R300 - Buy Online",
+      "metaDescription": "Buy Trueview T18258-A 4G Router R300 with plug & play, SIM card support at best price.",
+      "keywords": ["4g router", "sim card router", "trueview router"]
+    },
+    "averageRating": 4.3,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4013"
+    },
+    "name": "Trueview T18259-A 4G Router R500",
+    "slug": "trueview-t18259-a-4g-router-r500",
+    "description": "The Trueview T18259-A R500 is a plug & play 4G router with enhanced performance. Simply plug in any 5G/4G SIM card and connect network devices like phones, PCs, or CCTV devices. Features internal 5dB antenna for longer range and higher speed connectivity compared to R300. Offers both Wi-Fi and LAN port connection. Web UI for device security and device management. Supports Windows, Android, Linux, and iOS operating systems.",
+    "shortDescription": "4G Router, Plug & Play, 5dB Internal Antenna, Wi-Fi + LAN, Multi-OS Support",
+    "sku": "TV-T18259-A",
+    "barcode": "8906123450013",
+    "priceB2C": 1875,
+    "priceB2B": 1425,
+    "mrp": 2200,
+    "costPrice": 1265,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 150,
+    "lowStockThreshold": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0071"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18259-A (R500)" },
+      { "key": "Connectivity", "value": "4G/5G SIM Card" },
+      { "key": "Antenna", "value": "Internal 5dB Antenna" },
+      { "key": "Ports", "value": "Wi-Fi + LAN Port" },
+      { "key": "Management", "value": "Web UI" },
+      { "key": "OS Support", "value": "Windows, Android, Linux, iOS" },
+      { "key": "Setup", "value": "Plug & Play" }
+    ],
+    "tags": ["trueview", "4g-router", "sim-router", "wifi-router", "portable-router", "5db-antenna"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18259-A 4G Router R500 - Buy Online",
+      "metaDescription": "Buy Trueview T18259-A 4G Router R500 with 5dB antenna, SIM card support at best price.",
+      "keywords": ["4g router 5db", "sim card router", "trueview r500 router"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4014"
+    },
+    "name": "Trueview T18182-A 4G Router with 2 LAN Ports",
+    "slug": "trueview-t18182-a-4g-router-2-lan-ports",
+    "description": "The Trueview T18182-A is a professional 4G router supporting up to 32 users. Features 2 LTE external antennas and 2 Wi-Fi external antennas for maximum coverage and speed. Easy to set up and manage with Web UI, TR069 remote management, and FOTA support. Supports VPN protocols including IPSec VPN, PPTP VPN, and L2TP VPN. Ideal for indoor use in homes and offices.",
+    "shortDescription": "4G Router, 32 Users, 2 LAN Ports, 4 External Antennas, VPN Support",
+    "sku": "TV-T18182-A",
+    "barcode": "8906123450014",
+    "priceB2C": 2650,
+    "priceB2B": 2000,
+    "mrp": 3000,
+    "costPrice": 1775,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 80,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0071"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18182-A" },
+      { "key": "Max Users", "value": "32" },
+      { "key": "LAN Ports", "value": "2" },
+      { "key": "LTE Antennas", "value": "2 External" },
+      { "key": "Wi-Fi Antennas", "value": "2 External" },
+      { "key": "Management", "value": "Web UI, TR069, FOTA" },
+      { "key": "VPN Support", "value": "IPSec VPN, PPTP VPN, L2TP VPN" },
+      { "key": "Usage", "value": "Indoor, Home, Office" }
+    ],
+    "tags": ["trueview", "4g-router", "sim-router", "vpn-router", "professional-router", "office-router"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18182-A 4G Router with 2 LAN Ports - Buy Online",
+      "metaDescription": "Buy Trueview T18182-A 4G Router with 32 user support, VPN, 2 LAN ports at best price.",
+      "keywords": ["4g router vpn", "32 user 4g router", "trueview professional router"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4015"
+    },
+    "name": "Trueview T38241-A Video Door Bell 3MP",
+    "slug": "trueview-t38241-a-video-door-bell-3mp",
+    "description": "The Trueview T38241-A is a 3MP (2304 x 1296) Video Door Bell supporting dual-band Wi-Fi 6 network (2.4GHz/5GHz) for reliable connectivity. Features full-duplex audio intercom with built-in high-sensitivity mic and speaker. Can be used as a security camera for monitoring. Get instant visitor video calls with customized pre-recorded voice alarm. Supports Bluetooth network configuration for easy 3-step setup. Supports memory card up to 256GB and optional cloud storage. Monitor via Mobile or PC Software (TrueCloud). Bell chime is included in the package.",
+    "shortDescription": "3MP Video Door Bell, Wi-Fi 6 Dual Band, Full-Duplex Audio, Bell Chime Included",
+    "sku": "TV-T38241-A",
+    "barcode": "8906123450015",
+    "priceB2C": 2650,
+    "priceB2B": 2000,
+    "mrp": 3000,
+    "costPrice": 1775,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0064"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38241-A" },
+      { "key": "Resolution", "value": "3MP (2304 x 1296)" },
+      { "key": "Wi-Fi", "value": "Dual Band Wi-Fi 6 (2.4GHz/5GHz)" },
+      { "key": "Audio", "value": "Full-Duplex Audio Intercom" },
+      { "key": "Features", "value": "Visitor Video Call, Customized Voice Alarm" },
+      { "key": "Setup", "value": "Bluetooth Network Configuration (3-step)" },
+      { "key": "Storage", "value": "Memory Card up to 256GB, Cloud Storage (Optional)" },
+      { "key": "Monitoring", "value": "Mobile, PC Software (TrueCloud)" },
+      { "key": "Included", "value": "Bell Chime" }
+    ],
+    "tags": ["trueview", "video-doorbell", "smart-doorbell", "wifi6", "door-phone", "security"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38241-A Video Door Bell 3MP - Buy Online",
+      "metaDescription": "Buy Trueview T38241-A 3MP Video Door Bell with Wi-Fi 6, full-duplex audio at best price.",
+      "keywords": ["video doorbell", "smart doorbell", "wifi6 doorbell", "trueview doorbell"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4016"
+    },
+    "name": "Trueview T38260-A PoE Switch 4+2",
+    "slug": "trueview-t38260-a-poe-switch-4-2",
+    "description": "The Trueview T38260-A is a 4+2 PoE Switch with 4 PoE LAN ports (10/100 Mbps) and 2 Uplink LAN ports (10/100 Mbps). Features 1.2 Gbps bandwidth and 65W power budget. Supports transmission distance of 0-100m at 100 Mbps or up to 250m at 10 Mbps in extended mode. Uplink transmission distance 0-100m. Compatible with CAT5/CAT5e/CAT6 UTP cables. Perfect for small CCTV installations.",
+    "shortDescription": "4+2 PoE Switch, 65W Power Budget, 1.2Gbps Bandwidth, 250m Extended Mode",
+    "sku": "TV-T38260-A",
+    "barcode": "8906123450016",
+    "priceB2C": 1250,
+    "priceB2B": 950,
+    "mrp": 1450,
+    "costPrice": 840,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 100,
+    "lowStockThreshold": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38260-A" },
+      { "key": "PoE LAN Ports", "value": "4 (10/100 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (10/100 Mbps)" },
+      { "key": "SFP Ports", "value": "0" },
+      { "key": "Bandwidth", "value": "1.2 Gbps" },
+      { "key": "Power Budget", "value": "65W" },
+      { "key": "PoE Distance (100Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "network-switch", "cctv-switch", "4-port-poe"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38260-A PoE Switch 4+2 - Buy Online",
+      "metaDescription": "Buy Trueview T38260-A 4+2 PoE Switch with 65W power budget at best price.",
+      "keywords": ["poe switch 4 port", "cctv poe switch", "trueview switch"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4017"
+    },
+    "name": "Trueview T38261-A PoE Switch 4G+2G+1SFP",
+    "slug": "trueview-t38261-a-poe-switch-4g-2g-1sfp",
+    "description": "The Trueview T38261-A is a Gigabit PoE Switch with 4 Gigabit PoE LAN ports (100/1000 Mbps), 2 Gigabit Uplink LAN ports (100/1000 Mbps), and 1 SFP port. Features 14.0 Gbps bandwidth and 65W power budget. Supports transmission distance of 0-100m at 1000 Mbps or up to 250m at 10 Mbps. SFP transmission distance depends on optical module (20km-100km). Compatible with CAT5/CAT5e/CAT6 UTP cables.",
+    "shortDescription": "4G+2G+1SFP PoE Switch, 65W Power Budget, 14Gbps Bandwidth, Gigabit Ports",
+    "sku": "TV-T38261-A",
+    "barcode": "8906123450017",
+    "priceB2C": 2750,
+    "priceB2B": 2100,
+    "mrp": 3200,
+    "costPrice": 1860,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38261-A" },
+      { "key": "PoE LAN Ports", "value": "4 (100/1000 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "1" },
+      { "key": "Bandwidth", "value": "14.0 Gbps" },
+      { "key": "Power Budget", "value": "65W" },
+      { "key": "PoE Distance (1000Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "SFP Distance", "value": "20km - 100km (depends on module)" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "gigabit-switch", "sfp-switch", "cctv-switch"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38261-A PoE Switch 4G+2G+1SFP - Buy Online",
+      "metaDescription": "Buy Trueview T38261-A Gigabit PoE Switch with SFP port at best price.",
+      "keywords": ["gigabit poe switch", "sfp poe switch", "trueview gigabit switch"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4018"
+    },
+    "name": "Trueview T38262-A PoE Switch 8+2",
+    "slug": "trueview-t38262-a-poe-switch-8-2",
+    "description": "The Trueview T38262-A is an 8+2 PoE Switch with 8 PoE LAN ports (10/100 Mbps) and 2 Uplink LAN ports (10/100 Mbps). Features 2.0 Gbps bandwidth and 120W power budget. Supports transmission distance of 0-100m at 100 Mbps or up to 250m at 10 Mbps in extended mode. Uplink transmission distance 0-100m. Compatible with CAT5/CAT5e/CAT6 UTP cables. Ideal for medium CCTV installations.",
+    "shortDescription": "8+2 PoE Switch, 120W Power Budget, 2Gbps Bandwidth, 250m Extended Mode",
+    "sku": "TV-T38262-A",
+    "barcode": "8906123450018",
+    "priceB2C": 1650,
+    "priceB2B": 1250,
+    "mrp": 1900,
+    "costPrice": 1100,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 80,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38262-A" },
+      { "key": "PoE LAN Ports", "value": "8 (10/100 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (10/100 Mbps)" },
+      { "key": "SFP Ports", "value": "0" },
+      { "key": "Bandwidth", "value": "2.0 Gbps" },
+      { "key": "Power Budget", "value": "120W" },
+      { "key": "PoE Distance (100Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "network-switch", "cctv-switch", "8-port-poe"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38262-A PoE Switch 8+2 - Buy Online",
+      "metaDescription": "Buy Trueview T38262-A 8+2 PoE Switch with 120W power budget at best price.",
+      "keywords": ["poe switch 8 port", "120w poe switch", "trueview 8 port switch"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4019"
+    },
+    "name": "Trueview T38263-A PoE Switch 8+2G",
+    "slug": "trueview-t38263-a-poe-switch-8-2g",
+    "description": "The Trueview T38263-A is an 8+2G PoE Switch with 8 PoE LAN ports (10/100 Mbps) and 2 Gigabit Uplink LAN ports (100/1000 Mbps). Features 5.6 Gbps bandwidth and 120W power budget. Supports transmission distance of 0-100m at 100 Mbps or up to 250m at 10 Mbps in extended mode. Uplink transmission distance 0-100m. Compatible with CAT5/CAT5e/CAT6 UTP cables. Ideal for medium CCTV installations with gigabit uplink.",
+    "shortDescription": "8+2G PoE Switch, 120W Power Budget, 5.6Gbps Bandwidth, Gigabit Uplink",
+    "sku": "TV-T38263-A",
+    "barcode": "8906123450019",
+    "priceB2C": 2450,
+    "priceB2B": 1850,
+    "mrp": 2800,
+    "costPrice": 1640,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38263-A" },
+      { "key": "PoE LAN Ports", "value": "8 (10/100 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "0" },
+      { "key": "Bandwidth", "value": "5.6 Gbps" },
+      { "key": "Power Budget", "value": "120W" },
+      { "key": "PoE Distance (100Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "network-switch", "cctv-switch", "8-port-poe", "gigabit-uplink"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38263-A PoE Switch 8+2G - Buy Online",
+      "metaDescription": "Buy Trueview T38263-A 8+2G PoE Switch with gigabit uplink at best price.",
+      "keywords": ["poe switch gigabit uplink", "8 port poe switch", "trueview 8+2g switch"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4020"
+    },
+    "name": "Trueview T38264-A PoE Switch 8G+2G",
+    "slug": "trueview-t38264-a-poe-switch-8g-2g",
+    "description": "The Trueview T38264-A is an 8G+2G Full Gigabit PoE Switch with 8 Gigabit PoE LAN ports (100/1000 Mbps) and 2 Gigabit Uplink LAN ports (100/1000 Mbps). Features 22.0 Gbps bandwidth and 120W power budget. Supports transmission distance of 0-100m at 100 Mbps or up to 250m at 10 Mbps. Uplink transmission distance 0-100m. Compatible with CAT5/CAT5e/CAT6 UTP cables. Perfect for high-performance CCTV and network installations.",
+    "shortDescription": "8G+2G Full Gigabit PoE Switch, 120W Power Budget, 22Gbps Bandwidth",
+    "sku": "TV-T38264-A",
+    "barcode": "8906123450020",
+    "priceB2C": 2950,
+    "priceB2B": 2250,
+    "mrp": 3400,
+    "costPrice": 1990,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 50,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38264-A" },
+      { "key": "PoE LAN Ports", "value": "8 (100/1000 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "0" },
+      { "key": "Bandwidth", "value": "22.0 Gbps" },
+      { "key": "Power Budget", "value": "120W" },
+      { "key": "PoE Distance (100Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "gigabit-switch", "cctv-switch", "8-port-gigabit-poe"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38264-A PoE Switch 8G+2G - Buy Online",
+      "metaDescription": "Buy Trueview T38264-A Full Gigabit 8G+2G PoE Switch at best price.",
+      "keywords": ["gigabit poe switch 8 port", "full gigabit poe", "trueview 8g switch"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4021"
+    },
+    "name": "Trueview T38265-A PoE Switch 8G+2G+1SFP",
+    "slug": "trueview-t38265-a-poe-switch-8g-2g-1sfp",
+    "description": "The Trueview T38265-A is an 8G+2G+1SFP Full Gigabit PoE Switch with 8 Gigabit PoE LAN ports (100/1000 Mbps), 2 Gigabit Uplink LAN ports (100/1000 Mbps), and 1 SFP port. Features 22.0 Gbps bandwidth and 120W power budget. Supports transmission distance of 0-100m at 1000 Mbps or up to 250m at 10 Mbps. SFP transmission distance depends on optical module (20km-100km). Compatible with CAT5/CAT5e/CAT6 UTP cables.",
+    "shortDescription": "8G+2G+1SFP Full Gigabit PoE Switch, 120W Power Budget, 22Gbps Bandwidth, SFP Port",
+    "sku": "TV-T38265-A",
+    "barcode": "8906123450021",
+    "priceB2C": 3500,
+    "priceB2B": 2650,
+    "mrp": 4000,
+    "costPrice": 2350,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 40,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38265-A" },
+      { "key": "PoE LAN Ports", "value": "8 (100/1000 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "1" },
+      { "key": "Bandwidth", "value": "22.0 Gbps" },
+      { "key": "Power Budget", "value": "120W" },
+      { "key": "PoE Distance (1000Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "SFP Distance", "value": "20km - 100km (depends on module)" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "gigabit-switch", "sfp-switch", "cctv-switch", "8-port-gigabit-poe"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38265-A PoE Switch 8G+2G+1SFP - Buy Online",
+      "metaDescription": "Buy Trueview T38265-A Full Gigabit 8G+2G+1SFP PoE Switch at best price.",
+      "keywords": ["gigabit poe switch sfp", "8 port gigabit poe sfp", "trueview sfp switch"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4022"
+    },
+    "name": "Trueview T38266-A PoE Switch 16+2G+1SFP",
+    "slug": "trueview-t38266-a-poe-switch-16-2g-1sfp",
+    "description": "The Trueview T38266-A is a 16+2G+1SFP PoE Switch with 16 PoE LAN ports (10/100 Mbps), 2 Gigabit Uplink LAN ports (100/1000 Mbps), and 1 SFP port. Features 9.2 Gbps bandwidth and 250W/300W power budget (52V DC). Supports transmission distance of 0-100m at 1000 Mbps or up to 250m at 10 Mbps. SFP transmission distance depends on optical module (20km-100km). Compatible with CAT5/CAT5e/CAT6 UTP cables. Ideal for large CCTV installations.",
+    "shortDescription": "16+2G+1SFP PoE Switch, 250W/300W Power Budget, 9.2Gbps Bandwidth, SFP Port",
+    "sku": "TV-T38266-A",
+    "barcode": "8906123450022",
+    "priceB2C": 7500,
+    "priceB2B": 5750,
+    "mrp": 8700,
+    "costPrice": 5100,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38266-A" },
+      { "key": "PoE LAN Ports", "value": "16 (10/100 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "1" },
+      { "key": "Bandwidth", "value": "9.2 Gbps" },
+      { "key": "Power Budget", "value": "250W / 300W (52V DC)" },
+      { "key": "PoE Distance (1000Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "SFP Distance", "value": "20km - 100km (depends on module)" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "16-port-poe", "sfp-switch", "cctv-switch", "high-power-poe"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38266-A PoE Switch 16+2G+1SFP - Buy Online",
+      "metaDescription": "Buy Trueview T38266-A 16+2G+1SFP PoE Switch with 250W power budget at best price.",
+      "keywords": ["16 port poe switch", "250w poe switch", "trueview 16 port switch"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4023"
+    },
+    "name": "Trueview T38267-A PoE Switch 16G+2G+1SFP",
+    "slug": "trueview-t38267-a-poe-switch-16g-2g-1sfp",
+    "description": "The Trueview T38267-A is a 16G+2G+1SFP Full Gigabit PoE Switch with 16 Gigabit PoE LAN ports (100/1000 Mbps), 2 Gigabit Uplink LAN ports (100/1000 Mbps), and 1 SFP port. Features 38.0 Gbps bandwidth and 300W power budget (52V DC). Supports transmission distance of 0-100m at 1000 Mbps or up to 250m at 10 Mbps. SFP transmission distance depends on optical module (20km-100km). Compatible with CAT5/CAT5e/CAT6 UTP cables. Perfect for enterprise CCTV installations.",
+    "shortDescription": "16G+2G+1SFP Full Gigabit PoE Switch, 300W Power Budget, 38Gbps Bandwidth",
+    "sku": "TV-T38267-A",
+    "barcode": "8906123450023",
+    "priceB2C": 9500,
+    "priceB2B": 7300,
+    "mrp": 11000,
+    "costPrice": 6475,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 25,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38267-A" },
+      { "key": "PoE LAN Ports", "value": "16 (100/1000 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "1" },
+      { "key": "Bandwidth", "value": "38.0 Gbps" },
+      { "key": "Power Budget", "value": "300W (52V DC)" },
+      { "key": "PoE Distance (1000Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "SFP Distance", "value": "20km - 100km (depends on module)" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "gigabit-switch", "16-port-gigabit-poe", "sfp-switch", "enterprise-switch"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38267-A PoE Switch 16G+2G+1SFP - Buy Online",
+      "metaDescription": "Buy Trueview T38267-A Full Gigabit 16G+2G+1SFP PoE Switch with 300W power budget at best price.",
+      "keywords": ["16 port gigabit poe switch", "300w poe switch", "trueview enterprise switch"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4024"
+    },
+    "name": "Trueview T38269-A PoE Switch 24G+2G+2SFP",
+    "slug": "trueview-t38269-a-poe-switch-24g-2g-2sfp",
+    "description": "The Trueview T38269-A is a 24G+2G+2SFP Full Gigabit PoE Switch with 24 Gigabit PoE LAN ports (100/1000 Mbps), 2 Gigabit Uplink LAN ports (100/1000 Mbps), and 2 SFP ports. Features 56.0 Gbps bandwidth and 300W power budget (52V DC). Supports transmission distance of 0-100m at 1000 Mbps or up to 250m at 10 Mbps. SFP transmission distance depends on optical module (20km-100km). Compatible with CAT5/CAT5e/CAT6 UTP cables. Ideal for large enterprise CCTV and network installations.",
+    "shortDescription": "24G+2G+2SFP Full Gigabit PoE Switch, 300W Power Budget, 56Gbps Bandwidth, Dual SFP",
+    "sku": "TV-T38269-A",
+    "barcode": "8906123450024",
+    "priceB2C": 15200,
+    "priceB2B": 11600,
+    "mrp": 17500,
+    "costPrice": 10300,
+    "gstRate": 18,
+    "hsnCode": "85176290",
+    "stock": 20,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0072"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38269-A" },
+      { "key": "PoE LAN Ports", "value": "24 (100/1000 Mbps)" },
+      { "key": "Uplink LAN Ports", "value": "2 (100/1000 Mbps)" },
+      { "key": "SFP Ports", "value": "2" },
+      { "key": "Bandwidth", "value": "56.0 Gbps" },
+      { "key": "Power Budget", "value": "300W (52V DC)" },
+      { "key": "PoE Distance (1000Mbps)", "value": "0-100m" },
+      { "key": "PoE Distance (10Mbps Extended)", "value": "Up to 250m" },
+      { "key": "SFP Distance", "value": "20km - 100km (depends on module)" },
+      { "key": "Cable Support", "value": "CAT5 / CAT5e / CAT6 UTP" }
+    ],
+    "tags": ["trueview", "poe-switch", "gigabit-switch", "24-port-gigabit-poe", "dual-sfp-switch", "enterprise-switch"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38269-A PoE Switch 24G+2G+2SFP - Buy Online",
+      "metaDescription": "Buy Trueview T38269-A Full Gigabit 24G+2G+2SFP PoE Switch with dual SFP ports at best price.",
+      "keywords": ["24 port gigabit poe switch", "dual sfp poe switch", "trueview 24 port switch"]
+    },
+    "averageRating": 4.7,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4025"
+    },
+    "name": "Trueview T18256-A Dual Light HD 2MP Dome Camera",
+    "slug": "trueview-t18256-a-dual-light-hd-2mp-dome-camera",
+    "description": "The Trueview T18256-A is a Dual Light HD 2MP Dome Camera with 4-in-1 output supporting AHD/TVI/CVI/CVBS (Analog) modes. Features built-in microphone for synchronized audio over coaxial cable with no extra wiring. Dual Light LED provides IR mode for standard night vision and White LED for color night view and deterrence during motion events. Long transmission range of up to 500 meters via standard coaxial cable. Plug & Play with no network configuration required. Works seamlessly with all Trueview DVRs and other hybrid DVRs.",
+    "shortDescription": "2MP Dual Light Dome Camera, 4-in-1 Output, Built-in Mic, 500m Range",
+    "sku": "TV-T18256-A",
+    "barcode": "8906123450025",
+    "priceB2C": 1050,
+    "priceB2B": 800,
+    "mrp": 1200,
+    "costPrice": 710,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 200,
+    "lowStockThreshold": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18256-A" },
+      { "key": "Resolution", "value": "2MP (1080p)" },
+      { "key": "Camera Type", "value": "Dome Camera" },
+      { "key": "Output", "value": "4-in-1 (AHD / TVI / CVI / CVBS)" },
+      { "key": "Audio", "value": "Built-in Microphone (Coaxial Audio)" },
+      { "key": "Night Vision", "value": "Dual Light (IR + White LED)" },
+      { "key": "Transmission Range", "value": "Up to 500 meters" },
+      { "key": "Cable", "value": "Standard Coaxial Cable" },
+      { "key": "Setup", "value": "Plug & Play" },
+      { "key": "DVR Compatibility", "value": "Trueview DVRs and Hybrid DVRs" }
+    ],
+    "tags": ["trueview", "ahd-camera", "dome-camera", "dual-light", "cctv", "2mp", "coaxial-camera"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18256-A Dual Light HD 2MP Dome Camera - Buy Online",
+      "metaDescription": "Buy Trueview T18256-A 2MP Dual Light Dome Camera with built-in mic at best price.",
+      "keywords": ["2mp dome camera", "dual light camera", "ahd dome camera", "trueview dome"]
+    },
+    "averageRating": 4.4,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4026"
+    },
+    "name": "Trueview T18257-A Dual Light HD 2MP Bullet Camera",
+    "slug": "trueview-t18257-a-dual-light-hd-2mp-bullet-camera",
+    "description": "The Trueview T18257-A is a Dual Light HD 2MP Bullet Camera with 4-in-1 output supporting AHD/TVI/CVI/CVBS (Analog) modes. Features built-in microphone for synchronized audio over coaxial cable with no extra wiring. Dual Light LED provides IR mode for standard night vision and White LED for color night view and deterrence during motion events. Long transmission range of up to 500 meters via standard coaxial cable. IP66-rated weatherproof enclosure for indoor/outdoor use. Plug & Play with no network configuration required. Works seamlessly with all Trueview DVRs and other hybrid DVRs.",
+    "shortDescription": "2MP Dual Light Bullet Camera, 4-in-1 Output, IP66, Built-in Mic, 500m Range",
+    "sku": "TV-T18257-A",
+    "barcode": "8906123450026",
+    "priceB2C": 1180,
+    "priceB2B": 900,
+    "mrp": 1350,
+    "costPrice": 800,
+    "gstRate": 18,
+    "hsnCode": "85258090",
+    "stock": 200,
+    "lowStockThreshold": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0061"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T18257-A" },
+      { "key": "Resolution", "value": "2MP (1080p)" },
+      { "key": "Camera Type", "value": "Bullet Camera" },
+      { "key": "Output", "value": "4-in-1 (AHD / TVI / CVI / CVBS)" },
+      { "key": "Audio", "value": "Built-in Microphone (Coaxial Audio)" },
+      { "key": "Night Vision", "value": "Dual Light (IR + White LED)" },
+      { "key": "IP Rating", "value": "IP66" },
+      { "key": "Transmission Range", "value": "Up to 500 meters" },
+      { "key": "Cable", "value": "Standard Coaxial Cable" },
+      { "key": "Setup", "value": "Plug & Play" },
+      { "key": "DVR Compatibility", "value": "Trueview DVRs and Hybrid DVRs" }
+    ],
+    "tags": ["trueview", "ahd-camera", "bullet-camera", "dual-light", "cctv", "2mp", "outdoor-camera", "ip66"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T18257-A Dual Light HD 2MP Bullet Camera - Buy Online",
+      "metaDescription": "Buy Trueview T18257-A 2MP Dual Light Bullet Camera with IP66, built-in mic at best price.",
+      "keywords": ["2mp bullet camera", "dual light bullet", "outdoor ahd camera", "trueview bullet"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4027"
+    },
+    "name": "Trueview T38153-AE 4 Channel DVR with Cloud",
+    "slug": "trueview-t38153-ae-4-channel-dvr-cloud",
+    "description": "The Trueview T38153-AE is a 4-Channel 4-in-1 Analog DVR with cloud recording option. Features 4 channels with 4 audio inputs and 5MP-H realtime live view. Supports TVI 2.0, AHD 2.0, CVBS, IPCAM, and CVI. H.264/H.265 video compression for efficient storage. Supports HDTVI/AHD/CVI/CVBS/IP video input. Max transmission distance of 600m for 5MP and 800m for 720p AHD signal. Audio via coaxial cable support. Remote viewing via free P2P on Android/iOS/PC. 1x SATA interface with support up to 6TB per SATA.",
+    "shortDescription": "4Ch DVR, 5MP-H Live View, H.265, Cloud Recording, 6TB HDD Support",
+    "sku": "TV-T38153-AE",
+    "barcode": "8906123450027",
+    "priceB2C": 2750,
+    "priceB2B": 2100,
+    "mrp": 3200,
+    "costPrice": 1860,
+    "gstRate": 18,
+    "hsnCode": "85219090",
+    "stock": 60,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1551033406-611cf9a28f67?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0062"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38153-AE" },
+      { "key": "Channels", "value": "4 Video + 4 Audio" },
+      { "key": "Live View", "value": "5MP-H Realtime" },
+      { "key": "Input Support", "value": "TVI 2.0, AHD 2.0, CVBS, IPCAM, CVI" },
+      { "key": "Compression", "value": "H.264/H.265" },
+      { "key": "Video Input", "value": "HDTVI/AHD/CVI/CVBS/IP" },
+      { "key": "Max Distance (5MP)", "value": "600m" },
+      { "key": "Max Distance (720p)", "value": "800m" },
+      { "key": "Audio", "value": "Via Coaxial Cable" },
+      { "key": "Remote View", "value": "P2P (Android/iOS/PC)" },
+      { "key": "SATA Ports", "value": "1x (up to 6TB)" },
+      { "key": "Cloud Recording", "value": "Yes" }
+    ],
+    "tags": ["trueview", "dvr", "4-channel-dvr", "h265", "cloud-dvr", "cctv-recorder"],
+    "isFeatured": false,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38153-AE 4 Channel DVR with Cloud - Buy Online",
+      "metaDescription": "Buy Trueview T38153-AE 4-Channel DVR with H.265, cloud recording at best price.",
+      "keywords": ["4 channel dvr", "h265 dvr", "cloud dvr", "trueview dvr"]
+    },
+    "averageRating": 4.5,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4028"
+    },
+    "name": "Trueview T38154-AE 8 Channel DVR with Cloud",
+    "slug": "trueview-t38154-ae-8-channel-dvr-cloud",
+    "description": "The Trueview T38154-AE is an 8-Channel 4-in-1 Analog DVR with cloud recording option. Features 8 channels with 8 audio inputs and 5MP-H realtime live view. Supports TVI 2.0, AHD 2.0, CVBS, IPCAM, and CVI. H.264/H.265 video compression for efficient storage. Supports HDTVI/AHD/CVI/CVBS/IP video input. Max transmission distance of 600m for 5MP and 800m for 720p AHD signal. Audio via coaxial cable support. Remote viewing via free P2P on Android/iOS/PC. 1x SATA interface with support up to 6TB per SATA.",
+    "shortDescription": "8Ch DVR, 5MP-H Live View, H.265, Cloud Recording, 6TB HDD Support",
+    "sku": "TV-T38154-AE",
+    "barcode": "8906123450028",
+    "priceB2C": 3800,
+    "priceB2B": 2900,
+    "mrp": 4400,
+    "costPrice": 2570,
+    "gstRate": 18,
+    "hsnCode": "85219090",
+    "stock": 50,
+    "lowStockThreshold": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1551033406-611cf9a28f67?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0062"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T38154-AE" },
+      { "key": "Channels", "value": "8 Video + 8 Audio" },
+      { "key": "Live View", "value": "5MP-H Realtime" },
+      { "key": "Input Support", "value": "TVI 2.0, AHD 2.0, CVBS, IPCAM, CVI" },
+      { "key": "Compression", "value": "H.264/H.265" },
+      { "key": "Video Input", "value": "HDTVI/AHD/CVI/CVBS/IP" },
+      { "key": "Max Distance (5MP)", "value": "600m" },
+      { "key": "Max Distance (720p)", "value": "800m" },
+      { "key": "Audio", "value": "Via Coaxial Cable" },
+      { "key": "Remote View", "value": "P2P (Android/iOS/PC)" },
+      { "key": "SATA Ports", "value": "1x (up to 6TB)" },
+      { "key": "Cloud Recording", "value": "Yes" }
+    ],
+    "tags": ["trueview", "dvr", "8-channel-dvr", "h265", "cloud-dvr", "cctv-recorder"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": true,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T38154-AE 8 Channel DVR with Cloud - Buy Online",
+      "metaDescription": "Buy Trueview T38154-AE 8-Channel DVR with H.265, cloud recording at best price.",
+      "keywords": ["8 channel dvr", "h265 dvr", "cloud dvr", "trueview 8ch dvr"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "683c1a2e4f2c3d5a1b8e4029"
+    },
+    "name": "Trueview T37431-BE 16 Channel DVR with Cloud",
+    "slug": "trueview-t37431-be-16-channel-dvr-cloud",
+    "description": "The Trueview T37431-BE is a 16-Channel 4-in-1 Analog DVR with cloud recording option. Features 16 channels with 1080p realtime live view and 16 RCA audio inputs. Supports TVI 2.0, AHD 2.0, CVBS, IPCAM, and CVI. Supports 600M BNC video input with UTC support. Remote viewing via P2P on Android/iOS/PC. 2x SATA interfaces with support up to 6TB per SATA for massive storage capacity. Ideal for large commercial installations.",
+    "shortDescription": "16Ch DVR, 1080p Live View, 16 Audio Inputs, 2x SATA (12TB Total), Cloud Recording",
+    "sku": "TV-T37431-BE",
+    "barcode": "8906123450029",
+    "priceB2C": 6400,
+    "priceB2B": 4900,
+    "mrp": 7400,
+    "costPrice": 4340,
+    "gstRate": 18,
+    "hsnCode": "85219090",
+    "stock": 30,
+    "lowStockThreshold": 5,
+    "images": [
+      "https://images.unsplash.com/photo-1551033406-611cf9a28f67?w=800",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800"
+    ],
+    "category": {
+      "$oid": "68110a1e4f2c3d5a1b8e0062"
+    },
+    "brand": "Trueview",
+    "specifications": [
+      { "key": "Model", "value": "T37431-BE" },
+      { "key": "Channels", "value": "16 Video" },
+      { "key": "Audio Inputs", "value": "16 RCA" },
+      { "key": "Live View", "value": "1080p Realtime" },
+      { "key": "Input Support", "value": "TVI 2.0, AHD 2.0, CVBS, IPCAM, CVI" },
+      { "key": "Video Input", "value": "600M BNC" },
+      { "key": "UTC Support", "value": "Yes" },
+      { "key": "Remote View", "value": "P2P (Android/iOS/PC)" },
+      { "key": "SATA Ports", "value": "2x (up to 6TB each, 12TB total)" },
+      { "key": "Cloud Recording", "value": "Yes" }
+    ],
+    "tags": ["trueview", "dvr", "16-channel-dvr", "1080p", "cloud-dvr", "cctv-recorder", "commercial-dvr"],
+    "isFeatured": true,
+    "isNewArrival": true,
+    "isBestSeller": false,
+    "isActive": true,
+    "seo": {
+      "metaTitle": "Trueview T37431-BE 16 Channel DVR with Cloud - Buy Online",
+      "metaDescription": "Buy Trueview T37431-BE 16-Channel DVR with dual SATA, cloud recording at best price.",
+      "keywords": ["16 channel dvr", "commercial dvr", "dual sata dvr", "trueview 16ch dvr"]
+    },
+    "averageRating": 4.6,
+    "reviewCount": 0,
+    "salesCount": 0,
+    "viewCount": 0,
+    "createdAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-13T10:00:00.000Z"
+    },
+    "__v": 0
+  }
+]
