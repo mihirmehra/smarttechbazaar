@@ -359,6 +359,17 @@ export function triggerHapticFeedback(type: "light" | "medium" | "heavy" = "medi
   }
 }
 
+// Native bridge methods may return rejected promises when the Median SDK is
+// present but not fully initialized. Always consume those rejections so a
+// browser/WebView SDK issue cannot surface as an uncaught app error.
+function consumeNativeResult(result: unknown, label: string): void {
+  if (result && typeof (result as PromiseLike<unknown>).then === "function") {
+    Promise.resolve(result).catch((error) => {
+      console.warn(`[v0] Native ${label} call unavailable:`, error);
+    });
+  }
+}
+
 // Set status bar style
 export function setStatusBarStyle(style: "light" | "dark"): void {
   if (!isMedianApp()) return;
@@ -367,9 +378,9 @@ export function setStatusBarStyle(style: "light" | "dark"): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const median = (window as any).median;
     if (median?.statusbar?.set) {
-      median.statusbar.set({
+      consumeNativeResult(median.statusbar.set({
         style: style === "light" ? "lightContent" : "darkContent",
-      });
+      }), "statusbar");
     }
   } catch (error) {
     console.error("Failed to set status bar style:", error);
@@ -399,7 +410,7 @@ export function setBadgeCount(count: number): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const median = (window as any).median;
     if (median?.badge?.set) {
-      median.badge.set(count);
+      consumeNativeResult(median.badge.set(count), "badge");
     }
   } catch (error) {
     console.error("Failed to set badge count:", error);

@@ -25,7 +25,12 @@ async function getProductInventory(id: string, searchParams: { [key: string]: st
     const skip = (page - 1) * limit;
 
     const [product, logs, total] = await Promise.all([
-      Product.findById(id).select("name sku stock images priceB2C category").populate("category", "name").lean(),
+      // Keep the detail response small; the image is loaded from the protected
+      // thumbnail endpoint only when the card renders it.
+      Product.findById(id)
+        .select({ name: 1, sku: 1, stock: 1, priceB2C: 1, category: 1, images: { $slice: 1 } })
+        .populate("category", "name")
+        .lean(),
       InventoryLog.find({ product: id }).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
       InventoryLog.countDocuments({ product: id }),
     ]);
@@ -89,7 +94,11 @@ export default async function ProductInventoryPage({ params, searchParams }: Pro
         <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-muted">
           {product.images?.[0] ? (
             <Image
-              src={product.images[0]}
+              src={
+                /^https?:\/\//.test(product.images[0])
+                  ? product.images[0]
+                  : `/api/admin/products/${product._id}/thumbnail`
+              }
               alt={product.name}
               width={80}
               height={80}

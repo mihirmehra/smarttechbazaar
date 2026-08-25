@@ -195,7 +195,7 @@ export function LoadingBar() {
     }, 10000);
 
     return () => clearTimeout(timeout);
-  }, [stateRef.current === "loading", complete]);
+  }, [complete]);
 
   // Cleanup on unmount
   useEffect(() => {

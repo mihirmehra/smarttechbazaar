@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { createElement, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Upload, X, Check, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as LucideIcons from "lucide-react";
+
+// Resolve icon components once at module scope so React does not receive a
+// newly-created component type on every CategoryForm render.
+const getIconComponent = (iconName: string) => {
+  const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName];
+  return IconComponent || null;
+};
 
 // Popular icons for categories
 const CATEGORY_ICONS = [
@@ -181,12 +188,6 @@ export default function CategoryForm({
       icon.label.toLowerCase().includes(iconSearch.toLowerCase())
   );
 
-  // Get icon component
-  const getIconComponent = (iconName: string) => {
-    const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName];
-    return IconComponent || null;
-  };
-
   const SelectedIcon = formData.icon ? getIconComponent(formData.icon) : null;
 
   return (
@@ -253,7 +254,7 @@ export default function CategoryForm({
                 <span className="flex items-center gap-2">
                   {SelectedIcon ? (
                     <>
-                      <SelectedIcon className="h-4 w-4" />
+                      {createElement(SelectedIcon, { className: "h-4 w-4" })}
                       <span>{formData.icon}</span>
                     </>
                   ) : (

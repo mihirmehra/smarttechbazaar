@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
-import { CartWishlistProvider } from "@/components/providers/CartWishlistProvider";
 import { NativeAppProvider } from "@/components/providers/NativeAppProvider";
 import { LoadingBar } from "@/components/ui/LoadingBar";
 
@@ -175,11 +174,17 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <LoadingBar />
         </Suspense>
-        <SessionProvider>
-          <CartWishlistProvider>
+        {/*
+          overflow-x: hidden must live on a normal block element, NOT on
+          body/html. Setting it on the scroll root converts body into a
+          scroll container, which clips Embla carousel tracks and breaks
+          position:relative fill-mode images inside carousels.
+        */}
+        <div id="page-wrapper" style={{ overflowX: "hidden" }}>
+          <SessionProvider>
             <NativeAppProvider>{children}</NativeAppProvider>
-          </CartWishlistProvider>
-        </SessionProvider>
+          </SessionProvider>
+        </div>
       </body>
     </html>
   );

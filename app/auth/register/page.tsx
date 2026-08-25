@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
+import { getFirebaseAuth, getGoogleProvider } from "@/lib/firebase";
 import { isMedianApp, nativeGoogleSignIn, nativeAppleSignIn } from "@/lib/native-app";
 import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
@@ -129,8 +128,11 @@ export default function RegisterPage() {
         return;
       }
 
-      // Web browser: use Firebase popup
-      const result = await signInWithPopup(auth, googleProvider);
+      // Web browser: use Firebase popup.
+      // firebase/auth is imported on demand so its ~100KB bundle stays out of
+      // the initial page load.
+      const { signInWithPopup } = await import("firebase/auth");
+      const result = await signInWithPopup(getFirebaseAuth(), getGoogleProvider());
       const user = result.user;
       const signInResult = await signIn("google-firebase", {
         email: user.email,

@@ -56,7 +56,9 @@ export async function GET(request: NextRequest) {
 
     const [products, total, stats] = await Promise.all([
       Product.find(query)
-        .select("_id name sku stock images priceB2C priceB2B")
+        // Do not transfer embedded base64 images in list responses. They can
+        // be over 1MB per product and cause admin requests to time out.
+        .select("_id name sku stock priceB2C priceB2B")
         .populate("category", "name")
         .sort(sortOption)
         .skip(skip)

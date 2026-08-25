@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { unstable_cache } from "next/cache";
 import Header from "@/components/layout/Header";
@@ -17,9 +18,11 @@ import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
 import { generateProductSchema, generateOrganizationSchema } from "@/lib/schema";
 import { CACHE_TAGS, CACHE_DURATIONS } from "@/lib/cache";
 
-// Use dynamic rendering to avoid caching 404 responses
-// Data is cached separately via unstable_cache with proper tags
-export const dynamic = "force-dynamic";
+// Incrementally-static: the rendered page is cached and served from the edge,
+// then revalidated in the background. Every admin product mutation calls
+// revalidateTag(`product-<slug>`) + revalidatePath(`/product/<slug>`), so edits
+// and newly-created products still appear immediately.
+export const revalidate = 3600;
 
 // Allow dynamic paths that weren't generated at build time
 // This ensures new products are accessible immediately without 404
@@ -56,19 +59,23 @@ const getProductFromDb = async (slug: string) => {
   }
 
   // Get related products from same category (only if category exists)
-  let relatedProducts: typeof product[] = [];
-  
+  let relatedProducts: unknown[] = [];
+
   // Handle case where category might be an ObjectId or a populated object
   const categoryId = product.category && typeof product.category === 'object' && '_id' in product.category
     ? product.category._id
     : product.category;
-  
+
   if (categoryId) {
+    // Only select the fields the related-products carousel actually renders.
+    // Previously this pulled entire documents (full HTML description, every
+    // spec, all images) for 6 products and shipped them to the browser.
     relatedProducts = await Product.find({
       category: categoryId,
       _id: { $ne: product._id },
       isActive: true,
     })
+      .select("_id name slug images priceB2C priceB2B mrp stock sku brand")
       .limit(6)
       .lean();
   }
@@ -91,7 +98,10 @@ const getCachedProductData = (slug: string) => {
   )();
 };
 
-async function getProductData(slug: string) {
+// Wrapped in React `cache()` so the work is deduped within a single request.
+// generateMetadata() and the page component both need this data; without the
+// memo each page view ran the whole product + related-products query twice.
+const getProductData = cache(async (slug: string) => {
   try {
     const cached = await getCachedProductData(slug);
 
@@ -117,7 +127,7 @@ async function getProductData(slug: string) {
       return null;
     }
   }
-}
+});
 
 export async function generateMetadata({
   params,

@@ -120,8 +120,9 @@ export function CartWishlistProvider({ children }: { children: ReactNode }) {
       revalidateIfStale: true,
       // Keep previous data while fetching new data
       keepPreviousData: true,
-      // Refresh in background every 30 seconds
-      refreshInterval: 30000,
+      // No background polling: cart data is already re-fetched after every
+      // mutation and on focus/reconnect. Polling every 30s hit the origin
+      // continuously for any open tab and burned Fast Origin Transfer.
     }
   );
 
@@ -142,7 +143,7 @@ export function CartWishlistProvider({ children }: { children: ReactNode }) {
       errorRetryCount: 3,
       revalidateIfStale: true,
       keepPreviousData: true,
-      refreshInterval: 30000,
+      // No background polling (see cart above).
     }
   );
 

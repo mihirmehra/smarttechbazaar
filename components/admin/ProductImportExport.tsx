@@ -110,7 +110,7 @@ export default function ProductImportExport() {
 
           const product: Record<string, string | number | boolean> = {};
           headers.forEach((header, idx) => {
-            let value = values[idx]?.replace(/^"|"$/g, "") || "";
+            const value = values[idx]?.replace(/^"|"$/g, "") || "";
             
             // Convert boolean strings
             if (value.toLowerCase() === "true") {

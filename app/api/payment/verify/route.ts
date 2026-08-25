@@ -8,7 +8,7 @@ import Product from "@/models/Product";
 import User from "@/models/User";
 import Cart from "@/models/Cart";
 import Notification from "@/models/Notification";
-import Razorpay from "razorpay";
+import { getRazorpay, RAZORPAY_NOT_CONFIGURED } from "@/lib/razorpay";
 import {
   validatePhoneNumber,
   validatePincode,
@@ -21,12 +21,6 @@ import {
 import { sendEmail, COMPANY_EMAIL } from "@/lib/email";
 import { paymentSuccessTemplate, newOrderNotificationTemplate } from "@/lib/email-templates";
 import { sendOrderPlacedNotification } from "@/lib/push-notifications";
-
-// Initialize Razorpay instance for fetching order details
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
 
 interface PaymentVerificationRequest {
   razorpay_order_id: string;
@@ -91,6 +85,12 @@ function verifyPaymentSignature(
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. Ensure payments are configured before doing any work
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return NextResponse.json(RAZORPAY_NOT_CONFIGURED, { status: 503 });
+    }
+
     // 1. Authenticate user
     const session = await getServerSession(authOptions);
     

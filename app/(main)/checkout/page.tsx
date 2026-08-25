@@ -352,13 +352,8 @@ export default function CheckoutPage() {
     setPaymentFailed(false);
 
     try {
-      let orderData: PaymentOrderResponse;
-
-      // If retrying, use existing order ID if available
-      if (retryOrderId && failedOrderId === retryOrderId) {
-        // For retry, we still need to create a new order to get fresh credentials
-        // Razorpay orders can't be reused after failure
-      }
+      // Note: retries always create a fresh Razorpay order — an order cannot be
+      // reused after a failed payment attempt.
 
       // Step 1: Create Razorpay order on server
       const createOrderResponse = await fetch("/api/payment/create-order", {
@@ -380,7 +375,7 @@ export default function CheckoutPage() {
         }),
       });
 
-      orderData = await createOrderResponse.json();
+      const orderData: PaymentOrderResponse = await createOrderResponse.json();
 
       if (!createOrderResponse.ok || !orderData.success) {
         throw new Error((orderData as unknown as { error: string }).error || "Failed to create payment order");
@@ -1046,7 +1041,7 @@ export default function CheckoutPage() {
         </div>
       </main>
 
-      {/* ── Sticky mobile place-order bar ──────────────────────────────────── */}
+      {/* ── Sticky mobile place-order bar ───────────────────────��──────────── */}
       <div
         className="fixed left-0 right-0 z-40 flex items-center justify-between gap-3 border-t border-border bg-white px-4 py-3 shadow-xl md:hidden"
         style={{ bottom: "env(safe-area-inset-bottom, 0px)" }}

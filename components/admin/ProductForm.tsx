@@ -2,12 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Upload, X, Plus, Trash2 } from "lucide-react";
+import {
+  Loader2,
+  Upload,
+  X,
+  Plus,
+  Trash2,
+  Wand2,
+  ClipboardPaste,
+  AlertTriangle,
+  RefreshCw,
+  CheckCircle2,
+} from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { parseSpecifications } from "@/lib/parse-specifications";
 
 interface Category {
   _id: string;
@@ -70,6 +82,18 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [showSpecPaste, setShowSpecPaste] = useState(false);
+  const [specPasteText, setSpecPasteText] = useState("");
+  const [specPasteMode, setSpecPasteMode] = useState<"replace" | "append">("replace");
+  const [parseFeedback, setParseFeedback] = useState<string | null>(null);
+
+  // Structured, non-technical error shown to the person publishing products.
+  const [submitError, setSubmitError] = useState<{
+    title: string;
+    message: string;
+    guidance: string;
+    tone: "fix" | "refresh" | "contact" | "retry";
+  } | null>(null);
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
@@ -154,8 +178,18 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
         images: [...prev.images, ...uploadedUrls],
       }));
     } catch (error) {
-      console.error("Error uploading images:", error);
-      alert(error instanceof Error ? error.message : "Failed to upload images");
+      console.error("[v0] Error uploading images:", error);
+      setSubmitError({
+        title: "Image upload failed",
+        message:
+          error instanceof Error
+            ? error.message
+            : "One or more images could not be uploaded.",
+        guidance:
+          "Make sure each image is a JPG, PNG or WEBP under the size limit, then try uploading again. If it keeps failing, contact the developer.",
+        tone: "retry",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setIsUploading(false);
     }
@@ -191,6 +225,45 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
     }));
   };
 
+  const handleParseSpecifications = () => {
+    const parsed = parseSpecifications(specPasteText);
+
+    if (parsed.length === 0) {
+      setParseFeedback(
+        "Couldn't detect any specifications. Make sure each line has a label and a value."
+      );
+      return;
+    }
+
+    setFormData((prev) => {
+      const existing = specPasteMode === "append" ? prev.specifications : [];
+      // Skip empty placeholder rows when appending.
+      const cleanedExisting = existing.filter(
+        (s) => s.key.trim() || s.value.trim()
+      );
+
+      // De-duplicate by key (case-insensitive), keeping the newly parsed value.
+      const merged = [...cleanedExisting];
+      for (const spec of parsed) {
+        const idx = merged.findIndex(
+          (s) => s.key.trim().toLowerCase() === spec.key.toLowerCase()
+        );
+        if (idx !== -1) {
+          merged[idx] = spec;
+        } else {
+          merged.push(spec);
+        }
+      }
+
+      return { ...prev, specifications: merged };
+    });
+
+    setParseFeedback(
+      `Added ${parsed.length} specification${parsed.length === 1 ? "" : "s"}. Review the fields below and edit anything that needs fixing.`
+    );
+    setSpecPasteText("");
+  };
+
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagInput.trim()) {
       e.preventDefault();
@@ -211,8 +284,39 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
     }));
   };
 
+  // Basic client-side checks so obvious problems are caught instantly with a
+  // clear message, before we even hit the server.
+  const validateBeforeSubmit = (): string | null => {
+    if (!formData.name.trim()) return "Please enter a product name.";
+    // SKU is optional: if left blank, a unique one is generated automatically.
+    if (!formData.category) return "Please choose a category for this product.";
+    if (formData.images.length === 0)
+      return "Please add at least one product image.";
+    if (Number(formData.priceB2C) <= 0)
+      return "Please enter a valid retail price (greater than 0).";
+    if (formData.mrp && Number(formData.mrp) < Number(formData.priceB2C))
+      return "The MRP should be greater than or equal to the selling price.";
+    return null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+
+    // 1) Client-side validation — instant, friendly, no server round-trip.
+    const validationMessage = validateBeforeSubmit();
+    if (validationMessage) {
+      setSubmitError({
+        title: "Please check the form",
+        message: validationMessage,
+        guidance:
+          "Fix the field mentioned above, then click Save again. You do not need to refresh the page.",
+        tone: "fix",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -228,17 +332,111 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to save product");
+      // The server may occasionally return a non-JSON response (e.g. a gateway
+      // timeout). Guard against that so we still show a helpful message.
+      let data: { error?: string; message?: string } = {};
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
       }
 
-      router.push("/admin/products");
-      router.refresh();
+      if (response.ok) {
+        router.push("/admin/products");
+        router.refresh();
+        return;
+      }
+
+      // 2) Map the server's status code to plain-language guidance.
+      const serverMessage = data.error || "";
+      let friendly: {
+        title: string;
+        message: string;
+        guidance: string;
+        tone: "fix" | "refresh" | "contact" | "retry";
+      };
+
+      switch (response.status) {
+        case 400:
+          friendly = {
+            title: "Some details need fixing",
+            message:
+              serverMessage ||
+              "Some of the product details are missing or invalid.",
+            guidance:
+              "Review the fields, correct the highlighted information, and click Save again. No need to refresh.",
+            tone: "fix",
+          };
+          break;
+        case 401:
+        case 403:
+          friendly = {
+            title: "Your session has expired",
+            message:
+              "You have been signed out or no longer have permission to make this change.",
+            guidance:
+              "Please refresh the page and sign in again, then re-enter your changes. If you were signed in correctly, contact the developer.",
+            tone: "refresh",
+          };
+          break;
+        case 404:
+          friendly = {
+            title: "This product could not be found",
+            message:
+              "The product you are trying to save no longer exists — it may have been deleted by someone else.",
+            guidance:
+              "Please refresh the page. If you were creating a new product, try adding it again.",
+            tone: "refresh",
+          };
+          break;
+        case 409:
+          friendly = {
+            title: "Duplicate SKU",
+            message:
+              serverMessage ||
+              "Another product is already using this SKU (product code).",
+            guidance:
+              "Change the SKU to a unique value and click Save again. No need to refresh.",
+            tone: "fix",
+          };
+          break;
+        case 429:
+          friendly = {
+            title: "Too many requests",
+            message:
+              "The system is busy processing other requests right now.",
+            guidance:
+              "Please wait a few seconds and click Save again.",
+            tone: "retry",
+          };
+          break;
+        default:
+          // 500 / 502 / 503 and anything unexpected.
+          friendly = {
+            title: "Something went wrong on our side",
+            message:
+              serverMessage ||
+              "The product could not be saved due to a temporary problem.",
+            guidance:
+              "Please wait a moment and click Save again. If this keeps happening, contact the developer and share this message.",
+            tone: "contact",
+          };
+      }
+
+      setSubmitError(friendly);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
-      console.error("Error saving product:", error);
-      alert(error instanceof Error ? error.message : "Failed to save product");
+      // 3) fetch() threw — almost always a network/connection issue.
+      console.error("[v0] Error saving product:", error);
+      setSubmitError({
+        title: "Could not reach the server",
+        message:
+          "Your changes were not saved because the connection to the server failed.",
+        guidance:
+          "Check your internet connection and click Save again. If your connection is fine and this keeps happening, contact the developer.",
+        tone: "retry",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setIsSubmitting(false);
     }
@@ -246,6 +444,52 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Error banner: plain-language guidance for non-technical publishers */}
+      {submitError && (
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-destructive"
+        >
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+          <div className="flex-1">
+            <p className="font-semibold">{submitError.title}</p>
+            <p className="mt-1 text-sm text-foreground">{submitError.message}</p>
+            <p className="mt-2 flex items-start gap-1.5 text-sm text-foreground">
+              {submitError.tone === "refresh" ? (
+                <RefreshCw className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              ) : (
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              )}
+              <span>
+                <span className="font-medium">What to do: </span>
+                {submitError.guidance}
+              </span>
+            </p>
+            {submitError.tone === "refresh" && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                onClick={() => window.location.reload()}
+              >
+                <RefreshCw className="mr-1.5 h-4 w-4" />
+                Refresh page
+              </Button>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => setSubmitError(null)}
+            className="shrink-0 rounded-md p-1 text-destructive/70 transition-colors hover:bg-destructive/10 hover:text-destructive"
+            aria-label="Dismiss error"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {/* Basic Info */}
       <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
         <h2 className="heading-md mb-4">Basic Information</h2>
@@ -267,18 +511,19 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium">
-              SKU <span className="text-destructive">*</span>
-            </label>
+            <label className="mb-1.5 block text-sm font-medium">SKU</label>
             <Input
               type="text"
               value={formData.sku}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, sku: e.target.value.toUpperCase() }))
               }
-              placeholder="e.g., STB-001"
-              required
+              placeholder="Leave blank to auto-generate"
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Optional. If left blank or already used, a unique SKU is created
+              automatically so saving never fails.
+            </p>
           </div>
 
           <div>
@@ -615,11 +860,91 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
       <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="heading-md">Specifications</h2>
-          <Button type="button" variant="outline" size="sm" onClick={addSpecification}>
-            <Plus className="mr-1 h-4 w-4" />
-            Add
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant={showSpecPaste ? "default" : "outline"}
+              size="sm"
+              onClick={() => {
+                setShowSpecPaste((v) => !v);
+                setParseFeedback(null);
+              }}
+            >
+              <ClipboardPaste className="mr-1 h-4 w-4" />
+              Paste &amp; auto-fill
+            </Button>
+            <Button type="button" variant="outline" size="sm" onClick={addSpecification}>
+              <Plus className="mr-1 h-4 w-4" />
+              Add
+            </Button>
+          </div>
         </div>
+
+        {showSpecPaste && (
+          <div className="mb-5 rounded-lg border border-dashed border-border bg-muted/30 p-4">
+            <p className="mb-1 text-sm font-medium">Paste specifications</p>
+            <p className="mb-3 text-xs text-muted-foreground">
+              Copy a spec table or list (e.g. from a datasheet) and paste it below.
+              Each line should have a label and a value separated by a tab or spaces
+              &mdash; for example <span className="font-mono">{"Image Sensor    1/3 inch CMOS"}</span>.
+              Multi-line values and section headings are handled automatically.
+            </p>
+
+            <Textarea
+              value={specPasteText}
+              onChange={(e) => {
+                setSpecPasteText(e.target.value);
+                setParseFeedback(null);
+              }}
+              placeholder={
+                "Image Sensor\t1/3 inch Progressive Scan CMOS\nMax. Resolution\t2560 × 1440\nLens Type\tFixed focal lens, 2.8 and 4 mm optional\n..."
+              }
+              rows={8}
+              className="font-mono text-xs"
+            />
+
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <div className="flex items-center rounded-md border border-border p-0.5 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setSpecPasteMode("replace")}
+                  className={`rounded px-3 py-1.5 font-medium transition-colors ${
+                    specPasteMode === "replace"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Replace existing
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSpecPasteMode("append")}
+                  className={`rounded px-3 py-1.5 font-medium transition-colors ${
+                    specPasteMode === "append"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Add to existing
+                </button>
+              </div>
+
+              <Button
+                type="button"
+                size="sm"
+                onClick={handleParseSpecifications}
+                disabled={!specPasteText.trim()}
+              >
+                <Wand2 className="mr-1 h-4 w-4" />
+                Parse &amp; fill fields
+              </Button>
+            </div>
+
+            {parseFeedback && (
+              <p className="mt-3 text-xs font-medium text-foreground">{parseFeedback}</p>
+            )}
+          </div>
+        )}
 
         {formData.specifications.length > 0 ? (
           <div className="space-y-3">

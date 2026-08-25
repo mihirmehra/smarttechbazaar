@@ -123,7 +123,6 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-size: 14px;
-    overflow-x: hidden;
     /* prevent double-tap zoom on touch devices */
     touch-action: manipulation;
     /* Reduce layout shift caused by font swap by hinting the fallback size */

@@ -3,13 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Sparkles } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 interface Brand {
   id: string;
@@ -59,41 +52,37 @@ export default function HotBrandsSection({ brands, title = "Hot Brands" }: HotBr
           </Link>
         </div>
 
-        {/* Brands carousel */}
-        <Carousel
-          opts={{ align: "start", loop: false, skipSnaps: true }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-2 md:-ml-3">
-            {displayBrands.map((brand) => (
-              <CarouselItem
-                key={brand.id}
-                className="basis-1/3 pl-2 sm:basis-1/4 md:basis-1/5 md:pl-3 lg:basis-1/6"
-              >
-                <Link
-                  href={`/brand/${brand.slug}`}
-                  className="group flex flex-col items-center rounded-xl border border-border bg-white p-3 shadow-sm transition-all hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 md:p-4"
-                >
-                  <div className="flex h-12 w-full items-center justify-center md:h-16">
-                    <Image
-                      src={brand.logo}
-                      alt={brand.name}
-                      width={80}
-                      height={40}
-                      className="h-auto w-auto max-w-[150px] object-contain transition-transform group-hover:scale-110 md:max-w-[150px]"
-                      unoptimized
-                    />
-                  </div>
-                  <span className="mt-2 text-[10px] font-semibold text-foreground transition-colors group-hover:text-primary md:text-xs">
-                    {brand.name}
-                  </span>
-                </Link>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-0 hidden h-8 w-8 border border-border bg-white shadow-sm hover:border-primary hover:bg-primary hover:text-white md:flex" />
-          <CarouselNext className="right-0 hidden h-8 w-8 border border-border bg-white shadow-sm hover:border-primary hover:bg-primary hover:text-white md:flex" />
-        </Carousel>
+        {/*
+          Plain scrollable flex row — no Embla, no percentage basis math.
+          Each card is a fixed 72 px wide on mobile / 96 px on md+.
+          Fixed px widths are immune to any parent container constraint
+          (app wrapper, WebView, Median shell) so images can never overflow.
+          scrollbar-hide keeps it clean on all platforms.
+        */}
+        <div className="scrollbar-hide -mx-3 flex gap-2 overflow-x-auto px-3 pb-1 md:-mx-4 md:gap-3 md:px-4">
+          {displayBrands.map((brand) => (
+            <Link
+              key={brand.id}
+              href={`/brand/${brand.slug}`}
+              className="group flex w-[72px] shrink-0 flex-col items-center rounded-xl border border-border bg-white p-2 shadow-sm transition-all hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5 md:w-24 md:p-3"
+            >
+              {/* Fixed pixel dimensions — cannot overflow regardless of container */}
+              <div className="relative h-9 w-full md:h-12">
+                <Image
+                  src={brand.logo}
+                  alt={brand.name}
+                  fill
+                  sizes="96px"
+                  className="object-contain transition-transform group-hover:scale-105"
+                  unoptimized
+                />
+              </div>
+              <span className="mt-1.5 w-full truncate text-center text-[9px] font-semibold leading-tight text-foreground transition-colors group-hover:text-primary md:text-[11px]">
+                {brand.name}
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

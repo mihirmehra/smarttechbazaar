@@ -29,6 +29,36 @@ import {
 // Enable ISR with 60 second revalidation for fast loads with fresh data
 export const revalidate = 60;
 
+// Resolve a data fetch, falling back to an empty list if it fails.
+// A transient MongoDB error must not abort the whole production build (or blank
+// out the page) — the affected section simply renders empty and is refilled on
+// the next revalidation.
+async function safeList<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
+  // Keep an unavailable database from blocking the first paint indefinitely, but
+  // stay comfortably above the cold-start cost of establishing the MongoDB
+  // connection (handshakes to this cluster measured 1.7s-7.9s). A cap below that
+  // blanked out sections even though the database was perfectly healthy.
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(
+        () => reject(new Error("Homepage data fetch timed out")),
+        20000
+      );
+    });
+    return await Promise.race([promise, timeout]);
+  } catch (error) {
+    console.error(`[v0] Homepage data fetch failed (${label}):`, error);
+    return [];
+  } finally {
+    // Always cancel the timer. Leaving it pending kept a 20s timer alive for
+    // every one of the parallel fetches below, which held the request open for
+    // the full timeout even when all the queries had already resolved in
+    // milliseconds (observed as a consistent "GET / 200 in ~20000ms").
+    clearTimeout(timer);
+  }
+}
+
 export default async function HomePage() {
   // Fetch all data in parallel using cached functions
   const [
@@ -41,14 +71,14 @@ export default async function HomePage() {
     mostPopular,
     hotBrands,
   ] = await Promise.all([
-    getHomepageSections(),
-    getCategories(),
-    getBrands(),
-    getHeroSliderBanners(),
-    getAdBanners(),
-    getBestSellers(),
-    getMostPopular(),
-    getHotBrands(),
+    safeList(getHomepageSections(), "homepageSections"),
+    safeList(getCategories(), "categories"),
+    safeList(getBrands(), "brands"),
+    safeList(getHeroSliderBanners(), "heroSliderBanners"),
+    safeList(getAdBanners(), "adBanners"),
+    safeList(getBestSellers(), "bestSellers"),
+    safeList(getMostPopular(), "mostPopular"),
+    safeList(getHotBrands(), "hotBrands"),
   ]);
 
   // Schema markup for homepage
@@ -81,29 +111,7 @@ export default async function HomePage() {
 
         {/* Static Ad Banners Grid - 3 promotional banners */}
         <AdBannerSlider 
-          banners={[
-            {
-              id: "cables-banner",
-              image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Cables%20Banner%20%281%29.jpg-3QEaRBpxlFsQB5qXtVdQ7IvUlIX8YJ.jpeg",
-              imageMobile: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cable%20%20banner%20350x150_.jpg-iOIFSa6BhKJCLhyvZjP1b09gpv9NIq.jpeg",
-              alt: "High-quality data and power cables engineered for durability and lightning-fast transmission",
-              href: "/category/cables",
-            },
-            {
-              id: "desktop-banner",
-              image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Desktop%20Banners.jpg-NxXCuf56a4qUEYkHIIWBsFRhr6iXXh.jpeg",
-              imageMobile: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/desktop%20banner%20350x150_.jpg-0qYnJo29CBIxL3DVP7Gebud7t82m01.jpeg",
-              alt: "Powerful Workstations and sleek all-in-ones designed to anchor your home or office productivity",
-              href: "/category/desktop",
-            },
-            {
-              id: "display-banner",
-              image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Display%20Banner%20%281%29.jpg-gu1oIcOl6i73BkGckGoNbiuO40Ppe2.jpeg",
-              imageMobile: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/display%20%20banner%20350x150_.jpg-wcYFeg5A0mH7uTmDHFP7LVulsMLZd1.jpeg",
-              alt: "Crystal-clear monitors and immersive screens that bring every pixel to life with stunning detail",
-              href: "/category/display",
-            },
-          ]} 
+          banners={[]} 
           showAsGrid={true}
         />
 

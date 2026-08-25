@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     await dbConnect();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const order = await Order.findById(id)
       .populate("user", "name email phone gstNumber businessName")
       .lean() as any;

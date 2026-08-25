@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useState, useRef } from "react";
 
 const STORAGE_KEY = "stb_app_version";
-const CHECK_INTERVAL = 30 * 1000; // 30 seconds for more responsive updates
+const CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes (still checks on tab focus/reconnect)
 const AUTO_REFRESH_DELAY = 2000; // 2 second delay before auto-refresh
 
 /**

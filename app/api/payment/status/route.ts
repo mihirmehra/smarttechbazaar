@@ -3,13 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Order from "@/models/Order";
-import Razorpay from "razorpay";
-
-// Initialize Razorpay instance
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+import { getRazorpay, RAZORPAY_NOT_CONFIGURED } from "@/lib/razorpay";
 
 /**
  * GET endpoint to check payment status
@@ -17,6 +11,11 @@ const razorpay = new Razorpay({
  */
 export async function GET(request: NextRequest) {
   try {
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return NextResponse.json(RAZORPAY_NOT_CONFIGURED, { status: 503 });
+    }
+
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {
@@ -139,6 +138,11 @@ function getStatusMessage(status: string): string {
  */
 export async function POST(request: NextRequest) {
   try {
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return NextResponse.json(RAZORPAY_NOT_CONFIGURED, { status: 503 });
+    }
+
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {

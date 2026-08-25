@@ -6,6 +6,7 @@ import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import { logAdminAction } from "@/lib/activity-logger";
 import { CACHE_TAGS } from "@/lib/cache";
+import { makeUniqueSku, duplicateKeyField } from "@/lib/product-helpers";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -53,11 +54,48 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     await dbConnect();
 
-    const product = await Product.findByIdAndUpdate(
-      id,
-      { ...data, updatedAt: new Date() },
-      { new: true }
-    );
+    // The SKU field is flexible on edit too: if a SKU was provided, turn it
+    // into a value that is guaranteed unique among OTHER products, so updating
+    // can never fail with a duplicate-SKU error.
+    if (data.sku !== undefined) {
+      data.sku = await makeUniqueSku(Product, data.sku, id);
+    }
+
+    let product;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        product = await Product.findByIdAndUpdate(
+          id,
+          { ...data, updatedAt: new Date() },
+          { new: true, runValidators: true }
+        );
+        break;
+      } catch (updateError: unknown) {
+        // Concurrency race: a parallel write took this SKU between our check
+        // and the update. Regenerate a unique SKU and retry.
+        if (duplicateKeyField(updateError) === "sku") {
+          data.sku = await makeUniqueSku(Product, `${data.sku}`, id);
+          continue;
+        }
+        if (
+          typeof updateError === "object" &&
+          updateError !== null &&
+          (updateError as { name?: string }).name === "ValidationError"
+        ) {
+          const messages = Object.values(
+            (updateError as { errors?: Record<string, { message?: string }> }).errors || {}
+          )
+            .map((e) => e?.message)
+            .filter(Boolean)
+            .join(" ");
+          return NextResponse.json(
+            { error: messages || "Some product fields are invalid. Please review and try again." },
+            { status: 400 }
+          );
+        }
+        throw updateError;
+      }
+    }
 
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });

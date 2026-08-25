@@ -68,7 +68,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // If name changed, update slug
-    let updateData = { ...data };
+    const updateData = { ...data };
     if (data.name) {
       const newSlug = data.name
         .toLowerCase()

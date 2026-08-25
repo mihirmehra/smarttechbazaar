@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { cache } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Header from "@/components/layout/Header";
@@ -18,11 +19,18 @@ import {
 } from "@/lib/schema";
 import { ExternalLink } from "lucide-react";
 
-// Use dynamic rendering to avoid caching 404 responses
-export const dynamic = "force-dynamic";
+// Incrementally-static: cached and revalidated in the background rather than
+// querying MongoDB on every request.
+export const revalidate = 3600;
 
 // Allow dynamic paths that weren't generated at build time
 export const dynamicParams = true;
+
+// Cap the number of products rendered for a brand, and only select the fields
+// the product cards actually use.
+const BRAND_PRODUCT_LIMIT = 300;
+const BRAND_PRODUCT_FIELDS =
+  "_id name slug images priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
 
 interface BrandPageProps {
   params: Promise<{ slug: string }>;
@@ -84,15 +92,19 @@ const sampleProducts: ProductData[] = [
   { _id: "s6", name: "RouterBoard Advanced", slug: "routerboard-advanced", priceB2C: 4599, priceB2B: 4199, mrp: 5299, stock: 20, images: ["https://images.unsplash.com/photo-1544985562-128e7b377a21?w=300&h=300&fit=crop"], isFeatured: false, isNewArrival: false },
 ];
 
-async function getBrandData(slug: string) {
+// Wrapped in React `cache()` so generateMetadata() and the page component share
+// one result per request instead of running every query twice.
+const getBrandData = cache(async (slug: string) => {
   try {
     await dbConnect();
-    
+
     // Try to find brand in database
-    const brand = await Brand.findOne({ slug, isActive: true }).lean();
-    
+    const brand = await Brand.findOne({ slug, isActive: true })
+      .select("_id name slug description logo website productCount")
+      .lean();
+
     let brandData: BrandData;
-    
+
     if (brand) {
       brandData = {
         _id: brand._id.toString(),
@@ -109,31 +121,46 @@ async function getBrandData(slug: string) {
       return null;
     }
 
-    // Get products for this brand
-    const products = await Product.find({ 
-      brand: { $regex: new RegExp(`^${brandData.name}$`, 'i') },
-      isActive: true 
-    })
-      .populate("category", "name slug")
-      .sort({ createdAt: -1 })
-      .lean();
+    // Escape regex metacharacters so brand names like "D-Link (Pro)" can't break
+    // the pattern or be injected into it.
+    const escapedName = brandData.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const productFilter = {
+      brand: { $regex: new RegExp(`^${escapedName}$`, "i") },
+      isActive: true,
+    };
 
-    // Get unique categories from products
-    const categoryIds = [...new Set(products.map((p: { category?: { _id: unknown } }) => p.category?._id?.toString()).filter(Boolean))];
-    const categories = await Category.find({ _id: { $in: categoryIds }, isActive: true })
+    // Fetch the (capped) product list, the true total, and the distinct category
+    // ids in parallel. The category ids come from MongoDB rather than being
+    // derived in JS from a full unbounded result set.
+    const [productDocs, totalProducts, categoryIds] = await Promise.all([
+      Product.find(productFilter)
+        .select(BRAND_PRODUCT_FIELDS)
+        .populate("category", "name slug")
+        .sort({ createdAt: -1 })
+        .limit(BRAND_PRODUCT_LIMIT)
+        .lean(),
+      Product.countDocuments(productFilter),
+      Product.distinct("category", productFilter),
+    ]);
+
+    const categories = await Category.find({
+      _id: { $in: categoryIds },
+      isActive: true,
+    })
       .select("_id name slug")
       .lean();
 
-    const parsedProducts = products.length > 0 
-      ? JSON.parse(JSON.stringify(products))
+    const parsedProducts = productDocs.length > 0
+      ? JSON.parse(JSON.stringify(productDocs))
       : sampleProducts.map(p => ({ ...p, brand: brandData.name }));
 
     return {
       brand: {
         ...brandData,
-        productCount: parsedProducts.length || brandData.productCount,
+        productCount: totalProducts || brandData.productCount,
       },
       products: parsedProducts,
+      totalProducts: totalProducts || parsedProducts.length,
       categories: JSON.parse(JSON.stringify(categories)),
     };
   } catch (error) {
@@ -144,12 +171,13 @@ async function getBrandData(slug: string) {
       return {
         brand: defaultBrands[slug],
         products: sampleProducts.map(p => ({ ...p, brand: defaultBrands[slug].name })),
+        totalProducts: sampleProducts.length,
         categories: [],
       };
     }
     return null;
   }
-}
+});
 
 export async function generateMetadata({ params }: BrandPageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -186,7 +214,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
     notFound();
   }
 
-  const { brand, products, categories } = data;
+  const { brand, products, totalProducts, categories } = data;
   
   // Get unique subcategories from products
   const subcategories = categories.map((cat: { _id: string; name: string; slug: string }) => ({
@@ -204,7 +232,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
         slug: brand.slug,
         description: brand.description,
         logo: brand.logo,
-        productCount: products.length,
+        productCount: totalProducts,
       },
       "brand",
       products.slice(0, 10)
@@ -256,7 +284,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
                 )}
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                   <span className="text-[10px] font-medium text-muted-foreground md:text-xs">
-                    {products.length} products found
+                    {totalProducts} products found
                   </span>
                   {brand.website && (
                     <a

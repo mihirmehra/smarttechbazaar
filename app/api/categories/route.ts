@@ -7,30 +7,37 @@ export async function GET() {
   try {
     await dbConnect();
 
-    // Fetch all active categories
-    const categories = await Category.find({ isActive: true })
-      .sort({ sortOrder: 1, name: 1 })
-      .lean();
+    // Fetch categories and all product counts in two queries instead of one
+    // count query per category. The old N+1 pattern became very slow as the
+    // catalogue grew and could exceed the route timeout in the admin panel.
+    const [categories, productCounts] = await Promise.all([
+      Category.find({ isActive: true })
+        .select("_id name slug description image icon parent")
+        .sort({ sortOrder: 1, name: 1 })
+        .lean(),
+      Product.aggregate([
+        { $match: { isActive: true, category: { $ne: null } } },
+        { $group: { _id: "$category", productCount: { $sum: 1 } } },
+      ]),
+    ]);
 
-    // Get product counts for each category
-    const categoriesWithCounts = await Promise.all(
-      categories.map(async (cat) => {
-        const productCount = await Product.countDocuments({
-          category: cat._id,
-          isActive: true,
-        });
-        return {
-          _id: cat._id.toString(),
-          name: cat.name,
-          slug: cat.slug,
-          description: cat.description,
-          image: cat.image,
-          icon: cat.icon,
-          parent: cat.parent?.toString() || null,
-          productCount,
-        };
-      })
+    const countByCategory = new Map<string, number>(
+      productCounts.map((item: { _id: unknown; productCount: number }) => [
+        String(item._id),
+        item.productCount,
+      ])
     );
+
+    const categoriesWithCounts = categories.map((cat) => ({
+      _id: cat._id.toString(),
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description,
+      image: cat.image,
+      icon: cat.icon,
+      parent: cat.parent?.toString() || null,
+      productCount: countByCategory.get(cat._id.toString()) ?? 0,
+    }));
 
     return NextResponse.json({ categories: categoriesWithCounts });
   } catch (error) {

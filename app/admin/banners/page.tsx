@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import DeleteBannerButton from "@/components/admin/DeleteBannerButton";
 
+// Admin data depends on the request-time database connection. Prevent Next.js
+// from trying to prerender this page during builds when MongoDB is unavailable.
+export const dynamic = "force-dynamic";
+
 async function getBanners() {
   try {
     await dbConnect();

@@ -6,6 +6,11 @@ import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import { logAdminAction } from "@/lib/activity-logger";
 import { CACHE_TAGS } from "@/lib/cache";
+import {
+  makeUniqueSku,
+  makeUniqueSlug,
+  duplicateKeyField,
+} from "@/lib/product-helpers";
 
 // GET all products (admin)
 export async function GET(request: NextRequest) {
@@ -23,10 +28,17 @@ export async function GET(request: NextRequest) {
     const limit = Number(searchParams.get("limit")) || 20;
     const skip = (page - 1) * limit;
 
-    // Use Promise.all for parallel execution and select only needed fields for list view
+    // Use Promise.all for parallel execution and select only needed fields for
+    // list view.
+    //
+    // `images` is deliberately excluded: most products store their images as
+    // base64 data URIs in the document (up to 1.6MB each), so including the
+    // array here made a 20-item page weigh tens of megabytes and time out.
+    // Callers that need a thumbnail should hit
+    // /api/admin/products/[id]/thumbnail instead.
     const [products, total] = await Promise.all([
       Product.find()
-        .select("_id name slug images priceB2C priceB2B mrp stock sku isActive isFeatured category brand createdAt")
+        .select("_id name slug priceB2C priceB2B mrp stock sku isActive isFeatured category brand createdAt")
         .populate("category", "name slug")
         .sort({ createdAt: -1 })
         .skip(skip)
@@ -63,20 +75,77 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
 
-    // Generate slug from name
-    const slug = data.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    // --- Only the product name is strictly required ---
+    if (!data.name || !String(data.name).trim()) {
+      return NextResponse.json(
+        { error: "Product name is required." },
+        { status: 400 }
+      );
+    }
 
-    // Check if slug exists
-    const existingProduct = await Product.findOne({ slug });
-    const finalSlug = existingProduct ? `${slug}-${Date.now()}` : slug;
+    // The SKU field is fully flexible: whatever is provided (or nothing) is
+    // turned into a guaranteed-unique value, so a duplicate SKU can NEVER block
+    // a save. Same for the slug.
+    let finalSku = await makeUniqueSku(Product, data.sku);
+    let finalSlug = await makeUniqueSlug(Product, String(data.name));
 
-    const product = await Product.create({
-      ...data,
-      slug: finalSlug,
-    });
+    // Create with a retry loop. If a concurrent request grabs the same SKU/slug
+    // between our uniqueness check and this insert (the classic race with many
+    // people saving at once), we regenerate the clashing value and try again
+    // instead of surfacing an error.
+    let product;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        product = await Product.create({
+          ...data,
+          sku: finalSku,
+          slug: finalSlug,
+        });
+        break;
+      } catch (createError: unknown) {
+        const dupField = duplicateKeyField(createError);
+
+        if (dupField === "sku") {
+          // Regenerate a fresh unique SKU and retry.
+          finalSku = await makeUniqueSku(Product, `${finalSku}`);
+          continue;
+        }
+        if (dupField === "slug") {
+          finalSlug = await makeUniqueSlug(Product, `${data.name}-${Date.now()}`);
+          continue;
+        }
+
+        // Surface Mongoose validation errors as a readable 400.
+        if (
+          typeof createError === "object" &&
+          createError !== null &&
+          (createError as { name?: string }).name === "ValidationError"
+        ) {
+          const messages = Object.values(
+            (createError as { errors?: Record<string, { message?: string }> }).errors || {}
+          )
+            .map((e) => e?.message)
+            .filter(Boolean)
+            .join(" ");
+          return NextResponse.json(
+            { error: messages || "Some product fields are invalid. Please review and try again." },
+            { status: 400 }
+          );
+        }
+
+        throw createError;
+      }
+    }
+
+    if (!product) {
+      return NextResponse.json(
+        {
+          error:
+            "The product could not be saved after several attempts due to heavy traffic. Please wait a moment and try again.",
+        },
+        { status: 503 }
+      );
+    }
 
     // Log activity
     await logAdminAction(

@@ -11,12 +11,15 @@ export const CACHE_TAGS = {
   users: "users",
 } as const;
 
-// Cache durations in seconds
+// Cache durations in seconds.
+// These are intentionally long: every admin mutation calls revalidateTag(),
+// so fresh content still appears immediately. Long durations drastically cut
+// Vercel Data Cache (ISR) reads/writes, which is billed usage.
 export const CACHE_DURATIONS = {
-  short: 30, // 30 seconds - for frequently changing data
-  medium: 60, // 1 minute - for moderately changing data
-  long: 300, // 5 minutes - for rarely changing data
-  veryLong: 600, // 10 minutes - for almost static data
+  short: 300, // 5 minutes - for frequently changing data
+  medium: 3600, // 1 hour - for moderately changing data
+  long: 86400, // 24 hours - for rarely changing data
+  veryLong: 604800, // 7 days - for almost static data
 } as const;
 
 // Helper to create cached functions with proper typing

@@ -31,6 +31,9 @@ interface ProductData {
   views?: number;
 }
 
+// Max products rendered in a single homepage section row
+const SECTION_PRODUCT_LIMIT = 10;
+
 // Lean projection for product lists (only fields we need)
 const PRODUCT_LIST_PROJECTION = {
   _id: 1,
@@ -42,6 +45,7 @@ const PRODUCT_LIST_PROJECTION = {
   mrp: 1,
   stock: 1,
   brand: 1,
+  category: 1, // required by the homepage-section grouping below
   sku: 1,
   shortDescription: 1,
   soldCount: 1,
@@ -410,40 +414,36 @@ export const getHomepageSections = unstable_cache(
 
       const sectionData: SectionData[] = [];
 
-      // Batch fetch all products for all sections at once
-      const allCategoryIds = enabledSections.map(s => s.categoryId).filter(Boolean);
-      const allProductIds = enabledSections.flatMap(s => s.productIds || []);
-      
-      const [categoryProducts, specificProducts] = await Promise.all([
-        allCategoryIds.length > 0 
-          ? Product.find({ category: { $in: allCategoryIds }, isActive: true })
+      // Fetch each section's products with a per-section LIMIT, in parallel.
+      // Previously this ran one unbounded `Product.find({ category: { $in: ... } })`
+      // which pulled every product of every featured category into memory just to
+      // slice 10 off the front — a full collection scan on large catalogues.
+      const sectionProducts = await Promise.all(
+        enabledSections.map((section) => {
+          if (section.productIds && section.productIds.length > 0) {
+            return Product.find({ _id: { $in: section.productIds }, isActive: true })
+              .select(PRODUCT_LIST_PROJECTION)
+              .populate("brand", "name logo")
+              .limit(SECTION_PRODUCT_LIMIT)
+              .lean();
+          }
+
+          if (section.categoryId) {
+            return Product.find({ category: section.categoryId, isActive: true })
               .select(PRODUCT_LIST_PROJECTION)
               .populate("brand", "name logo")
               .sort({ isFeatured: -1, soldCount: -1 })
-              .lean()
-          : [],
-        allProductIds.length > 0
-          ? Product.find({ _id: { $in: allProductIds }, isActive: true })
-              .select(PRODUCT_LIST_PROJECTION)
-              .populate("brand", "name logo")
-              .lean()
-          : [],
-      ]);
+              .limit(SECTION_PRODUCT_LIMIT)
+              .lean();
+          }
 
-      for (const section of enabledSections) {
-        let products: typeof categoryProducts;
+          return Promise.resolve([]);
+        })
+      );
 
-        if (section.productIds && section.productIds.length > 0) {
-          products = specificProducts.filter(p => 
-            section.productIds!.includes(p._id.toString())
-          ).slice(0, 10);
-        } else if (section.categoryId) {
-          products = categoryProducts.filter(p => 
-            p.category?.toString() === section.categoryId
-          ).slice(0, 10);
-        } else {
-          continue;
-        }
+      for (let i = 0; i < enabledSections.length; i++) {
+        const section = enabledSections[i];
+        const products = sectionProducts[i];
 
         if (products.length === 0) continue;
 
@@ -479,37 +479,46 @@ export const getHomepageSections = unstable_cache(
           localField: "_id",
           foreignField: "category",
           as: "products",
+          // Only need to know whether at least one product exists, so fetch a
+          // single _id instead of whole documents.
           pipeline: [
             { $match: { isActive: true } },
-            { $limit: 10 },
+            { $limit: 1 },
+            { $project: { _id: 1 } },
           ],
         },
       },
       { $match: { "products.0": { $exists: true } } },
       { $sort: { sortOrder: 1 } },
       { $limit: 4 },
+      { $project: { _id: 1, name: 1, slug: 1 } },
     ]);
 
     const sectionData: SectionData[] = [];
 
-    // Batch fetch all data at once
+    // Fetch subcategories in one query, and each category's products with a
+    // per-category LIMIT in parallel, so we never load the whole catalogue.
     const categoryIds = categoriesWithProducts.map(c => c._id);
-    const [allProducts, allSubcategories] = await Promise.all([
-      Product.find({ category: { $in: categoryIds }, isActive: true })
-        .select(PRODUCT_LIST_PROJECTION)
-        .populate("brand", "name logo")
-        .sort({ isFeatured: -1, soldCount: -1 })
-        .lean(),
+    const [perCategoryProducts, allSubcategories] = await Promise.all([
+      Promise.all(
+        categoryIds.map((catId) =>
+          Product.find({ category: catId, isActive: true })
+            .select(PRODUCT_LIST_PROJECTION)
+            .populate("brand", "name logo")
+            .sort({ isFeatured: -1, soldCount: -1 })
+            .limit(SECTION_PRODUCT_LIMIT)
+            .lean()
+        )
+      ),
       Category.find({ parent: { $in: categoryIds }, isActive: true })
         .select("_id name slug parent")
         .sort({ sortOrder: 1 })
         .lean(),
     ]);
 
-    for (const cat of categoriesWithProducts) {
-      const products = allProducts
-        .filter(p => p.category?.toString() === cat._id.toString())
-        .slice(0, 10);
+    for (let i = 0; i < categoriesWithProducts.length; i++) {
+      const cat = categoriesWithProducts[i];
+      const products = perCategoryProducts[i];
 
       const subcategories = allSubcategories.filter(
         s => s.parent?.toString() === cat._id.toString()

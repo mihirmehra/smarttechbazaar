@@ -64,7 +64,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // If name changed, update slug and update all products
-    let updateData = { ...data };
+    const updateData = { ...data };
     if (data.name && data.name !== oldBrand.name) {
       const newSlug = data.name
         .toLowerCase()

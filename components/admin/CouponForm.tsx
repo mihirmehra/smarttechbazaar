@@ -29,7 +29,10 @@ export default function CouponForm({ coupon }: CouponFormProps) {
   const router = useRouter();
   const isEditing = !!coupon;
 
-  const [form, setForm] = useState({
+  // Lazy initializer: `new Date()` is impure, so it must not run during render.
+  // This also avoids rebuilding the whole object on every re-render when
+  // useState would simply discard it.
+  const [form, setForm] = useState(() => ({
     code: coupon?.code || "",
     description: coupon?.description || "",
     type: coupon?.type || "percentage",
@@ -45,7 +48,7 @@ export default function CouponForm({ coupon }: CouponFormProps) {
       ? new Date(coupon.validUntil).toISOString().slice(0, 16)
       : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16),
     isActive: coupon?.isActive ?? true,
-  });
+  }));
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");

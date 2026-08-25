@@ -67,7 +67,12 @@ async function getCategories(): Promise<CategoryWithCount[]> {
 
     // Get all parent categories (no parent field or parent is null)
     const [categories, productCounts, allCategories] = await Promise.all([
-      Category.find({ isActive: true, parent: { $exists: false } })
+      // Parent categories have parent === null (schema default) OR no parent
+      // field at all (legacy docs). Match both so none are missed.
+      Category.find({
+        isActive: true,
+        $or: [{ parent: null }, { parent: { $exists: false } }],
+      })
         .select("_id name slug description image sortOrder")
         .sort({ sortOrder: 1, name: 1 })
         .lean(),

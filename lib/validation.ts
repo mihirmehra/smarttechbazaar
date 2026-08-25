@@ -143,7 +143,7 @@ export function validateName(name: string): {
   }
 
   // Only allow letters, spaces, dots, and common name characters
-  if (!/^[a-zA-Z\s.'\-]+$/.test(normalized)) {
+  if (!/^[a-zA-Z\s.'-]+$/.test(normalized)) {
     return { valid: false, normalized: "", error: "Name contains invalid characters" };
   }
 

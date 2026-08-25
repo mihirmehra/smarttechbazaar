@@ -62,14 +62,61 @@ async function getInventory(searchParams: { [key: string]: string | string[] | u
     else if (sort === "name-asc") sortOption = { name: 1 };
     else if (sort === "sku-asc") sortOption = { sku: 1 };
 
+    // `images` is deliberately never selected here. Most products store their
+    // images as base64 data URIs inside the document (up to 1.6MB each), so
+    // pulling the array for a page of rows transferred tens of megabytes and
+    // timed the query out, leaving the page empty. Project a lightweight
+    // thumbnail reference instead and load embedded images on demand.
+    const firstImage = { $arrayElemAt: ["$images", 0] };
+
     const [products, total, stats] = await Promise.all([
-      Product.find(query)
-        .select("_id name sku stock images priceB2C category isActive")
-        .populate("category", "name")
-        .sort(sortOption)
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+      Product.aggregate([
+        { $match: query },
+        { $sort: sortOption },
+        { $skip: skip },
+        { $limit: limit },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "category",
+            foreignField: "_id",
+            as: "categoryDoc",
+          },
+        },
+        {
+          $project: {
+            name: 1,
+            sku: 1,
+            stock: 1,
+            priceB2C: 1,
+            isActive: 1,
+            category: {
+              $let: {
+                vars: { c: { $arrayElemAt: ["$categoryDoc", 0] } },
+                in: { name: "$$c.name" },
+              },
+            },
+            thumbnailUrl: {
+              $cond: [
+                {
+                  $regexMatch: {
+                    input: { $ifNull: [firstImage, ""] },
+                    regex: "^https?://",
+                  },
+                },
+                firstImage,
+                null,
+              ],
+            },
+            hasEmbeddedImage: {
+              $regexMatch: {
+                input: { $ifNull: [firstImage, ""] },
+                regex: "^data:",
+              },
+            },
+          },
+        },
+      ]),
       Product.countDocuments(query),
       getInventoryStats(),
     ]);
@@ -245,7 +292,8 @@ export default async function InventoryPage({ searchParams }: InventoryPageProps
                   name: string;
                   sku: string;
                   stock: number;
-                  images?: string[];
+                  thumbnailUrl?: string | null;
+                  hasEmbeddedImage?: boolean;
                   priceB2C: number;
                   category?: { name: string };
                 }) => (
@@ -253,9 +301,12 @@ export default async function InventoryPage({ searchParams }: InventoryPageProps
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-muted">
-                          {product.images?.[0] ? (
+                          {product.thumbnailUrl || product.hasEmbeddedImage ? (
                             <Image
-                              src={product.images[0]}
+                              src={
+                                product.thumbnailUrl ??
+                                `/api/admin/products/${product._id}/thumbnail`
+                              }
                               alt={product.name}
                               width={40}
                               height={40}
