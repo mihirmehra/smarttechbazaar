@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import InventoryLog from "@/models/InventoryLog";
+import { Types } from "mongoose";
 
 // GET inventory overview
 export async function GET(request: NextRequest) {
@@ -137,49 +138,86 @@ export async function POST(request: NextRequest) {
       failed: [] as { sku: string; error: string }[],
     };
 
+    // Previously this loop ran three sequential round trips per adjustment
+    // (findById + save + log create), so a 200-SKU bulk edit meant 600 serial
+    // queries and routinely timed out. It now runs in a fixed three.
+    const validIds: string[] = [];
     for (const adj of adjustments) {
-      try {
-        const product = await Product.findById(adj.productId);
-
-        if (!product) {
-          results.failed.push({ sku: adj.sku || adj.productId, error: "Product not found" });
-          continue;
-        }
-
-        const previousStock = product.stock;
-        const newStock = adj.type === "set"
-          ? adj.quantity
-          : previousStock + adj.quantity;
-
-        if (newStock < 0) {
-          results.failed.push({ sku: product.sku, error: "Stock cannot be negative" });
-          continue;
-        }
-
-        product.stock = newStock;
-        await product.save();
-
-        // Log the adjustment
-        await InventoryLog.create({
-          product: product._id,
-          productName: product.name,
-          productSku: product.sku,
-          actionType: "adjustment",
-          quantityChange: newStock - previousStock,
-          previousStock,
-          newStock,
-          reason: reason || "Manual adjustment",
-          performedBy: session.user.id,
-          performedByName: session.user.name,
-        });
-
-        results.success.push(product.sku);
-      } catch (error) {
+      if (adj?.productId && Types.ObjectId.isValid(adj.productId)) {
+        validIds.push(adj.productId);
+      } else {
         results.failed.push({
-          sku: adj.sku || adj.productId,
-          error: error instanceof Error ? error.message : "Unknown error",
+          sku: adj?.sku || String(adj?.productId ?? "unknown"),
+          error: "Invalid product id",
         });
       }
+    }
+
+    const products = await Product.find({ _id: { $in: validIds } })
+      .select("_id name sku stock")
+      .lean();
+
+    const productById = new Map(products.map((p) => [p._id.toString(), p]));
+
+    const stockOps: Parameters<typeof Product.bulkWrite>[0] = [];
+    const logDocs: Record<string, unknown>[] = [];
+
+    for (const adj of adjustments) {
+      if (!adj?.productId || !Types.ObjectId.isValid(adj.productId)) continue;
+
+      const product = productById.get(adj.productId.toString());
+      if (!product) {
+        results.failed.push({
+          sku: adj.sku || adj.productId,
+          error: "Product not found",
+        });
+        continue;
+      }
+
+      const quantity = Number(adj.quantity);
+      if (!Number.isFinite(quantity)) {
+        results.failed.push({ sku: product.sku, error: "Invalid quantity" });
+        continue;
+      }
+
+      const previousStock = product.stock ?? 0;
+      const newStock =
+        adj.type === "set" ? quantity : previousStock + quantity;
+
+      if (newStock < 0) {
+        results.failed.push({
+          sku: product.sku,
+          error: "Stock cannot be negative",
+        });
+        continue;
+      }
+
+      stockOps.push({
+        updateOne: {
+          filter: { _id: product._id },
+          update: { $set: { stock: newStock } },
+        },
+      });
+
+      logDocs.push({
+        product: product._id,
+        productName: product.name,
+        productSku: product.sku,
+        actionType: "adjustment",
+        quantityChange: newStock - previousStock,
+        previousStock,
+        newStock,
+        reason: reason || "Manual adjustment",
+        performedBy: session.user.id,
+        performedByName: session.user.name,
+      });
+
+      results.success.push(product.sku);
+    }
+
+    if (stockOps.length > 0) {
+      await Product.bulkWrite(stockOps, { ordered: false });
+      await InventoryLog.insertMany(logDocs, { ordered: false });
     }
 
     return NextResponse.json({

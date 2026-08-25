@@ -58,8 +58,12 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const [tickets, total, statusCounts] = await Promise.all([
+    // `description` and `attachments` are excluded: neither is rendered by the
+    // ticket list view, and attachments can carry large data URLs. `replies` is
+    // kept because the list shows a reply count.
+    const [tickets, total, statusCounts, totalAll] = await Promise.all([
       Ticket.find(query)
+        .select("-description -attachments")
         .populate("user", "name email")
         .populate("assignedTo", "name email")
         .populate("order", "orderNumber")
@@ -76,10 +80,13 @@ export async function GET(request: NextRequest) {
           },
         },
       ]),
+      // Previously awaited separately after this batch, costing an extra
+      // serial round trip on every request.
+      Ticket.estimatedDocumentCount(),
     ]);
 
     const stats = {
-      total: await Ticket.countDocuments(),
+      total: totalAll,
       open: statusCounts.find((s) => s._id === "open")?.count || 0,
       inProgress: statusCounts.find((s) => s._id === "in_progress")?.count || 0,
       resolved: statusCounts.find((s) => s._id === "resolved")?.count || 0,
