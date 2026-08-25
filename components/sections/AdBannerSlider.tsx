@@ -24,28 +24,14 @@ interface AdBannerSliderProps {
   showAsGrid?: boolean; // Show as 3-image grid instead of slider
 }
 
-// Default ad banners — 1500×300
-const DEFAULT_AD_BANNERS: AdBanner[] = [
-  {
-    id: "display-ad-1",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Display%20Banner%20%281%29.jpg-IfvbMzVGhdB5gaL5i6wRQ2RaW9OF26.jpeg",
-    alt: "Crystal-clear monitors and immersive screens",
-    href: "/category/display",
-  },
-  {
-    id: "storage-ad-1",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Storage%20%20Banner.jpg-Lx6JHgVmRrTdHq03J3dR1Luf3KXyIL.jpeg",
-    alt: "Secure your digital life with high-speed SSDs",
-    href: "/category/storage",
-  },
-];
-
 export default function AdBannerSlider({ banners, showAsGrid = false }: AdBannerSliderProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [, setCurrent] = useState(0);
 
-  // Use provided banners or default
-  const AD_BANNERS = banners && banners.length > 0 ? banners : DEFAULT_AD_BANNERS;
+  // Render only what the caller passes in. There is deliberately no hardcoded
+  // fallback list: a previous version substituted built-in banners whenever this
+  // was empty, which made removed/unpublished banners reappear on every rebuild.
+  const AD_BANNERS = banners ?? [];
 
   const onSelect = useCallback(() => {
     if (!api) return;
@@ -62,6 +48,12 @@ export default function AdBannerSlider({ banners, showAsGrid = false }: AdBanner
       api.off("reInit", onSelect);
     };
   }, [api, onSelect]);
+
+  // Nothing to advertise — render no markup at all so the page has no empty
+  // carousel shell taking up vertical space.
+  if (AD_BANNERS.length === 0) {
+    return null;
+  }
 
   // Grid layout for 3 banners
   if (showAsGrid && AD_BANNERS.length >= 3) {

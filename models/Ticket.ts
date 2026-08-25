@@ -144,6 +144,10 @@ TicketSchema.index({ status: 1 });
 TicketSchema.index({ priority: 1 });
 TicketSchema.index({ category: 1 });
 TicketSchema.index({ createdAt: -1 });
+// The admin ticket list filters by status and sorts by createdAt in the same
+// query. The single-field indexes above force a filter-then-in-memory-sort;
+// this compound index serves both in one pass.
+TicketSchema.index({ status: 1, createdAt: -1 });
 TicketSchema.index({ subject: "text", description: "text" });
 
 // Generate ticket number before saving

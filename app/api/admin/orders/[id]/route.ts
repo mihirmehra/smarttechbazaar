@@ -118,29 +118,54 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         order.cancelledAt = new Date();
         order.cancellationReason = data.cancellationReason || "Cancelled by admin";
 
-        // Restore stock for cancelled orders
+        // Restore stock for cancelled orders. Batched into three queries
+        // total rather than three per line item, and the stock write uses
+        // $inc so a concurrent purchase cannot clobber the restored value.
         if (previousStatus !== "cancelled") {
-          for (const item of order.items) {
-            const product = await Product.findById(item.product);
-            if (product) {
-              const previousStock = product.stock;
-              product.stock += item.quantity;
-              await product.save();
+          const restockProducts = await Product.find({
+            _id: { $in: order.items.map((i) => i.product) },
+          })
+            .select("_id name sku stock")
+            .lean();
 
-              await InventoryLog.create({
-                product: product._id,
-                productName: product.name,
-                productSku: product.sku,
-                actionType: "return",
-                quantityChange: item.quantity,
-                previousStock,
-                newStock: product.stock,
-                reason: `Order ${order.orderNumber} cancelled`,
-                order: order._id,
-                performedBy: session.user.id,
-                performedByName: session.user.name,
-              });
-            }
+          const restockById = new Map(
+            restockProducts.map((p) => [p._id.toString(), p])
+          );
+
+          const restockOps: Parameters<typeof Product.bulkWrite>[0] = [];
+          const restockLogs: Record<string, unknown>[] = [];
+
+          for (const item of order.items) {
+            const product = restockById.get(item.product.toString());
+            if (!product) continue;
+
+            const previousStock = product.stock ?? 0;
+
+            restockOps.push({
+              updateOne: {
+                filter: { _id: product._id },
+                update: { $inc: { stock: item.quantity } },
+              },
+            });
+
+            restockLogs.push({
+              product: product._id,
+              productName: product.name,
+              productSku: product.sku,
+              actionType: "return",
+              quantityChange: item.quantity,
+              previousStock,
+              newStock: previousStock + item.quantity,
+              reason: `Order ${order.orderNumber} cancelled`,
+              order: order._id,
+              performedBy: session.user.id,
+              performedByName: session.user.name,
+            });
+          }
+
+          if (restockOps.length > 0) {
+            await Product.bulkWrite(restockOps, { ordered: false });
+            await InventoryLog.insertMany(restockLogs, { ordered: false });
           }
         }
       }
