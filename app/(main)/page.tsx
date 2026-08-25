@@ -109,12 +109,6 @@ export default async function HomePage() {
           <BestSellersSection products={bestSellers} />
         )}
 
-        {/* Static Ad Banners Grid - 3 promotional banners */}
-        <AdBannerSlider 
-          banners={[]} 
-          showAsGrid={true}
-        />
-
         {/* Dynamic Ad Banner Slider - 1500x300 banners from database */}
         {adBanners.length > 0 && (
           <AdBannerSlider banners={adBanners} />
