@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCart, useWishlist } from "@/components/providers/CartWishlistProvider";
-import { Heart, ShoppingCart, Star, Loader2, Check, AlertCircle } from "lucide-react";
+import { Heart, Star, Loader2, Check, Plus, AlertCircle, ArrowDown } from "lucide-react";
 import { getPricingInfo, formatPrice } from "@/lib/pricing";
 
 interface Product {
@@ -44,8 +44,8 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   // Use centralized pricing logic
   const pricing = getPricingInfo(product, session);
-  const { displayPrice, mrp, discount, savings, isB2B, canSeeBothPrices, priceB2B, priceB2C } = pricing;
-  
+  const { displayPrice, mrp, discount, isB2B, canSeeBothPrices, priceB2B, priceB2C } = pricing;
+
   const isWishlisted = isInWishlist(product._id);
   const inStock = (Number(product.stock) || 0) > 0;
   const rating = product.rating || 0;
@@ -55,15 +55,15 @@ export default function ProductCard({ product }: ProductCardProps) {
       router.push(`/auth/login?callbackUrl=/product/${product.slug}`);
       return;
     }
-    
+
     // Reset states
     setCartError(null);
     setAddedToCart(false);
     setIsAddingToCart(true);
-    
+
     try {
       const result = await addToCart(product._id, 1);
-      
+
       if (result.success) {
         setAddedToCart(true);
         // Reset success state after 2 seconds
@@ -93,35 +93,38 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div
-      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-lg"
+      className="stb-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* ── Image area ────────────────────────────────────────────────── */}
-      <div className="relative bg-[#FAFAFA]">
-        {/* Top badges row */}
-        <div className="absolute left-1.5 top-1.5 z-10 flex flex-col gap-0.5 md:left-2 md:top-2">
-          {product.isNewArrival && (
-            <span className="rounded bg-stb-success px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white md:text-[9px]">
-              New
-            </span>
-          )}
-          {discount > 0 && (
-            <span className="rounded bg-primary px-1.5 py-0.5 text-[8px] font-bold text-white md:text-[9px]">
-              -{discount}%
-            </span>
-          )}
-        </div>
+      {/* ── Image tile ─────────────────────────────────────────────────── */}
+      <div className="stb-card-tile">
+        {/* Discount chip — top-left, flush to the card corner */}
+        {discount > 0 && (
+          <span className="stb-chip-deal">
+            <ArrowDown className="h-2.5 w-2.5" strokeWidth={3} />
+            {discount}%
+          </span>
+        )}
 
-        {/* Wishlist button */}
+        {/* New-arrival marker sits opposite the discount so they never collide */}
+        {product.isNewArrival && !isWishlisted && (
+          <span className="absolute right-1.5 top-1.5 z-10 rounded bg-stb-info px-1 py-0.5 text-[9px] font-bold uppercase leading-none tracking-wide text-white">
+            New
+          </span>
+        )}
+
+        {/* Wishlist — only rendered on hover/active at md+ to keep the tile clean */}
         <button
           onClick={handleWishlist}
           disabled={isWishlistLoading}
           aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-          className={`absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-all press-active shadow-sm ${
+          className={`absolute right-1.5 z-20 flex h-7 w-7 items-center justify-center rounded-full transition-all press-active ${
+            product.isNewArrival && !isWishlisted ? "top-8" : "top-1.5"
+          } ${
             isWishlisted
-              ? "border-primary bg-primary text-white"
-              : "border-border bg-white text-muted-foreground hover:border-primary hover:text-primary"
+              ? "bg-primary text-white shadow-sm"
+              : "bg-card/85 text-muted-foreground shadow-sm hover:text-primary"
           }`}
         >
           {isWishlistLoading ? (
@@ -131,8 +134,32 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </button>
 
-        {/* Product image — 1:1 aspect, fills full card width */}
-        <Link href={`/product/${product.slug}`} className="block p-3 md:p-4">
+        {/* Rating pill — floats bottom-left over the tile */}
+        {rating > 0 && (
+          <span className="stb-chip-rating">
+            {rating.toFixed(1)}
+            <Star className="h-2.5 w-2.5 fill-stb-rating text-stb-rating" />
+          </span>
+        )}
+
+        {/* Quick-add — straddles the tile/info boundary */}
+        <button
+          onClick={handleAddToCart}
+          disabled={!inStock || isAddingToCart}
+          aria-label={addedToCart ? "Added to cart" : "Add to cart"}
+          className="stb-add-btn"
+        >
+          {isAddingToCart ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : addedToCart ? (
+            <Check className="h-3.5 w-3.5" strokeWidth={3} />
+          ) : (
+            <Plus className="h-4 w-4" strokeWidth={2.5} />
+          )}
+        </button>
+
+        {/* Product image */}
+        <Link href={`/product/${product.slug}`} className="block p-2.5 md:p-3">
           <div className="relative aspect-square w-full">
             <Image
               src={
@@ -142,7 +169,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               }
               alt={product.name}
               fill
-              sizes="(max-width: 640px) 50vw, 200px"
+              sizes="(max-width: 640px) 45vw, 200px"
               className="object-contain transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
               quality={75}
@@ -151,135 +178,71 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
       </div>
 
-      {/* ── Product info ──────────────────────────────────────────────── */}
-      <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-2 md:px-3 md:pb-3 md:pt-2.5">
-        {/* Brand */}
-        {product.brand && (
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-primary md:text-[11px]">
-            {product.brand}
-          </span>
-        )}
+      {/* ── Info ───────────────────────────────────────────────────────── */}
+      <div className="flex flex-1 flex-col px-2 pb-2 pt-3.5 md:px-2.5 md:pb-2.5">
+        {/* Brand capsule */}
+        {product.brand && <span className="stb-meta-chip">{product.brand}</span>}
 
         {/* Name */}
-        <Link href={`/product/${product.slug}`} className="mt-0.5 block">
-          <h3 className="line-clamp-2 text-xs font-medium leading-snug text-foreground transition-colors hover:text-primary md:text-[13px]">
+        <Link href={`/product/${product.slug}`} className="mt-1 block">
+          <h3 className="line-clamp-2 text-[13px] font-bold leading-tight text-foreground transition-colors hover:text-primary">
             {product.name}
           </h3>
         </Link>
 
-        {/* Star rating */}
-        {rating > 0 && (
-          <div className="mt-1 flex items-center gap-0.5">
-            {[1, 2, 3, 4, 5].map((s) => (
-              <Star
-                key={s}
-                className={`h-2 w-2 md:h-2.5 md:w-2.5 ${
-                  s <= Math.round(rating)
-                    ? "fill-amber-400 text-amber-400"
-                    : "fill-muted text-muted"
-                }`}
-              />
-            ))}
-            <span className="ml-0.5 text-[9px] text-muted-foreground">({rating})</span>
-          </div>
-        )}
-
-        {/* Spacer */}
         <div className="flex-1" />
 
         {/* Price block */}
-        <div className="mt-2 space-y-0.5">
-          {/* Admin view: Show both B2B and B2C prices */}
+        <div className="mt-1.5">
           {canSeeBothPrices ? (
-            <div className="space-y-1">
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-[10px] font-semibold text-blue-700 md:text-[11px]">B2B:</span>
-                <span className="text-sm font-extrabold text-foreground md:text-base">
+            /* Admin view: both B2B and B2C */
+            <div className="space-y-0.5">
+              <div className="flex items-baseline gap-1">
+                <span className="text-[10px] font-bold text-stb-info">B2B</span>
+                <span className="text-sm font-extrabold text-foreground">
                   {formatPrice(priceB2B)}
                 </span>
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-[10px] font-semibold text-green-700 md:text-[11px]">B2C:</span>
-                <span className="text-sm font-bold text-muted-foreground md:text-base">
+              <div className="flex items-baseline gap-1">
+                <span className="text-[10px] font-bold text-stb-success">B2C</span>
+                <span className="text-[13px] font-bold text-muted-foreground">
                   {formatPrice(priceB2C)}
                 </span>
               </div>
-              {mrp > (priceB2C ?? 0) && (
-                <span className="text-[10px] text-muted-foreground line-through md:text-[11px]">
-                  MRP: {formatPrice(mrp)}
+            </div>
+          ) : (
+            /* Customer view: MRP struck through, then live price */
+            <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+              {mrp > displayPrice && (
+                <span className="text-[11px] text-muted-foreground line-through">
+                  {formatPrice(mrp)}
+                </span>
+              )}
+              <span className="text-[15px] font-extrabold leading-none text-foreground">
+                {formatPrice(displayPrice)}
+              </span>
+              {isB2B && (
+                <span className="rounded bg-stb-tint-blue px-1 py-0.5 text-[8px] font-bold text-stb-info">
+                  B2B
                 </span>
               )}
             </div>
-          ) : (
-            /* Customer view: Show appropriate price based on B2B/B2C status */
-            <>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-sm font-extrabold text-foreground md:text-base">
-                  {formatPrice(displayPrice)}
-                </span>
-                {mrp > displayPrice && (
-                  <span className="text-[10px] text-muted-foreground line-through md:text-[11px]">
-                    {formatPrice(mrp)}
-                  </span>
-                )}
-              </div>
-              {isB2B && (
-                <span className="inline-block rounded-full bg-blue-50 px-1.5 py-0.5 text-[8px] font-semibold text-blue-700">
-                  B2B Price
-                </span>
-              )}
-            </>
           )}
-          <div className="flex items-center justify-between">
-            {savings > 0 && !canSeeBothPrices ? (
-              <span className="text-[10px] font-semibold text-stb-success md:text-[11px]">
-                Save {formatPrice(savings)}
-              </span>
-            ) : (
-              <span />
-            )}
-            <span
-              className={`text-[10px] font-semibold md:text-[11px] ${
-                inStock ? "text-stb-success" : "text-destructive"
-              }`}
-            >
-              {inStock ? "In Stock" : "Out of Stock"}
+
+          {!inStock && (
+            <span className="mt-1 block text-[10px] font-bold text-destructive">
+              Out of Stock
             </span>
-          </div>
+          )}
         </div>
 
         {/* Error message */}
         {cartError && (
-          <div className="mt-2 flex items-center gap-1 rounded-lg bg-red-50 px-2 py-1.5 text-[10px] text-red-600">
+          <div className="mt-1.5 flex items-center gap-1 rounded bg-stb-red-light px-1.5 py-1 text-[10px] font-medium text-destructive">
             <AlertCircle className="h-3 w-3 shrink-0" />
             <span className="line-clamp-1">{cartError}</span>
           </div>
         )}
-
-        {/* Add to Cart button */}
-        <button
-          onClick={handleAddToCart}
-          disabled={!inStock || isAddingToCart}
-          className={`mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl py-3 text-xs font-bold text-white transition-all press-active ${
-            addedToCart
-              ? "bg-stb-success"
-              : "bg-primary hover:bg-stb-red-dark disabled:cursor-not-allowed disabled:opacity-40"
-          }`}
-        >
-          {isAddingToCart ? (
-            <Loader2 className="h-3 w-3 animate-spin" />
-          ) : addedToCart ? (
-            <>
-              <Check className="h-3 w-3" />
-              Added!
-            </>
-          ) : (
-            <>
-              <ShoppingCart className="h-3 w-3" />
-              Add to Cart
-            </>
-          )}
-        </button>
       </div>
     </div>
   );

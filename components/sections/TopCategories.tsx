@@ -33,92 +33,95 @@ const defaultCategories: Category[] = [
   { id: "refurbished-laptops",  name: "Refurbished Laptops",   image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=200&h=200&fit=crop",      slug: "refurbished-laptops",  productCount: 0 },
 ];
 
+/* Tint + ribbon pairs cycled across the tiles. Each entry keeps the ribbon
+   colour readable against its own tint, and the sequence is long enough that
+   neighbouring tiles never repeat. */
+const TILE_THEMES = [
+  { tint: "bg-stb-tint-red", ribbon: "bg-primary" },
+  { tint: "bg-stb-tint-blue", ribbon: "bg-stb-info" },
+  { tint: "bg-stb-tint-teal", ribbon: "bg-stb-deal" },
+  { tint: "bg-stb-tint-amber", ribbon: "bg-stb-warning" },
+  { tint: "bg-stb-tint-violet", ribbon: "bg-chart-4" },
+] as const;
+
 export default function TopCategories({ categories }: TopCategoriesProps) {
   const displayCategories = categories.length > 0 ? categories : defaultCategories;
 
   return (
-    <section className="bg-white py-4 md:py-6">
+    <section className="bg-card py-4 md:py-6">
       <div className="mx-auto max-w-7xl px-3 md:px-4">
         {/* Section header */}
-        <div className="mb-3 flex items-center justify-between md:mb-4">
-          <div className="flex items-center gap-2">
-            <span className="block h-4 w-[3px] rounded-full bg-primary md:h-5" />
-            <h2 className="text-sm font-bold text-foreground md:text-base">Shop by Category</h2>
+        <div className="mb-3 flex items-center justify-between gap-2 md:mb-4">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="block h-5 w-1 shrink-0 rounded-full bg-primary" />
+            <h2 className="stb-rail-title truncate">Shop by Category</h2>
           </div>
-          <Link
-            href="/categories"
-            className="flex items-center gap-0.5 text-[11px] font-semibold text-primary hover:text-stb-red-dark md:text-xs"
-          >
-            View All <ChevronRight className="h-3 w-3" />
+          <Link href="/categories" aria-label="View all categories" className="stb-rail-arrow">
+            <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
           </Link>
         </div>
 
-        {/* ── Mobile: horizontal pill-scroll ─────────────────────────────── */}
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide md:hidden">
-          {displayCategories.map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/category/${cat.slug}`}
-              className="group flex shrink-0 flex-col items-center gap-2 press-active"
-            >
-              {/* Circle image */}
-              <div className="relative h-[72px] w-[72px] overflow-hidden rounded-full border-2 border-border bg-muted shadow-sm transition-all group-active:border-primary group-active:shadow-md">
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  sizes="72px"
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  unoptimized
-                />
-              </div>
-              <span className="w-[72px] truncate text-center text-[11px] font-semibold text-foreground">
-                {cat.name}
-              </span>
-            </Link>
-          ))}
-          {/* "More" pill */}
-          <Link
-            href="/categories"
-            className="group flex shrink-0 flex-col items-center gap-2 press-active"
-          >
-            <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full border-2 border-dashed border-border bg-muted shadow-sm transition-all group-hover:border-primary">
-              <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
-            </div>
-            <span className="w-[72px] text-center text-[11px] font-semibold text-muted-foreground">More</span>
-          </Link>
-        </div>
+        {/*
+          One responsive layout for every breakpoint: a horizontal snap-scroll
+          rail on mobile that becomes a wrapping grid at md+. This replaces the
+          previous duplicated mobile/desktop markup, so a category can no longer
+          render differently (or get dropped) on one of the two.
+        */}
+        <ul className="flex snap-x gap-2.5 overflow-x-auto pb-1 scrollbar-hide md:grid md:grid-cols-4 md:gap-3 md:overflow-visible lg:grid-cols-7">
+          {displayCategories.map((cat, i) => {
+            const theme = TILE_THEMES[i % TILE_THEMES.length];
+            return (
+              <li
+                key={cat.id}
+                className="w-[104px] shrink-0 snap-start md:w-auto md:shrink"
+              >
+                <Link
+                  href={`/category/${cat.slug}`}
+                  className="group flex flex-col gap-1.5 press-active"
+                >
+                  {/* Image tile with a colour ribbon pinned to the bottom */}
+                  <div
+                    className={`relative overflow-hidden rounded-xl ${theme.tint} transition-shadow group-hover:shadow-md`}
+                  >
+                    <div className="relative aspect-square w-full">
+                      <Image
+                        src={cat.image}
+                        alt={cat.name}
+                        fill
+                        sizes="(max-width: 768px) 104px, 160px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        unoptimized
+                      />
+                    </div>
+                    {/* Ribbon — shows the live item count, or "Shop now" when the
+                        count is unavailable so the tile never looks unfinished. */}
+                    <span
+                      className={`absolute inset-x-0 bottom-0 ${theme.ribbon} px-2 py-1 text-center text-[10px] font-bold text-white`}
+                    >
+                      {cat.productCount > 0 ? `${cat.productCount}+ items` : "Shop now"}
+                    </span>
+                  </div>
+                  {/* Label sits below the tile, as in the reference */}
+                  <span className="line-clamp-2 px-0.5 text-center text-[11px] font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
+                    {cat.name}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
 
-        {/* ── Desktop: 8-column card grid ─────────────────────────────────── */}
-        <div className="hidden grid-cols-4 gap-3 md:grid lg:grid-cols-7">
-          {displayCategories.map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/category/${cat.slug}`}
-              className="group flex flex-col items-center gap-2.5 rounded-xl border border-border bg-white p-4 transition-all hover:border-primary/40 hover:shadow-md"
-            >
-              {/* Square image with rounded corners */}
-              <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-muted transition-transform duration-300 group-hover:scale-105">
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                  unoptimized
-                />
+          {/* "All" tile closes out the rail */}
+          <li className="w-[104px] shrink-0 snap-start md:w-auto md:shrink">
+            <Link href="/categories" className="group flex flex-col gap-1.5 press-active">
+              <div className="flex aspect-square w-full items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted transition-colors group-hover:border-primary">
+                <ChevronRight className="h-6 w-6 text-muted-foreground transition-colors group-hover:text-primary" />
               </div>
-              <span className="text-center text-[11px] font-semibold text-foreground transition-colors group-hover:text-primary">
-                {cat.name}
+              <span className="px-0.5 text-center text-[11px] font-semibold leading-tight text-muted-foreground transition-colors group-hover:text-primary">
+                View All
               </span>
-              {cat.productCount > 0 && (
-                <span className="rounded-full bg-muted px-2 py-0.5 text-[9px] font-medium text-muted-foreground">
-                  {cat.productCount}+ items
-                </span>
-              )}
             </Link>
-          ))}
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
   );
