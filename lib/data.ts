@@ -9,13 +9,10 @@ import { CACHE_TAGS, CACHE_DURATIONS } from "@/lib/cache";
 import {
   SECTION_PRODUCT_LIMIT,
   SECTION_CANDIDATE_LIMIT,
-  SECTION_RULES,
+  HOMEPAGE_SECTIONS,
   isExcludedSection,
   isPlaceholderSection,
-  productFilterForRule,
-  ruleForTitle,
   slugifySectionTitle,
-  type SectionRule,
 } from "@/lib/section-matching";
 
 // ============================================
@@ -51,47 +48,6 @@ function findSectionCandidates(filter: Record<string, unknown>) {
     .sort(SECTION_PRODUCT_SORT)
     .limit(SECTION_CANDIDATE_LIMIT)
     .lean() as unknown as Promise<Record<string, unknown>[]>;
-}
-
-// Resolves a rule's hand-checked category slugs to ids. Products in these
-// categories are trusted even when the name alone is uninformative, which is how
-// "Zeb V19HD LED" reaches the Displays rail.
-//
-// Every rule's slugs are resolved in ONE query and memoised for the duration of
-// the request. Doing this per rail meant each of the ~10 rails opened its own
-// Category query on top of its Product query, and with `maxPoolSize: 5` the
-// homepage's fan-out exhausted the pool and died with
-// "MongoWaitQueueTimeoutError: Timed out while checking out a connection".
-let trustedCategoryIdCache: Map<string, unknown[]> | null = null;
-
-async function trustedCategoryIdsByRule(): Promise<Map<string, unknown[]>> {
-  if (trustedCategoryIdCache) return trustedCategoryIdCache;
-
-  const allSlugs = Array.from(
-    new Set(SECTION_RULES.flatMap((rule) => rule.categorySlugs))
-  );
-
-  const categories =
-    allSlugs.length > 0
-      ? ((await Category.find({ slug: { $in: allSlugs } })
-          .select("_id slug")
-          .lean()) as unknown as { _id: unknown; slug: string }[])
-      : [];
-
-  const idBySlug = new Map(categories.map((c) => [c.slug, c._id]));
-
-  const byRule = new Map<string, unknown[]>();
-  for (const rule of SECTION_RULES) {
-    byRule.set(
-      rule.key,
-      rule.categorySlugs
-        .map((slug) => idBySlug.get(slug))
-        .filter((id): id is unknown => id !== undefined)
-    );
-  }
-
-  trustedCategoryIdCache = byRule;
-  return byRule;
 }
 
 // Runs async tasks with a hard concurrency cap, preserving input order.
@@ -136,29 +92,19 @@ function normalizeProductName(name: unknown): string {
 /**
  * Loads the products for one homepage rail.
  *
- * When the heading maps to a curated rule the rail is filled strictly from that
- * rule, so every product genuinely belongs under the title. Admin-configured
- * rails with no matching rule fall back to their own category's products.
+ * The filter is a plain category match: every product filed under any of the
+ * given category ids. Callers pass the rail's whole category subtree, since
+ * products live on leaf categories rather than on the parent.
  */
 async function fetchSectionProducts(
-  title: string,
-  slug: string | undefined,
   categoryIds: unknown[]
 ): Promise<Record<string, unknown>[]> {
-  const rule = ruleForTitle(title, slug);
+  if (categoryIds.length === 0) return [];
 
-  let filter: Record<string, unknown>;
-  if (rule) {
-    const trustedByRule = await trustedCategoryIdsByRule();
-    const trusted = [...(trustedByRule.get(rule.key) ?? []), ...categoryIds];
-    filter = productFilterForRule(rule, trusted);
-  } else if (categoryIds.length > 0) {
-    filter = { isActive: { $ne: false }, category: { $in: categoryIds } };
-  } else {
-    return [];
-  }
-
-  const candidates = await findSectionCandidates(filter);
+  const candidates = await findSectionCandidates({
+    isActive: { $ne: false },
+    category: { $in: categoryIds },
+  });
 
   const seenIds = new Set<string>();
   const seenNames = new Set<string>();
@@ -582,13 +528,8 @@ export const getHomepageSections = unstable_cache(
               .lean() as unknown as Promise<Record<string, unknown>[]>;
           }
 
-          // Curated rules keep the rail on-topic; rails without a rule fall
-          // back to their own category's products.
-          return fetchSectionProducts(
-            section.title,
-            section.slug,
-            section.categoryId ? [section.categoryId] : []
-          );
+          // Plain category filter: the rail shows its own category's products.
+          return fetchSectionProducts(section.categoryId ? [section.categoryId] : []);
         }
       );
 
@@ -656,7 +597,7 @@ export const getHomepageSections = unstable_cache(
     const perCategoryProducts = await mapWithConcurrency(
       categoriesWithProducts,
       SECTION_QUERY_CONCURRENCY,
-      (cat) => fetchSectionProducts(cat.name, cat.slug, [cat._id])
+      (cat) => fetchSectionProducts([cat._id])
     );
 
     const allSubcategories = await Category.find({
@@ -739,11 +680,9 @@ export const getNewArrivals = unstable_cache(
 // CURATED CATEGORY SECTIONS
 // ============================================
 
-// The homepage always shows these category rails, in `SECTION_RULES` order.
-// Each rail's products come from its rule (include/exclude patterns plus the
-// hand-checked trusted categories), and the matched catalogue category is used
-// only to build the section link and subcategory tabs — so a "Monitors"
-// category still backs the "Displays" rail.
+// The homepage always shows these category rails, in `HOMEPAGE_SECTIONS` order.
+// Each rail is a plain category filter: its products are every product filed
+// under one of the rail's configured categories or any of their descendants.
 
 type CategoryNode = {
   _id: { toString(): string };
@@ -775,71 +714,75 @@ export const getCuratedSections = unstable_cache(
 
     // Products can live on leaf categories, so a rail must include every
     // descendant of the matched category, not just the category itself.
-    const collectDescendantIds = (rootId: string): string[] => {
+    // `skip` prunes whole sub-branches that are nested correctly but hold the
+    // wrong products.
+    const collectDescendantIds = (rootId: string, skip: Set<string>): string[] => {
+      if (skip.has(rootId)) return [];
       const ids: string[] = [];
       const queue = [rootId];
       while (queue.length > 0) {
         const current = queue.shift() as string;
         ids.push(current);
         for (const child of childrenByParent.get(current) ?? []) {
-          queue.push(child._id.toString());
+          const childId = child._id.toString();
+          if (skip.has(childId)) continue;
+          queue.push(childId);
         }
       }
       return ids;
     };
 
-    const used = new Set<string>();
+    const categoryBySlug = new Map(categories.map((c) => [c.slug, c]));
+
     const resolved: {
-      rule: SectionRule;
+      config: (typeof HOMEPAGE_SECTIONS)[number];
       category: CategoryNode | null;
       categoryIds: string[];
     }[] = [];
 
-    for (const rule of SECTION_RULES) {
-      if (isExcludedSection(rule.title)) continue;
+    for (const config of HOMEPAGE_SECTIONS) {
+      if (isExcludedSection(config.title, config.slug)) continue;
 
-      const matches = categories.filter(
-        (c) =>
-          (rule.categoryMatch.test(c.name) || rule.categoryMatch.test(c.slug)) &&
-          !isExcludedSection(c.name, c.slug)
+      // Every configured slug contributes its whole subtree, because products
+      // are filed on leaf categories rather than on the parent.
+      const ids = new Set<string>();
+      let linkedCategory: CategoryNode | null = null;
+
+      const skip = new Set(
+        (config.excludeCategorySlugs ?? [])
+          .map((slug) => categoryBySlug.get(slug))
+          .filter((c): c is CategoryNode => c !== undefined)
+          .map((c) => c._id.toString())
       );
 
-      if (matches.length === 0) {
-        // No category for this rail yet — the rule's own include/exclude
-        // patterns still fill it, linking through to search instead.
-        resolved.push({ rule, category: null, categoryIds: [] });
-        continue;
+      for (const slug of config.categorySlugs) {
+        const category = categoryBySlug.get(slug);
+        if (!category) continue;
+
+        // The first slug that exists becomes the rail's linked category, which
+        // drives the section link and its subcategory tabs.
+        if (!linkedCategory) linkedCategory = category;
+
+        for (const id of collectDescendantIds(category._id.toString(), skip)) {
+          ids.add(id);
+        }
       }
 
-      // Prefer the most generic match: a top-level category first, then the
-      // shortest name (e.g. "Laptops" over "Gaming Laptops Under 50K").
-      const best = [...matches].sort((a, b) => {
-        const aDepth = a.parent ? 1 : 0;
-        const bDepth = b.parent ? 1 : 0;
-        if (aDepth !== bDepth) return aDepth - bDepth;
-        return a.name.length - b.name.length;
-      })[0];
-
-      const id = best._id.toString();
-      if (used.has(id)) continue;
-      used.add(id);
+      if (ids.size === 0) continue;
 
       resolved.push({
-        rule,
-        category: best,
-        categoryIds: collectDescendantIds(id),
+        config,
+        category: linkedCategory,
+        categoryIds: Array.from(ids),
       });
     }
 
     if (resolved.length === 0) return [];
 
-    const productsPerSection = await Promise.all(
-      resolved.map((section) =>
-        // The rule's key resolves back to the same rule, so the rail is filled
-        // strictly by its vetted include/exclude patterns plus its own
-        // category tree.
-        fetchSectionProducts(section.rule.title, section.rule.key, section.categoryIds)
-      )
+    const productsPerSection = await mapWithConcurrency(
+      resolved,
+      SECTION_QUERY_CONCURRENCY,
+      (section) => fetchSectionProducts(section.categoryIds)
     );
 
     const sectionData: SectionData[] = [];
@@ -850,15 +793,16 @@ export const getCuratedSections = unstable_cache(
       if (products.length === 0) continue;
 
       const category = section.category;
+      // Only offer subcategory tabs that actually hold products.
       const children = category
         ? (childrenByParent.get(category._id.toString()) ?? []).slice(0, 8)
         : [];
 
       sectionData.push({
-        title: section.rule.title,
-        slug: category?.slug ?? slugifySectionTitle(section.rule.title),
+        title: section.config.title,
+        slug: category?.slug ?? slugifySectionTitle(section.config.title),
         subcategories: [
-          { name: `All ${section.rule.title}`, isActive: true },
+          { name: `All ${section.config.title}`, isActive: true },
           ...children.map((sub) => ({
             name: sub.name,
             href: category ? `/category/${category.slug}/${sub.slug}` : undefined,
