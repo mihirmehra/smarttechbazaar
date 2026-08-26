@@ -57,8 +57,11 @@ function findSectionCandidates(filter: Record<string, unknown>) {
 // already fans out ~10 top-level fetches in parallel. Firing one more query per
 // rail on top of that saturated the pool and every rail failed with
 // "MongoWaitQueueTimeoutError", which the page surfaced as "No Products
-// Available". Capping the rails at 2 in flight keeps them inside the pool budget.
-const SECTION_QUERY_CONCURRENCY = 2;
+// Available". Running the rails one at a time keeps them inside the pool budget:
+// the top-level homepage loader is itself already running a few fetches at once,
+// so any nesting here multiplies out past `maxPoolSize` and starves the pool.
+// Each rail query measures ~250ms, so serialising them costs ~2s total.
+const SECTION_QUERY_CONCURRENCY = 1;
 
 async function mapWithConcurrency<T, R>(
   items: T[],

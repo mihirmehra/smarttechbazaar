@@ -73,7 +73,7 @@ async function safeList<T>(
 // is why the category rails and New Arrivals silently vanished from the page
 // while the first few sections rendered fine. Running them a few at a time
 // reuses warm sockets: measured queries take ~250ms each.
-const HOMEPAGE_FETCH_CONCURRENCY = 3;
+const HOMEPAGE_FETCH_CONCURRENCY = 2;
 
 // Run the homepage fetches in small batches, preserving result order. The
 // per-fetch timeout starts when the fetch actually runs, not when the page began.
@@ -110,17 +110,27 @@ export default async function HomePage() {
     hotBrands,
     newArrivals,
     curatedSections,
-  ] = await Promise.all([
-    safeList(getHomepageCategories(), "homepageCategories"),
-    safeList(getBrands(), "brands"),
-    safeList(getHeroSliderBanners(), "heroSliderBanners"),
-    safeList(getAdBanners(), "adBanners"),
-    safeList(getBestSellers(), "bestSellers"),
-    safeList(getMostPopular(), "mostPopular"),
-    safeList(getHotBrands(), "hotBrands"),
-    safeList(getNewArrivals(), "newArrivals"),
-    safeList(getCuratedSections(), "curatedSections"),
-  ]);
+  ] = (await loadInBatches<any>([
+    () => safeList(getHomepageCategories, "homepageCategories"),
+    () => safeList(getBrands, "brands"),
+    () => safeList(getHeroSliderBanners, "heroSliderBanners"),
+    () => safeList(getAdBanners, "adBanners"),
+    () => safeList(getBestSellers, "bestSellers"),
+    () => safeList(getMostPopular, "mostPopular"),
+    () => safeList(getHotBrands, "hotBrands"),
+    () => safeList(getNewArrivals, "newArrivals"),
+    () => safeList(getCuratedSections, "curatedSections"),
+  ])) as [
+    Awaited<ReturnType<typeof getHomepageCategories>>,
+    Awaited<ReturnType<typeof getBrands>>,
+    Awaited<ReturnType<typeof getHeroSliderBanners>>,
+    Awaited<ReturnType<typeof getAdBanners>>,
+    Awaited<ReturnType<typeof getBestSellers>>,
+    Awaited<ReturnType<typeof getMostPopular>>,
+    Awaited<ReturnType<typeof getHotBrands>>,
+    Awaited<ReturnType<typeof getNewArrivals>>,
+    Awaited<ReturnType<typeof getCuratedSections>>,
+  ];
 
   // The homepage rails come solely from the category configuration in
   // lib/section-matching.ts. The admin-configured `homepage_sections` collection
