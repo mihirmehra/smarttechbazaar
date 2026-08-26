@@ -33,6 +33,8 @@ interface ProductData {
 
 // Max products rendered in a single homepage section row
 const SECTION_PRODUCT_LIMIT = 10;
+// How many candidates each matching pass may pull before de-duplication
+const SECTION_CANDIDATE_LIMIT = 30;
 
 // Sections that must never render on the homepage, no matter how they are
 // configured in the admin or named in the catalogue.
@@ -62,59 +64,146 @@ function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// Words that carry no meaning when matching a product name against a section
-// title ("All Gaming Laptops" -> /gaming|laptop/i).
+// Words that carry no meaning when matching a product against a section title
+// ("All Gaming Laptops Under 50K" -> gaming, laptop).
 const SECTION_TITLE_STOP_WORDS = new Set([
   "all", "and", "the", "for", "with", "new", "best", "top", "our", "shop", "deals",
+  "deal", "offer", "offers", "sale", "buy", "online", "price", "prices", "under",
+  "product", "products", "category", "categories", "item", "items", "range",
+  "collection", "featured", "popular", "trending", "more", "other", "others",
+  "section", "store", "latest", "arrival", "arrivals",
 ]);
 
-// Turns a section title into a regex used to match product names, so a rail
-// never shows products unrelated to its heading.
-function sectionTitleRegex(title: string): RegExp | null {
-  const stems = title
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter((word) => word.length >= 3 && !SECTION_TITLE_STOP_WORDS.has(word))
-    // Strip a trailing plural so "Laptops" still matches "Laptop".
-    .map((word) => escapeRegex(word.replace(/s$/, "")))
-    .filter(Boolean);
+// Real-world vocabulary for each section heading. A catalogue rarely repeats the
+// section title inside every product name ("Displays" -> "LG 24MK600 IPS
+// Monitor"), so each heading word is expanded into the terms that actually show
+// up in product names, tags and SKUs.
+const SECTION_KEYWORD_SYNONYMS: Record<string, string[]> = {
+  desktop: ["desktop", "all in one", "aio", "tower", "workstation", "cpu cabinet", "pc"],
+  laptop: ["laptop", "notebook", "macbook", "ultrabook", "thinkpad", "ideapad", "vivobook", "chromebook", "inspiron", "latitude", "pavilion", "victus", "nitro", "tuf"],
+  display: ["display", "monitor", "screen", "led monitor", "lcd", "ips", "curved"],
+  monitor: ["monitor", "display", "screen", "led monitor", "lcd", "ips", "curved"],
+  processor: ["processor", "cpu", "ryzen", "core i3", "core i5", "core i7", "core i9", "xeon", "threadripper", "athlon", "pentium", "celeron", "epyc", "ultra 5", "ultra 7"],
+  storage: ["storage", "ssd", "hdd", "nvme", "hard disk", "hard drive", "sata", "m.2", "pen drive", "pendrive", "flash drive", "external drive", "nas", "sshd"],
+  printer: ["printer", "inkjet", "laserjet", "laser printer", "deskjet", "ecotank", "toner", "cartridge", "mfp", "multifunction", "smart tank"],
+  scanner: ["scanner", "flatbed", "document scanner", "barcode scanner"],
+  peripheral: ["peripheral", "keyboard", "mouse", "combo", "headset", "headphone", "webcam", "speaker", "mousepad", "accessory", "accessories", "gamepad"],
+  graphic: ["graphics", "graphic card", "gpu", "geforce", "radeon", "rtx", "gtx", "quadro"],
+  graphics: ["graphics", "graphic card", "gpu", "geforce", "radeon", "rtx", "gtx", "quadro"],
+  motherboard: ["motherboard", "mobo", "chipset", "b550", "b650", "h610", "b760", "z790"],
+  memory: ["memory", "ram", "ddr3", "ddr4", "ddr5", "dimm", "sodimm"],
+  ram: ["ram", "memory", "ddr3", "ddr4", "ddr5", "dimm", "sodimm"],
+  cabinet: ["cabinet", "case", "chassis", "atx"],
+  ups: ["ups", "inverter", "battery backup"],
+  networking: ["networking", "router", "network switch", "access point", "lan", "ethernet"],
+  network: ["network", "router", "network switch", "access point", "lan", "ethernet"],
+  software: ["software", "license", "antivirus", "windows", "office", "subscription"],
+  server: ["server", "rack", "poweredge", "proliant", "thinksystem"],
+  tablet: ["tablet", "ipad", "tab"],
+  projector: ["projector", "beam", "screen projector"],
+  gaming: ["gaming", "gamer", "rgb", "esports"],
+  accessory: ["accessory", "accessories", "cable", "adapter", "stand", "hub", "dock"],
+  accessories: ["accessories", "accessory", "cable", "adapter", "stand", "hub", "dock"],
+};
 
-  if (stems.length === 0) return null;
-  return new RegExp(stems.join("|"), "i");
+// "Displays" -> "display", "Accessories" -> "accessory".
+function singularize(word: string): string {
+  if (word.length > 4 && word.endsWith("ies")) return `${word.slice(0, -3)}y`;
+  if (word.length > 4 && /(ses|shes|ches|xes|zes)$/.test(word)) return word.slice(0, -2);
+  if (word.length > 3 && word.endsWith("s") && !word.endsWith("ss")) return word.slice(0, -1);
+  return word;
 }
 
-// Loads the products for one homepage rail: everything in the section's own
-// categories first, then — only if the row would be short — products whose name
-// or tags match the section title. Guarantees the row is both full and relevant.
-async function fetchSectionProducts(
-  categoryIds: (string | { toString(): string })[],
-  nameMatch: RegExp | null
-): Promise<Record<string, unknown>[]> {
-  const byCategory = categoryIds.length
-    ? ((await Product.find({ category: { $in: categoryIds }, isActive: true })
-        .select(PRODUCT_LIST_PROJECTION)
-        .populate("brand", "name logo")
-        .sort({ isFeatured: -1, soldCount: -1, createdAt: -1 })
-        .limit(SECTION_PRODUCT_LIMIT)
-        .lean()) as unknown as Record<string, unknown>[])
-    : [];
+// Every search term a section heading should look for, deduplicated.
+function sectionKeywords(title: string): string[] {
+  const keywords = new Set<string>();
 
-  if (!nameMatch || byCategory.length >= SECTION_PRODUCT_LIMIT) {
-    return byCategory;
+  for (const raw of title.toLowerCase().split(/[^a-z0-9.]+/)) {
+    if (!raw || raw.length < 2) continue;
+    if (SECTION_TITLE_STOP_WORDS.has(raw)) continue;
+
+    const stem = singularize(raw);
+    if (SECTION_TITLE_STOP_WORDS.has(stem)) continue;
+
+    keywords.add(stem);
+    for (const synonym of SECTION_KEYWORD_SYNONYMS[stem] ?? []) {
+      keywords.add(synonym);
+    }
   }
 
-  const byName = (await Product.find({
-    isActive: true,
-    _id: { $nin: byCategory.map((p) => p._id) },
-    $or: [{ name: nameMatch }, { tags: nameMatch }],
-  })
+  return [...keywords];
+}
+
+// Builds one case-insensitive regex from the section's keywords. Short terms are
+// word-bounded so "pc" can't match "pcie", multi-word terms tolerate hyphens and
+// missing spaces ("hard disk" also matches "hard-disk" and "harddisk").
+function keywordRegex(keywords: string[]): RegExp | null {
+  const parts = keywords
+    .map((keyword) => {
+      const body = escapeRegex(keyword).replace(/(\\?\s)+/g, "[\\s\\-_]*");
+      return keyword.length <= 3 ? `\\b${body}\\b` : body;
+    })
+    .filter(Boolean);
+
+  if (parts.length === 0) return null;
+
+  try {
+    return new RegExp(parts.join("|"), "i");
+  } catch {
+    return null;
+  }
+}
+
+const SECTION_PRODUCT_SORT = { isFeatured: -1, soldCount: -1, createdAt: -1 } as const;
+
+function findSectionCandidates(filter: Record<string, unknown>) {
+  return Product.find(filter)
     .select(PRODUCT_LIST_PROJECTION)
     .populate("brand", "name logo")
-    .sort({ isFeatured: -1, soldCount: -1, createdAt: -1 })
-    .limit(SECTION_PRODUCT_LIMIT - byCategory.length)
-    .lean()) as unknown as Record<string, unknown>[];
+    .sort(SECTION_PRODUCT_SORT)
+    .limit(SECTION_CANDIDATE_LIMIT)
+    .lean() as unknown as Promise<Record<string, unknown>[]>;
+}
 
-  return [...byCategory, ...byName];
+// Loads the products for one homepage rail in strict relevance order:
+//   1. in the section's own categories AND matching the heading's keywords
+//   2. matching the heading's keywords anywhere in the catalogue
+//   3. anything else in the section's categories (only to fill the row)
+// Passes run in order and stop as soon as the row is full, so a rail always
+// leads with products that genuinely belong under its title.
+async function fetchSectionProducts(
+  title: string,
+  categoryIds: (string | { toString(): string })[]
+): Promise<Record<string, unknown>[]> {
+  const regex = keywordRegex(sectionKeywords(title));
+  const active = { isActive: { $ne: false } };
+  const inCategory = categoryIds.length > 0 ? { category: { $in: categoryIds } } : null;
+  const matchesTitle = regex
+    ? { $or: [{ name: regex }, { tags: regex }, { sku: regex }, { shortDescription: regex }] }
+    : null;
+
+  const passes: Record<string, unknown>[] = [];
+  if (inCategory && matchesTitle) passes.push({ ...active, ...inCategory, ...matchesTitle });
+  if (matchesTitle) passes.push({ ...active, ...matchesTitle });
+  if (inCategory) passes.push({ ...active, ...inCategory });
+
+  const seen = new Set<string>();
+  const products: Record<string, unknown>[] = [];
+
+  for (const filter of passes) {
+    if (products.length >= SECTION_PRODUCT_LIMIT) break;
+
+    const candidates = await findSectionCandidates(filter);
+    for (const candidate of candidates) {
+      const id = String((candidate._id as { toString(): string })?.toString() ?? "");
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      products.push(candidate);
+      if (products.length >= SECTION_PRODUCT_LIMIT) break;
+    }
+  }
+
+  return products;
 }
 
 // Lean projection for product lists (only fields we need)
@@ -511,15 +600,12 @@ export const getHomepageSections = unstable_cache(
               .lean();
           }
 
-          if (section.categoryId) {
-            // Category products first, then name matches on the section title so
-            // the row is always full of products that belong under that heading.
-            return fetchSectionProducts([section.categoryId], sectionTitleRegex(section.title));
-          }
-
-          // No category and no explicit products: fall back to matching the
-          // section title against product names.
-          return fetchSectionProducts([], sectionTitleRegex(section.title));
+          // Products that match BOTH the category and the heading come first,
+          // then heading matches from anywhere, then the rest of the category.
+          return fetchSectionProducts(
+            section.title,
+            section.categoryId ? [section.categoryId] : []
+          );
         })
       );
 
@@ -586,14 +672,7 @@ export const getHomepageSections = unstable_cache(
     const categoryIds = categoriesWithProducts.map(c => c._id);
     const [perCategoryProducts, allSubcategories] = await Promise.all([
       Promise.all(
-        categoryIds.map((catId) =>
-          Product.find({ category: catId, isActive: true })
-            .select(PRODUCT_LIST_PROJECTION)
-            .populate("brand", "name logo")
-            .sort({ isFeatured: -1, soldCount: -1 })
-            .limit(SECTION_PRODUCT_LIMIT)
-            .lean()
-        )
+        categoriesWithProducts.map((cat) => fetchSectionProducts(cat.name, [cat._id]))
       ),
       Category.find({ parent: { $in: categoryIds }, isActive: true })
         .select("_id name slug parent")
@@ -778,7 +857,14 @@ export const getCuratedSections = unstable_cache(
     if (resolved.length === 0) return [];
 
     const productsPerSection = await Promise.all(
-      resolved.map((section) => fetchSectionProducts(section.categoryIds, section.match))
+      resolved.map((section) =>
+        // Match on the rail's own heading plus the matched category name, so
+        // "Displays" also picks up a "Monitors" category's products.
+        fetchSectionProducts(
+          section.category ? `${section.title} ${section.category.name}` : section.title,
+          section.categoryIds
+        )
+      )
     );
 
     const sectionData: SectionData[] = [];
