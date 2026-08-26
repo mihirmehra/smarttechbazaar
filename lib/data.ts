@@ -56,14 +56,71 @@ function findSectionCandidates(filter: Record<string, unknown>) {
 // Resolves a rule's hand-checked category slugs to ids. Products in these
 // categories are trusted even when the name alone is uninformative, which is how
 // "Zeb V19HD LED" reaches the Displays rail.
-async function trustedCategoryIds(rule: SectionRule): Promise<unknown[]> {
-  if (rule.categorySlugs.length === 0) return [];
+//
+// Every rule's slugs are resolved in ONE query and memoised for the duration of
+// the request. Doing this per rail meant each of the ~10 rails opened its own
+// Category query on top of its Product query, and with `maxPoolSize: 5` the
+// homepage's fan-out exhausted the pool and died with
+// "MongoWaitQueueTimeoutError: Timed out while checking out a connection".
+let trustedCategoryIdCache: Map<string, unknown[]> | null = null;
 
-  const categories = (await Category.find({ slug: { $in: rule.categorySlugs } })
-    .select("_id")
-    .lean()) as unknown as { _id: unknown }[];
+async function trustedCategoryIdsByRule(): Promise<Map<string, unknown[]>> {
+  if (trustedCategoryIdCache) return trustedCategoryIdCache;
 
-  return categories.map((category) => category._id);
+  const allSlugs = Array.from(
+    new Set(SECTION_RULES.flatMap((rule) => rule.categorySlugs))
+  );
+
+  const categories =
+    allSlugs.length > 0
+      ? ((await Category.find({ slug: { $in: allSlugs } })
+          .select("_id slug")
+          .lean()) as unknown as { _id: unknown; slug: string }[])
+      : [];
+
+  const idBySlug = new Map(categories.map((c) => [c.slug, c._id]));
+
+  const byRule = new Map<string, unknown[]>();
+  for (const rule of SECTION_RULES) {
+    byRule.set(
+      rule.key,
+      rule.categorySlugs
+        .map((slug) => idBySlug.get(slug))
+        .filter((id): id is unknown => id !== undefined)
+    );
+  }
+
+  trustedCategoryIdCache = byRule;
+  return byRule;
+}
+
+// Runs async tasks with a hard concurrency cap, preserving input order.
+//
+// The Mongo pool is deliberately small (`maxPoolSize: 5`), and the homepage
+// already fans out ~10 top-level fetches in parallel. Firing one more query per
+// rail on top of that saturated the pool and every rail failed with
+// "MongoWaitQueueTimeoutError", which the page surfaced as "No Products
+// Available". Capping the rails at 2 in flight keeps them inside the pool budget.
+const SECTION_QUERY_CONCURRENCY = 2;
+
+async function mapWithConcurrency<T, R>(
+  items: T[],
+  limit: number,
+  task: (item: T, index: number) => Promise<R>
+): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let next = 0;
+
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (true) {
+      const index = next++;
+      if (index >= items.length) return;
+      results[index] = await task(items[index], index);
+    }
+  });
+
+  await Promise.all(workers);
+  return results;
 }
 
 // The catalogue holds genuine duplicates (ten identical "iBall Computer Case"
@@ -92,7 +149,8 @@ async function fetchSectionProducts(
 
   let filter: Record<string, unknown>;
   if (rule) {
-    const trusted = [...(await trustedCategoryIds(rule)), ...categoryIds];
+    const trustedByRule = await trustedCategoryIdsByRule();
+    const trusted = [...(trustedByRule.get(rule.key) ?? []), ...categoryIds];
     filter = productFilterForRule(rule, trusted);
   } else if (categoryIds.length > 0) {
     filter = { isActive: { $ne: false }, category: { $in: categoryIds } };
@@ -512,14 +570,16 @@ export const getHomepageSections = unstable_cache(
       // Previously this ran one unbounded `Product.find({ category: { $in: ... } })`
       // which pulled every product of every featured category into memory just to
       // slice 10 off the front — a full collection scan on large catalogues.
-      const sectionProducts = await Promise.all(
-        enabledSections.map((section) => {
+      const sectionProducts = await mapWithConcurrency(
+        enabledSections,
+        SECTION_QUERY_CONCURRENCY,
+        (section) => {
           if (section.productIds && section.productIds.length > 0) {
             return Product.find({ _id: { $in: section.productIds }, isActive: true })
               .select(PRODUCT_LIST_PROJECTION)
               .populate("brand", "name logo")
               .limit(SECTION_PRODUCT_LIMIT)
-              .lean();
+              .lean() as unknown as Promise<Record<string, unknown>[]>;
           }
 
           // Curated rules keep the rail on-topic; rails without a rule fall
@@ -529,7 +589,7 @@ export const getHomepageSections = unstable_cache(
             section.slug,
             section.categoryId ? [section.categoryId] : []
           );
-        })
+        }
       );
 
       for (let i = 0; i < enabledSections.length; i++) {
@@ -593,15 +653,19 @@ export const getHomepageSections = unstable_cache(
     // Fetch subcategories in one query, and each category's products with a
     // per-category LIMIT in parallel, so we never load the whole catalogue.
     const categoryIds = categoriesWithProducts.map(c => c._id);
-    const [perCategoryProducts, allSubcategories] = await Promise.all([
-      Promise.all(
-        categoriesWithProducts.map((cat) => fetchSectionProducts(cat.name, cat.slug, [cat._id]))
-      ),
-      Category.find({ parent: { $in: categoryIds }, isActive: true })
-        .select("_id name slug parent")
-        .sort({ sortOrder: 1 })
-        .lean(),
-    ]);
+    const perCategoryProducts = await mapWithConcurrency(
+      categoriesWithProducts,
+      SECTION_QUERY_CONCURRENCY,
+      (cat) => fetchSectionProducts(cat.name, cat.slug, [cat._id])
+    );
+
+    const allSubcategories = await Category.find({
+      parent: { $in: categoryIds },
+      isActive: true,
+    })
+      .select("_id name slug parent")
+      .sort({ sortOrder: 1 })
+      .lean();
 
     for (let i = 0; i < categoriesWithProducts.length; i++) {
       const cat = categoriesWithProducts[i];
