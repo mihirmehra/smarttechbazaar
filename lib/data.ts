@@ -45,7 +45,7 @@ const SECTION_PRODUCT_SORT = { isFeatured: -1, soldCount: -1, createdAt: -1 } as
 function findSectionCandidates(filter: Record<string, unknown>) {
   return Product.find(filter)
     .select(PRODUCT_LIST_PROJECTION)
-    .populate("brand", "name logo")
+    .populate("brand", "name")
     .sort(SECTION_PRODUCT_SORT)
     .limit(SECTION_CANDIDATE_LIMIT)
     .lean() as unknown as Promise<Record<string, unknown>[]>;
@@ -187,7 +187,7 @@ export const getBestSellers = unstable_cache(
       isBestSeller: true,
     })
       .select(PRODUCT_LIST_PROJECTION)
-      .populate("brand", "name logo")
+      .populate("brand", "name")
       .sort({ soldCount: -1 })
       .limit(10)
       .lean();
@@ -199,7 +199,7 @@ export const getBestSellers = unstable_cache(
         _id: { $nin: products.map((p) => p._id) },
       })
         .select(PRODUCT_LIST_PROJECTION)
-        .populate("brand", "name logo")
+        .populate("brand", "name")
         .sort({ soldCount: -1 })
         .limit(10 - products.length)
         .lean();
@@ -220,7 +220,7 @@ export const getMostPopular = unstable_cache(
 
     const products = await Product.find({ isActive: true })
       .select(PRODUCT_LIST_PROJECTION)
-      .populate("brand", "name logo")
+      .populate("brand", "name")
       .sort({ views: -1, isFeatured: -1 })
       .limit(10)
       .lean();
@@ -639,7 +639,7 @@ export const getHomepageSections = unstable_cache(
           if (section.productIds && section.productIds.length > 0) {
             return Product.find({ _id: { $in: section.productIds }, isActive: true })
               .select(PRODUCT_LIST_PROJECTION)
-              .populate("brand", "name logo")
+              .populate("brand", "name")
               .limit(SECTION_PRODUCT_LIMIT)
               .lean() as unknown as Promise<Record<string, unknown>[]>;
           }
@@ -767,7 +767,7 @@ export const getNewArrivals = unstable_cache(
 
     const flagged = await Product.find({ isActive: true, isNewArrival: true })
       .select(PRODUCT_LIST_PROJECTION)
-      .populate("brand", "name logo")
+      .populate("brand", "name")
       .sort({ createdAt: -1 })
       .limit(SECTION_PRODUCT_LIMIT)
       .lean();
@@ -781,7 +781,7 @@ export const getNewArrivals = unstable_cache(
       _id: { $nin: flagged.map((p) => p._id) },
     })
       .select(PRODUCT_LIST_PROJECTION)
-      .populate("brand", "name logo")
+      .populate("brand", "name")
       .sort({ createdAt: -1 })
       .limit(SECTION_PRODUCT_LIMIT - flagged.length)
       .lean();
@@ -915,7 +915,7 @@ export const getCuratedSections = unstable_cache(
       category: { $in: allCategoryIds },
     })
       .select(PRODUCT_LIST_PROJECTION)
-      .populate("brand", "name logo")
+      .populate("brand", "name")
       .lean()) as unknown as Record<string, unknown>[];
 
     const rank = (product: Record<string, unknown>) => ({

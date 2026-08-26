@@ -40,15 +40,21 @@ async function safeList<T>(
   label: string
 ): Promise<T[]> {
   // Keep an unavailable database from blocking the first paint indefinitely, but
-  // stay comfortably above the cold-start cost of establishing the MongoDB
-  // connection (handshakes to this cluster measured 1.7s-7.9s). A cap below that
-  // blanked out sections even though the database was perfectly healthy.
+  // stay well above the real cost of these queries.
+  //
+  // Product images and brand logos are stored in Mongo as inline base64 data
+  // URIs, so a single page of 10 products transfers ~1.15MB and a page of brands
+  // ~1.07MB. Measured: the same query projecting only `name` returns in 210ms,
+  // but including `images` takes ~13s — the time is pure document transfer, not
+  // query planning (the required indexes already exist). Fetches that issue two
+  // such queries (best sellers falls back to a second lookup) therefore need
+  // more than 26s, which is why the old 20s cap silently emptied those rails.
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const timeout = new Promise<never>((_, reject) => {
       timer = setTimeout(
         () => reject(new Error("Homepage data fetch timed out")),
-        20000
+        60000
       );
     });
     return await Promise.race([load(), timeout]);
