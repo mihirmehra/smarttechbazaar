@@ -134,7 +134,12 @@ const PRODUCT_LIST_PROJECTION = {
   _id: 1,
   name: 1,
   slug: 1,
-  images: { $slice: 2 }, // Only first 2 images
+  // Only the FIRST image. Images are stored as inline base64 data URIs averaging
+  // ~873KB each, so `$slice: 2` pulled ~8.7MB for a single 10-product rail and
+  // the query took ~90s (vs 217ms projecting `name` alone) — that transfer cost,
+  // not query planning, is what timed the rails out. Dropping the second image
+  // halves the payload; the card's hover image falls back to the first one.
+  images: { $slice: 1 },
   priceB2C: 1,
   priceB2B: 1,
   mrp: 1,
@@ -765,28 +770,36 @@ export const getNewArrivals = unstable_cache(
   async (): Promise<ProductData[]> => {
     await dbConnect();
 
-    const flagged = await Product.find({ isActive: true, isNewArrival: true })
+    // Deliberately ONE query, not a flagged-then-top-up pair. Product images are
+    // stored as inline base64 data URIs, so each page of 10 products transfers
+    // ~1.15MB and takes ~13s; issuing two of those sequentially while the other
+    // rails compete for the 5-socket pool pushed this past the timeout and left
+    // the section empty. `isActive: { $ne: false }` matches the rails so
+    // products that simply lack the field are not silently dropped.
+    const products = await Product.find({
+      isActive: { $ne: false },
+      isNewArrival: true,
+    })
       .select(PRODUCT_LIST_PROJECTION)
       .populate("brand", "name")
       .sort({ createdAt: -1 })
       .limit(SECTION_PRODUCT_LIMIT)
       .lean();
 
-    if (flagged.length >= SECTION_PRODUCT_LIMIT) {
-      return flagged.map(mapProductToData);
+    // Only fall back to "newest overall" when nothing is flagged at all, so the
+    // rail still renders on a catalogue that never sets `isNewArrival`.
+    if (products.length > 0) {
+      return products.map(mapProductToData);
     }
 
-    const filler = await Product.find({
-      isActive: true,
-      _id: { $nin: flagged.map((p) => p._id) },
-    })
+    const newest = await Product.find({ isActive: { $ne: false } })
       .select(PRODUCT_LIST_PROJECTION)
       .populate("brand", "name")
       .sort({ createdAt: -1 })
-      .limit(SECTION_PRODUCT_LIMIT - flagged.length)
+      .limit(SECTION_PRODUCT_LIMIT)
       .lean();
 
-    return [...flagged, ...filler].map(mapProductToData);
+    return newest.map(mapProductToData);
   },
   ["new-arrivals"],
   { revalidate: CACHE_DURATIONS.medium, tags: [CACHE_TAGS.products] }
