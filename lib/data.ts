@@ -496,7 +496,14 @@ export const getHomepageSections = unstable_cache(
     if (homepageSettings?.value && Array.isArray(homepageSettings.value) && homepageSettings.value.length > 0) {
       const sections = homepageSettings.value as HomepageSection[];
       const enabledSections = sections
-        .filter((s) => s.enabled && !isExcludedSection(s.title, s.slug))
+        .filter(
+          (s) =>
+            s.enabled &&
+            !isExcludedSection(s.title, s.slug) &&
+            // The live settings document holds a junk row literally titled
+            // "category"; such placeholders would render a meaningless rail.
+            !isPlaceholderSection(s.title)
+        )
         .sort((a, b) => a.sortOrder - b.sortOrder);
 
       const sectionData: SectionData[] = [];
@@ -515,10 +522,11 @@ export const getHomepageSections = unstable_cache(
               .lean();
           }
 
-          // Products that match BOTH the category and the heading come first,
-          // then heading matches from anywhere, then the rest of the category.
+          // Curated rules keep the rail on-topic; rails without a rule fall
+          // back to their own category's products.
           return fetchSectionProducts(
             section.title,
+            section.slug,
             section.categoryId ? [section.categoryId] : []
           );
         })
@@ -587,7 +595,7 @@ export const getHomepageSections = unstable_cache(
     const categoryIds = categoriesWithProducts.map(c => c._id);
     const [perCategoryProducts, allSubcategories] = await Promise.all([
       Promise.all(
-        categoriesWithProducts.map((cat) => fetchSectionProducts(cat.name, [cat._id]))
+        categoriesWithProducts.map((cat) => fetchSectionProducts(cat.name, cat.slug, [cat._id]))
       ),
       Category.find({ parent: { $in: categoryIds }, isActive: true })
         .select("_id name slug parent")
@@ -667,19 +675,11 @@ export const getNewArrivals = unstable_cache(
 // CURATED CATEGORY SECTIONS
 // ============================================
 
-// The homepage always shows these category rails. Each one is matched against
-// the real categories in the database by slug/name so the section links and
-// products stay correct no matter how the catalogue is named
-// ("monitors" vs "displays", "cpu" vs "processors", ...).
-const CURATED_SECTIONS: { title: string; match: RegExp }[] = [
-  { title: "Desktops", match: /desktop|all[-\s]?in[-\s]?one|workstation|\bpc\b/i },
-  { title: "Laptops", match: /laptop|notebook|macbook|ultrabook/i },
-  { title: "Displays", match: /display|monitor|screen/i },
-  { title: "Processors", match: /processor|\bcpu\b|ryzen|\bcore\b/i },
-  { title: "Storage", match: /storage|\bssd\b|\bhdd\b|hard\s*(disk|drive)|nvme|\bnas\b/i },
-  { title: "Printers & Scanners", match: /printer|scanner|cartridge|toner|\bmfp\b/i },
-  { title: "Peripherals", match: /peripheral|keyboard|\bmouse\b|headset|accessor/i },
-];
+// The homepage always shows these category rails, in `SECTION_RULES` order.
+// Each rail's products come from its rule (include/exclude patterns plus the
+// hand-checked trusted categories), and the matched catalogue category is used
+// only to build the section link and subcategory tabs — so a "Monitors"
+// category still backs the "Displays" rail.
 
 type CategoryNode = {
   _id: { toString(): string };
@@ -726,25 +726,24 @@ export const getCuratedSections = unstable_cache(
 
     const used = new Set<string>();
     const resolved: {
-      title: string;
-      match: RegExp;
+      rule: SectionRule;
       category: CategoryNode | null;
       categoryIds: string[];
     }[] = [];
 
-    for (const def of CURATED_SECTIONS) {
-      if (isExcludedSection(def.title)) continue;
+    for (const rule of SECTION_RULES) {
+      if (isExcludedSection(rule.title)) continue;
 
       const matches = categories.filter(
         (c) =>
-          (def.match.test(c.name) || def.match.test(c.slug)) &&
+          (rule.categoryMatch.test(c.name) || rule.categoryMatch.test(c.slug)) &&
           !isExcludedSection(c.name, c.slug)
       );
 
       if (matches.length === 0) {
-        // No category for this rail yet — still show it if products match the
-        // title by name, linking through to search instead of a category page.
-        resolved.push({ title: def.title, match: def.match, category: null, categoryIds: [] });
+        // No category for this rail yet — the rule's own include/exclude
+        // patterns still fill it, linking through to search instead.
+        resolved.push({ rule, category: null, categoryIds: [] });
         continue;
       }
 
@@ -762,8 +761,7 @@ export const getCuratedSections = unstable_cache(
       used.add(id);
 
       resolved.push({
-        title: def.title,
-        match: def.match,
+        rule,
         category: best,
         categoryIds: collectDescendantIds(id),
       });
@@ -773,12 +771,10 @@ export const getCuratedSections = unstable_cache(
 
     const productsPerSection = await Promise.all(
       resolved.map((section) =>
-        // Match on the rail's own heading plus the matched category name, so
-        // "Displays" also picks up a "Monitors" category's products.
-        fetchSectionProducts(
-          section.category ? `${section.title} ${section.category.name}` : section.title,
-          section.categoryIds
-        )
+        // The rule's key resolves back to the same rule, so the rail is filled
+        // strictly by its vetted include/exclude patterns plus its own
+        // category tree.
+        fetchSectionProducts(section.rule.title, section.rule.key, section.categoryIds)
       )
     );
 
@@ -795,10 +791,10 @@ export const getCuratedSections = unstable_cache(
         : [];
 
       sectionData.push({
-        title: section.title,
-        slug: category?.slug ?? slugifySectionTitle(section.title),
+        title: section.rule.title,
+        slug: category?.slug ?? slugifySectionTitle(section.rule.title),
         subcategories: [
-          { name: `All ${section.title}`, isActive: true },
+          { name: `All ${section.rule.title}`, isActive: true },
           ...children.map((sub) => ({
             name: sub.name,
             href: category ? `/category/${category.slug}/${sub.slug}` : undefined,

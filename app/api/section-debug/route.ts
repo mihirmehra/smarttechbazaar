@@ -1,36 +1,24 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
-import Product from "@/models/Product";
-import Category from "@/models/Category";
-import {
-  SECTION_RULES,
-  productFilterForRule,
-  SECTION_PRODUCT_LIMIT,
-} from "@/lib/section-matching";
+import { getCuratedSections, getHomepageSections } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  await dbConnect();
+  const [curated, homepage] = await Promise.all([
+    getCuratedSections(),
+    getHomepageSections(),
+  ]);
 
-  const out: Record<string, { count: number; names: string[] }> = {};
+  const summarize = (sections: Awaited<ReturnType<typeof getCuratedSections>>) =>
+    sections.map((s) => ({
+      title: s.title,
+      slug: s.slug,
+      count: s.products.length,
+      names: s.products.map((p) => p.name),
+    }));
 
-  for (const rule of SECTION_RULES) {
-    const cats = await Category.find({ slug: { $in: rule.categorySlugs } })
-      .select("_id")
-      .lean();
-    const filter = productFilterForRule(
-      rule,
-      cats.map((c) => c._id)
-    );
-    const count = await Product.countDocuments(filter);
-    const docs = await Product.find(filter)
-      .select("name")
-      .limit(SECTION_PRODUCT_LIMIT)
-      .lean();
-    out[rule.title] = {
-      count,
-      names: docs.map((d) => d.name as string),
-    };
-  }
-
-  return NextResponse.json(out);
+  return NextResponse.json({
+    curated: summarize(curated),
+    homepage: summarize(homepage),
+  });
 }
