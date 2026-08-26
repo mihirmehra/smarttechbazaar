@@ -13,7 +13,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useCart, useWishlist } from "@/components/providers/CartWishlistProvider";
-import { Heart, ShoppingCart, Star, Loader2, ChevronRight, Flame } from "lucide-react";
+import { Heart, Star, Loader2, ChevronRight, Flame, Plus, ArrowDown } from "lucide-react";
 
 interface Product {
   id: string;
@@ -66,33 +66,42 @@ function PopularProductCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-lg"
+      className="stb-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Hot badge */}
-      <div className="absolute left-1.5 top-1.5 z-20 flex items-center gap-0.5 rounded-full bg-gradient-to-r from-rose-500 to-orange-500 px-1.5 py-0.5 text-[8px] font-bold text-white shadow-sm md:px-2 md:text-[9px]">
-        <Flame className="h-2.5 w-2.5" />
-        HOT
-      </div>
-
-      {/* Image area */}
-      <div className="relative bg-[#FAFAFA]">
-        {/* Discount badge */}
-        {discount > 0 && (
-          <span className="absolute left-14 top-1.5 z-10 rounded bg-primary px-1.5 py-0.5 text-[8px] font-bold text-white md:left-16 md:top-2 md:text-[9px]">
-            -{discount}%
+      {/* ── Image tile ─────────────────────────────────────────────────── */}
+      <div className="stb-card-tile">
+        {/* Discount chip, or the HOT marker when there's no discount */}
+        {discount > 0 ? (
+          <span className="stb-chip-deal">
+            <ArrowDown className="h-2.5 w-2.5" strokeWidth={3} />
+            {discount}%
+          </span>
+        ) : (
+          <span className="stb-chip-deal bg-primary">
+            <Flame className="h-2.5 w-2.5" />
+            HOT
           </span>
         )}
+
+        {/* HOT marker — below the discount chip when both are present */}
+        {discount > 0 && (
+          <span className="absolute left-1.5 top-6 z-10 flex items-center gap-0.5 rounded bg-primary px-1 py-0.5 text-[9px] font-bold leading-none text-white">
+            <Flame className="h-2.5 w-2.5" />
+            HOT
+          </span>
+        )}
+
         {/* Wishlist */}
         <button
           onClick={handleWishlist}
           disabled={wishlistLoading}
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
-          className={`absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-all press-active shadow-sm ${
+          className={`absolute right-1.5 top-1.5 z-20 flex h-7 w-7 items-center justify-center rounded-full transition-all press-active ${
             wishlisted
-              ? "border-primary bg-primary text-white"
-              : "border-border bg-white text-muted-foreground hover:border-primary hover:text-primary"
+              ? "bg-primary text-white shadow-sm"
+              : "bg-card/85 text-muted-foreground shadow-sm hover:text-primary"
           }`}
         >
           {wishlistLoading ? (
@@ -102,14 +111,36 @@ function PopularProductCard({ product }: { product: Product }) {
           )}
         </button>
 
+        {/* Rating pill */}
+        {rating > 0 && (
+          <span className="stb-chip-rating">
+            {rating.toFixed(1)}
+            <Star className="h-2.5 w-2.5 fill-stb-rating text-stb-rating" />
+          </span>
+        )}
+
+        {/* Quick-add */}
+        <button
+          onClick={handleCart}
+          disabled={!product.inStock || addingToCart}
+          aria-label="Add to cart"
+          className="stb-add-btn"
+        >
+          {addingToCart ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Plus className="h-4 w-4" strokeWidth={2.5} />
+          )}
+        </button>
+
         {/* Image */}
-        <Link href={`/product/${product.slug}`} className="block p-3 md:p-4">
+        <Link href={`/product/${product.slug}`} className="block p-2.5 md:p-3">
           <div className="relative aspect-square w-full">
             <Image
               src={hovered && product.secondImage ? product.secondImage : product.image}
               alt={product.name}
               fill
-              sizes="(max-width: 640px) 50vw, 200px"
+              sizes="(max-width: 640px) 45vw, 200px"
               className="object-contain transition-transform duration-300 group-hover:scale-105"
               unoptimized
             />
@@ -117,71 +148,43 @@ function PopularProductCard({ product }: { product: Product }) {
         </Link>
       </div>
 
-      {/* Info */}
-      <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-2 md:px-3 md:pb-3 md:pt-2.5">
-        {/* Brand */}
-        <span className="text-[9px] font-semibold uppercase tracking-wide text-primary md:text-[10px]">
-          {product.brand}
-        </span>
+      {/* ── Info ───────────────────────────────────────────────────────── */}
+      <div className="flex flex-1 flex-col px-2 pb-2 pt-3.5 md:px-2.5 md:pb-2.5">
+        {/* Brand capsule */}
+        {product.brand && <span className="stb-meta-chip">{product.brand}</span>}
+
         {/* Name */}
-        <Link href={`/product/${product.slug}`} className="mt-0.5 block">
-          <h3 className="line-clamp-2 text-xs font-medium leading-snug text-foreground hover:text-primary md:text-[13px]">
+        <Link href={`/product/${product.slug}`} className="mt-1 block">
+          <h3 className="line-clamp-2 text-[13px] font-bold leading-tight text-foreground transition-colors hover:text-primary">
             {product.name}
           </h3>
         </Link>
-        {/* Stars */}
-        {rating > 0 && (
-          <div className="mt-1 flex items-center gap-0.5">
-            {[1, 2, 3, 4, 5].map((s) => (
-              <Star
-                key={s}
-                className={`h-2 w-2 md:h-2.5 md:w-2.5 ${s <= Math.round(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
-              />
-            ))}
-          </div>
-        )}
 
         <div className="flex-1" />
 
         {/* Price */}
-        <div className="mt-2 space-y-0.5">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-extrabold text-foreground md:text-base">
-              ₹{price.toLocaleString("en-IN")}
-            </span>
+        <div className="mt-1.5">
+          <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
             {mrp > price && (
-              <span className="text-[9px] text-muted-foreground line-through md:text-[10px]">
+              <span className="text-[11px] text-muted-foreground line-through">
                 ₹{mrp.toLocaleString("en-IN")}
               </span>
             )}
-          </div>
-          <div className="flex items-center justify-between">
-            {savings > 0 ? (
-              <span className="text-[9px] font-medium text-stb-success md:text-[10px]">
-                Save ₹{savings.toLocaleString("en-IN")}
-              </span>
-            ) : <span />}
-            <span className={`text-[9px] font-semibold md:text-[10px] ${product.inStock ? "text-stb-success" : "text-destructive"}`}>
-              {product.inStock ? "In Stock" : "Out of Stock"}
+            <span className="text-[15px] font-extrabold leading-none text-foreground">
+              ₹{price.toLocaleString("en-IN")}
             </span>
           </div>
-        </div>
-
-        {/* Add to Cart */}
-        <button
-          onClick={handleCart}
-          disabled={!product.inStock || addingToCart}
-          className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary py-3 text-xs font-bold text-white transition-colors hover:bg-stb-red-dark disabled:cursor-not-allowed disabled:opacity-40 press-active"
-        >
-          {addingToCart ? (
-            <Loader2 className="h-3 w-3 animate-spin" />
-          ) : (
-            <>
-              <ShoppingCart className="h-3 w-3" />
-              Add to Cart
-            </>
+          {savings > 0 && (
+            <span className="mt-0.5 block text-[10px] font-bold text-stb-deal">
+              Save ₹{savings.toLocaleString("en-IN")}
+            </span>
           )}
-        </button>
+          {!product.inStock && (
+            <span className="mt-0.5 block text-[10px] font-bold text-destructive">
+              Out of Stock
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -191,21 +194,22 @@ export default function MostPopularSection({ products, title = "Most Popular" }:
   if (!products || products.length === 0) return null;
 
   return (
-    <section className="bg-gradient-to-r from-rose-50 to-pink-50 py-4 md:py-6">
+    <section className="bg-stb-tint-red py-4 md:py-6">
       <div className="mx-auto max-w-7xl px-3 md:px-4">
         {/* Header */}
         <div className="mb-3 flex items-center justify-between gap-2 md:mb-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-orange-500 md:h-7 md:w-7">
-              <Flame className="h-3 w-3 text-white md:h-3.5 md:w-3.5" />
-            </div>
-            <h2 className="text-sm font-bold text-foreground md:text-base">{title}</h2>
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary">
+              <Flame className="h-3.5 w-3.5 text-white" />
+            </span>
+            <h2 className="stb-rail-title truncate">{title}</h2>
           </div>
           <Link
             href="/products?sortBy=bestselling"
-            className="flex shrink-0 items-center gap-0.5 text-[11px] font-semibold text-primary hover:text-stb-red-dark md:text-xs"
+            aria-label={`View all ${title}`}
+            className="stb-rail-arrow"
           >
-            View All <ChevronRight className="h-3 w-3" />
+            <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
           </Link>
         </div>
 

@@ -56,6 +56,24 @@
     --stb-slate: #6B7280;
     --stb-nav-height: 56px;
     --stb-bottom-nav-height: 64px;
+
+    /* ── Card system ─────────────────────────────────────────────────────
+       The product image sits on a neutral tile so cutout PNGs of hardware
+       (which are mostly light grey/silver) stay legible. */
+    --stb-tile: #F1F2F4;
+    /* Discount chip: green reads as "saving" in the Indian retail context. */
+    --stb-deal: #16803C;
+    --stb-rating: #16803C;
+
+    /* ── Section tint families ───────────────────────────────────────────
+       Each homepage rail gets its own tint so consecutive sections are
+       visually separable while scrolling. Kept desaturated so the red
+       brand primary stays the loudest colour on the page. */
+    --stb-tint-red: #FDF0F2;
+    --stb-tint-blue: #EEF4FD;
+    --stb-tint-amber: #FEF5E9;
+    --stb-tint-violet: #F3F0FD;
+    --stb-tint-teal: #EAF7F3;
 }
 
 @theme inline {
@@ -105,6 +123,16 @@
     --color-stb-red-dark: var(--stb-red-dark);
     --color-stb-red-light: var(--stb-red-light);
     --color-stb-slate: var(--stb-slate);
+
+    --color-stb-tile: var(--stb-tile);
+    --color-stb-deal: var(--stb-deal);
+    --color-stb-rating: var(--stb-rating);
+
+    --color-stb-tint-red: var(--stb-tint-red);
+    --color-stb-tint-blue: var(--stb-tint-blue);
+    --color-stb-tint-amber: var(--stb-tint-amber);
+    --color-stb-tint-violet: var(--stb-tint-violet);
+    --color-stb-tint-teal: var(--stb-tint-teal);
 
     --radius-sm: calc(var(--radius) * 0.5);
     --radius-md: calc(var(--radius) * 0.75);
@@ -293,6 +321,132 @@
 /* Bottom nav clearance — applied to main content on mobile */
 .has-bottom-nav {
   padding-bottom: calc(var(--stb-bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+}
+
+/* ── Product card primitives ────────────────────────────────────────────
+   Defined once here and shared by ProductCard, ProductSection,
+   BestSellersSection and MostPopularSection so the four card variants can
+   never drift apart again. */
+
+/* Card shell: flat white surface, hairline border, no shadow at rest so a
+   dense grid of cards doesn't turn into visual noise. */
+@utility stb-card {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  &:hover {
+    border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.08);
+  }
+}
+
+/* Neutral tile the product image sits on. */
+@utility stb-card-tile {
+  position: relative;
+  background: var(--stb-tile);
+}
+
+/* Discount chip, top-left, squared off against the card corner. */
+@utility stb-chip-deal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.0625rem;
+  border-bottom-right-radius: 0.5rem;
+  background: var(--stb-deal);
+  padding: 0.1875rem 0.375rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+/* Rating pill, bottom-left, floats over the image tile. */
+@utility stb-chip-rating {
+  position: absolute;
+  bottom: 0.375rem;
+  left: 0.375rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  border-radius: 0.25rem;
+  background: var(--card);
+  padding: 0.0625rem 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--foreground);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.14);
+}
+
+/* Circular quick-add button that straddles the image/info boundary. */
+@utility stb-add-btn {
+  position: absolute;
+  bottom: -0.875rem;
+  right: 0.5rem;
+  z-index: 20;
+  display: flex;
+  height: 1.75rem;
+  width: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1.5px solid var(--primary);
+  background: var(--card);
+  color: var(--primary);
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.12s ease;
+  &:hover { background: var(--primary); color: #fff; }
+  &:active { transform: scale(0.9); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+/* Small grey capsule for the brand / variant line. */
+@utility stb-meta-chip {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 0.25rem;
+  background: var(--muted);
+  padding: 0.0625rem 0.3125rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+/* Rail heading: coloured bar + title, shared by every section. */
+@utility stb-rail-title {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+/* Circular "see all" arrow button matching the reference layout. */
+@utility stb-rail-arrow {
+  display: flex;
+  height: 1.75rem;
+  width: 1.75rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--foreground);
+  color: var(--background);
+  transition: transform 0.12s ease, opacity 0.15s ease;
+  &:hover { opacity: 0.85; }
+  &:active { transform: scale(0.92); }
 }
 
 /* ── Card hover ─────────────────────────────────────────────────────────── */
