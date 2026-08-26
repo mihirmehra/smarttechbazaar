@@ -545,3 +545,167 @@ export const getHomepageSections = unstable_cache(
   ["homepage-sections"],
   { revalidate: CACHE_DURATIONS.medium, tags: [CACHE_TAGS.products, CACHE_TAGS.categories, CACHE_TAGS.settings] }
 );
+
+// ============================================
+// NEW ARRIVALS
+// ============================================
+
+// Newest products for the homepage rail. Prefers products explicitly flagged as
+// new arrivals in the admin, then tops the row up with the most recently created
+// products so the section is never half-empty.
+export const getNewArrivals = unstable_cache(
+  async (): Promise<ProductData[]> => {
+    await dbConnect();
+
+    const flagged = await Product.find({ isActive: true, isNewArrival: true })
+      .select(PRODUCT_LIST_PROJECTION)
+      .populate("brand", "name logo")
+      .sort({ createdAt: -1 })
+      .limit(SECTION_PRODUCT_LIMIT)
+      .lean();
+
+    if (flagged.length >= SECTION_PRODUCT_LIMIT) {
+      return flagged.map(mapProductToData);
+    }
+
+    const filler = await Product.find({
+      isActive: true,
+      _id: { $nin: flagged.map((p) => p._id) },
+    })
+      .select(PRODUCT_LIST_PROJECTION)
+      .populate("brand", "name logo")
+      .sort({ createdAt: -1 })
+      .limit(SECTION_PRODUCT_LIMIT - flagged.length)
+      .lean();
+
+    return [...flagged, ...filler].map(mapProductToData);
+  },
+  ["new-arrivals"],
+  { revalidate: CACHE_DURATIONS.medium, tags: [CACHE_TAGS.products] }
+);
+
+// ============================================
+// CURATED CATEGORY SECTIONS
+// ============================================
+
+// The homepage always shows these category rails. Each one is matched against
+// the real categories in the database by slug/name so the section links and
+// products stay correct no matter how the catalogue is named
+// ("monitors" vs "displays", "cpu" vs "processors", ...).
+const CURATED_SECTIONS: { title: string; match: RegExp }[] = [
+  { title: "Desktops", match: /desktop|all[-\s]?in[-\s]?one|workstation|\bpc\b/i },
+  { title: "Laptops", match: /laptop|notebook|macbook|ultrabook/i },
+  { title: "Displays", match: /display|monitor|screen/i },
+  { title: "Processors", match: /processor|\bcpu\b|ryzen|\bcore\b/i },
+  { title: "Peripherals", match: /peripheral|keyboard|\bmouse\b|headset|accessor/i },
+];
+
+type CategoryNode = {
+  _id: { toString(): string };
+  name: string;
+  slug: string;
+  parent?: { toString(): string } | null;
+};
+
+// Get the curated homepage category rails - cached
+export const getCuratedSections = unstable_cache(
+  async (): Promise<SectionData[]> => {
+    await dbConnect();
+
+    const categories = (await Category.find({ isActive: { $ne: false } })
+      .select("_id name slug parent")
+      .sort({ sortOrder: 1, name: 1 })
+      .lean()) as unknown as CategoryNode[];
+
+    if (categories.length === 0) return [];
+
+    // Index children by parent id so we can walk the tree without extra queries.
+    const childrenByParent = new Map<string, CategoryNode[]>();
+    for (const cat of categories) {
+      const key = cat.parent ? cat.parent.toString() : "root";
+      const siblings = childrenByParent.get(key) ?? [];
+      siblings.push(cat);
+      childrenByParent.set(key, siblings);
+    }
+
+    // Products can live on leaf categories, so a rail must include every
+    // descendant of the matched category, not just the category itself.
+    const collectDescendantIds = (rootId: string): string[] => {
+      const ids: string[] = [];
+      const queue = [rootId];
+      while (queue.length > 0) {
+        const current = queue.shift() as string;
+        ids.push(current);
+        for (const child of childrenByParent.get(current) ?? []) {
+          queue.push(child._id.toString());
+        }
+      }
+      return ids;
+    };
+
+    const used = new Set<string>();
+    const resolved: { title: string; category: CategoryNode; categoryIds: string[] }[] = [];
+
+    for (const def of CURATED_SECTIONS) {
+      const matches = categories.filter(
+        (c) => def.match.test(c.name) || def.match.test(c.slug)
+      );
+      if (matches.length === 0) continue;
+
+      // Prefer the most generic match: a top-level category first, then the
+      // shortest name (e.g. "Laptops" over "Gaming Laptops Under 50K").
+      const best = [...matches].sort((a, b) => {
+        const aDepth = a.parent ? 1 : 0;
+        const bDepth = b.parent ? 1 : 0;
+        if (aDepth !== bDepth) return aDepth - bDepth;
+        return a.name.length - b.name.length;
+      })[0];
+
+      const id = best._id.toString();
+      if (used.has(id)) continue;
+      used.add(id);
+
+      resolved.push({ title: def.title, category: best, categoryIds: collectDescendantIds(id) });
+    }
+
+    if (resolved.length === 0) return [];
+
+    const productsPerSection = await Promise.all(
+      resolved.map((section) =>
+        Product.find({ category: { $in: section.categoryIds }, isActive: true })
+          .select(PRODUCT_LIST_PROJECTION)
+          .populate("brand", "name logo")
+          .sort({ isFeatured: -1, soldCount: -1, createdAt: -1 })
+          .limit(SECTION_PRODUCT_LIMIT)
+          .lean()
+      )
+    );
+
+    const sectionData: SectionData[] = [];
+
+    for (let i = 0; i < resolved.length; i++) {
+      const section = resolved[i];
+      const products = productsPerSection[i];
+      if (products.length === 0) continue;
+
+      const children = (childrenByParent.get(section.category._id.toString()) ?? []).slice(0, 8);
+
+      sectionData.push({
+        title: section.title,
+        slug: section.category.slug,
+        subcategories: [
+          { name: `All ${section.title}`, isActive: true },
+          ...children.map((sub) => ({
+            name: sub.name,
+            href: `/category/${section.category.slug}/${sub.slug}`,
+          })),
+        ],
+        products: products.map(mapProductToData),
+      });
+    }
+
+    return sectionData;
+  },
+  ["curated-sections"],
+  { revalidate: CACHE_DURATIONS.medium, tags: [CACHE_TAGS.products, CACHE_TAGS.categories] }
+);
