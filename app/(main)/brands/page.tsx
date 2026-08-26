@@ -12,8 +12,14 @@ import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
 import { generateWebPageSchema, generateOrganizationSchema } from "@/lib/schema";
 
 
-// Enable ISR with 5 minute revalidation (brands don't change often)
-export const revalidate = 300;
+// Render on demand rather than prerendering at build time.
+//
+// Brand logos are stored in Mongo as inline base64 data URIs, so this page's
+// query transfers 2.81MB and takes ~31s (measured). That is perilously close to
+// the 60s static-generation budget on its own, and it exceeds it once the build
+// renders several pages at a time against the 5-socket pool. Freshness comes
+// from the request-time query instead.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "All Brands",

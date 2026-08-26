@@ -28,8 +28,19 @@ import {
   getCuratedSections,
 } from "@/lib/data";
 
-// Enable ISR with 60 second revalidation for fast loads with fresh data
-export const revalidate = 60;
+// Render on demand instead of prerendering at build time.
+//
+// Next.js gives every statically generated page a hard 60s budget
+// (`staticPageGenerationTimeout`). Product images and brand logos are stored in
+// Mongo as inline base64 data URIs (~873KB per product), so the homepage rails
+// transfer megabytes and blow past that budget — `next build` failed with
+// "Failed to build /(main)/page: / after 3 attempts", and each retry piled more
+// concurrent queries onto the 5-socket pool, adding MongoWaitQueueTimeoutError.
+//
+// Rendering on demand makes the build independent of the database. Freshness and
+// speed still come from the per-query `unstable_cache` wrappers in lib/data.ts,
+// so this is not an uncached page.
+export const dynamic = "force-dynamic";
 
 // Resolve a data fetch, falling back to an empty list if it fails.
 // A transient MongoDB error must not abort the whole production build (or blank
