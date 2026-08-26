@@ -12,8 +12,14 @@ import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
 import { generateWebPageSchema, generateOrganizationSchema } from "@/lib/schema";
 import { ChevronRight } from "lucide-react";
 
-// Enable ISR with 5 minute revalidation
-export const revalidate = 300;
+// Render on demand rather than prerendering at build time.
+//
+// Category images are stored in Mongo as inline base64 data URIs, so this page's
+// query transfers 2.04MB and takes ~23s (measured). Combined with the other
+// database-backed pages competing for the 5-socket pool during a build, that
+// exceeds the 60s static-generation budget. Freshness comes from the
+// request-time query instead.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "All Categories",
