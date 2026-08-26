@@ -7,6 +7,7 @@ import BrandsSection from "@/components/sections/BrandsSection";
 import AdBannerSlider from "@/components/sections/AdBannerSlider";
 import BestSellersSection from "@/components/sections/BestSellersSection";
 import MostPopularSection from "@/components/sections/MostPopularSection";
+import NewArrivalsSection from "@/components/sections/NewArrivalsSection";
 import HotBrandsSection from "@/components/sections/HotBrandsSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import JsonLd from "@/components/seo/JsonLd";
@@ -24,6 +25,8 @@ import {
   getBestSellers,
   getMostPopular,
   getHotBrands,
+  getNewArrivals,
+  getCuratedSections,
 } from "@/lib/data";
 
 // Enable ISR with 60 second revalidation for fast loads with fresh data
@@ -70,6 +73,8 @@ export default async function HomePage() {
     bestSellers,
     mostPopular,
     hotBrands,
+    newArrivals,
+    curatedSections,
   ] = await Promise.all([
     safeList(getHomepageSections(), "homepageSections"),
     safeList(getCategories(), "categories"),
@@ -79,7 +84,14 @@ export default async function HomePage() {
     safeList(getBestSellers(), "bestSellers"),
     safeList(getMostPopular(), "mostPopular"),
     safeList(getHotBrands(), "hotBrands"),
+    safeList(getNewArrivals(), "newArrivals"),
+    safeList(getCuratedSections(), "curatedSections"),
   ]);
+
+  // The admin-configured sections and the curated rails can resolve to the same
+  // category, so drop any curated rail that is already rendered above.
+  const configuredSlugs = new Set(productSections.map((s) => s.slug));
+  const extraSections = curatedSections.filter((s) => !configuredSlugs.has(s.slug));
 
   // Schema markup for homepage
   const schemas = [
@@ -109,6 +121,9 @@ export default async function HomePage() {
           <BestSellersSection products={bestSellers} />
         )}
 
+        {/* New Arrivals */}
+        <NewArrivalsSection products={newArrivals} />
+
         {/* Dynamic Ad Banner Slider - 1500x300 banners from database */}
         {adBanners.length > 0 && (
           <AdBannerSlider banners={adBanners} />
@@ -116,6 +131,11 @@ export default async function HomePage() {
 
         {/* First 2 Product Sections */}
         {productSections.slice(0, 2).map((section) => (
+          <ProductSection key={section.slug} section={section} />
+        ))}
+
+        {/* Curated category rails - Desktops / Laptops (from the database) */}
+        {extraSections.slice(0, 2).map((section) => (
           <ProductSection key={section.slug} section={section} />
         ))}
 
@@ -175,11 +195,20 @@ export default async function HomePage() {
           <ProductSection key={section.slug} section={section} />
         ))}
 
+        {/* Curated category rails - Displays / Processors / Peripherals */}
+        {extraSections.slice(2).map((section) => (
+          <ProductSection key={section.slug} section={section} />
+        ))}
+
         {/* Brands Carousel */}
         <BrandsSection brands={brands} />
 
         {/* Show message if no products */}
-        {productSections.length === 0 && bestSellers.length === 0 && mostPopular.length === 0 && (
+        {productSections.length === 0 &&
+          extraSections.length === 0 &&
+          newArrivals.length === 0 &&
+          bestSellers.length === 0 &&
+          mostPopular.length === 0 && (
           <div className="mx-auto max-w-7xl px-4 py-20 text-center">
             <h2 className="heading-lg mb-4">No Products Available</h2>
             <p className="body-md text-muted-foreground">
