@@ -6,6 +6,17 @@ import Brand from "@/models/Brand";
 import Banner from "@/models/Banner";
 import Settings from "@/models/Settings";
 import { CACHE_TAGS, CACHE_DURATIONS } from "@/lib/cache";
+import {
+  SECTION_PRODUCT_LIMIT,
+  SECTION_CANDIDATE_LIMIT,
+  SECTION_RULES,
+  isExcludedSection,
+  isPlaceholderSection,
+  productFilterForRule,
+  ruleForTitle,
+  slugifySectionTitle,
+  type SectionRule,
+} from "@/lib/section-matching";
 
 // ============================================
 // PRODUCT DATA FUNCTIONS
@@ -31,129 +42,6 @@ interface ProductData {
   views?: number;
 }
 
-// Max products rendered in a single homepage section row
-const SECTION_PRODUCT_LIMIT = 10;
-// How many candidates each matching pass may pull before de-duplication
-const SECTION_CANDIDATE_LIMIT = 30;
-
-// Sections that must never render on the homepage, no matter how they are
-// configured in the admin or named in the catalogue.
-const EXCLUDED_SECTION_PATTERNS: RegExp[] = [
-  /wi[-\s]?fi|usb\s*adapt|wireless\s*adapt|network\s*adapt|dongle/i,
-  /memory\s*card|micro\s*sd|\bsd\s*card|\bcf\s*card/i,
-  /dash\s*cam/i,
-  /\bsmps\b|switch(ed|ing)?\s*mode\s*power/i,
-];
-
-function isExcludedSection(title: string, slug?: string): boolean {
-  return EXCLUDED_SECTION_PATTERNS.some(
-    (pattern) => pattern.test(title) || (slug ? pattern.test(slug) : false)
-  );
-}
-
-// Fallback slug for a rail that has no matching category in the catalogue.
-function slugifySectionTitle(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-// Words that carry no meaning when matching a product against a section title
-// ("All Gaming Laptops Under 50K" -> gaming, laptop).
-const SECTION_TITLE_STOP_WORDS = new Set([
-  "all", "and", "the", "for", "with", "new", "best", "top", "our", "shop", "deals",
-  "deal", "offer", "offers", "sale", "buy", "online", "price", "prices", "under",
-  "product", "products", "category", "categories", "item", "items", "range",
-  "collection", "featured", "popular", "trending", "more", "other", "others",
-  "section", "store", "latest", "arrival", "arrivals",
-]);
-
-// Real-world vocabulary for each section heading. A catalogue rarely repeats the
-// section title inside every product name ("Displays" -> "LG 24MK600 IPS
-// Monitor"), so each heading word is expanded into the terms that actually show
-// up in product names, tags and SKUs.
-const SECTION_KEYWORD_SYNONYMS: Record<string, string[]> = {
-  desktop: ["desktop", "all in one", "aio", "tower", "workstation", "cpu cabinet", "pc"],
-  laptop: ["laptop", "notebook", "macbook", "ultrabook", "thinkpad", "ideapad", "vivobook", "chromebook", "inspiron", "latitude", "pavilion", "victus", "nitro", "tuf"],
-  display: ["display", "monitor", "screen", "led monitor", "lcd", "ips", "curved"],
-  monitor: ["monitor", "display", "screen", "led monitor", "lcd", "ips", "curved"],
-  processor: ["processor", "cpu", "ryzen", "core i3", "core i5", "core i7", "core i9", "xeon", "threadripper", "athlon", "pentium", "celeron", "epyc", "ultra 5", "ultra 7"],
-  storage: ["storage", "ssd", "hdd", "nvme", "hard disk", "hard drive", "sata", "m.2", "pen drive", "pendrive", "flash drive", "external drive", "nas", "sshd"],
-  printer: ["printer", "inkjet", "laserjet", "laser printer", "deskjet", "ecotank", "toner", "cartridge", "mfp", "multifunction", "smart tank"],
-  scanner: ["scanner", "flatbed", "document scanner", "barcode scanner"],
-  peripheral: ["peripheral", "keyboard", "mouse", "combo", "headset", "headphone", "webcam", "speaker", "mousepad", "accessory", "accessories", "gamepad"],
-  graphic: ["graphics", "graphic card", "gpu", "geforce", "radeon", "rtx", "gtx", "quadro"],
-  graphics: ["graphics", "graphic card", "gpu", "geforce", "radeon", "rtx", "gtx", "quadro"],
-  motherboard: ["motherboard", "mobo", "chipset", "b550", "b650", "h610", "b760", "z790"],
-  memory: ["memory", "ram", "ddr3", "ddr4", "ddr5", "dimm", "sodimm"],
-  ram: ["ram", "memory", "ddr3", "ddr4", "ddr5", "dimm", "sodimm"],
-  cabinet: ["cabinet", "case", "chassis", "atx"],
-  ups: ["ups", "inverter", "battery backup"],
-  networking: ["networking", "router", "network switch", "access point", "lan", "ethernet"],
-  network: ["network", "router", "network switch", "access point", "lan", "ethernet"],
-  software: ["software", "license", "antivirus", "windows", "office", "subscription"],
-  server: ["server", "rack", "poweredge", "proliant", "thinksystem"],
-  tablet: ["tablet", "ipad", "tab"],
-  projector: ["projector", "beam", "screen projector"],
-  gaming: ["gaming", "gamer", "rgb", "esports"],
-  accessory: ["accessory", "accessories", "cable", "adapter", "stand", "hub", "dock"],
-  accessories: ["accessories", "accessory", "cable", "adapter", "stand", "hub", "dock"],
-};
-
-// "Displays" -> "display", "Accessories" -> "accessory".
-function singularize(word: string): string {
-  if (word.length > 4 && word.endsWith("ies")) return `${word.slice(0, -3)}y`;
-  if (word.length > 4 && /(ses|shes|ches|xes|zes)$/.test(word)) return word.slice(0, -2);
-  if (word.length > 3 && word.endsWith("s") && !word.endsWith("ss")) return word.slice(0, -1);
-  return word;
-}
-
-// Every search term a section heading should look for, deduplicated.
-function sectionKeywords(title: string): string[] {
-  const keywords = new Set<string>();
-
-  for (const raw of title.toLowerCase().split(/[^a-z0-9.]+/)) {
-    if (!raw || raw.length < 2) continue;
-    if (SECTION_TITLE_STOP_WORDS.has(raw)) continue;
-
-    const stem = singularize(raw);
-    if (SECTION_TITLE_STOP_WORDS.has(stem)) continue;
-
-    keywords.add(stem);
-    for (const synonym of SECTION_KEYWORD_SYNONYMS[stem] ?? []) {
-      keywords.add(synonym);
-    }
-  }
-
-  return [...keywords];
-}
-
-// Builds one case-insensitive regex from the section's keywords. Short terms are
-// word-bounded so "pc" can't match "pcie", multi-word terms tolerate hyphens and
-// missing spaces ("hard disk" also matches "hard-disk" and "harddisk").
-function keywordRegex(keywords: string[]): RegExp | null {
-  const parts = keywords
-    .map((keyword) => {
-      const body = escapeRegex(keyword).replace(/(\\?\s)+/g, "[\\s\\-_]*");
-      return keyword.length <= 3 ? `\\b${body}\\b` : body;
-    })
-    .filter(Boolean);
-
-  if (parts.length === 0) return null;
-
-  try {
-    return new RegExp(parts.join("|"), "i");
-  } catch {
-    return null;
-  }
-}
-
 const SECTION_PRODUCT_SORT = { isFeatured: -1, soldCount: -1, createdAt: -1 } as const;
 
 function findSectionCandidates(filter: Record<string, unknown>) {
@@ -165,42 +53,69 @@ function findSectionCandidates(filter: Record<string, unknown>) {
     .lean() as unknown as Promise<Record<string, unknown>[]>;
 }
 
-// Loads the products for one homepage rail in strict relevance order:
-//   1. in the section's own categories AND matching the heading's keywords
-//   2. matching the heading's keywords anywhere in the catalogue
-//   3. anything else in the section's categories (only to fill the row)
-// Passes run in order and stop as soon as the row is full, so a rail always
-// leads with products that genuinely belong under its title.
+// Resolves a rule's hand-checked category slugs to ids. Products in these
+// categories are trusted even when the name alone is uninformative, which is how
+// "Zeb V19HD LED" reaches the Displays rail.
+async function trustedCategoryIds(rule: SectionRule): Promise<unknown[]> {
+  if (rule.categorySlugs.length === 0) return [];
+
+  const categories = (await Category.find({ slug: { $in: rule.categorySlugs } })
+    .select("_id")
+    .lean()) as unknown as { _id: unknown }[];
+
+  return categories.map((category) => category._id);
+}
+
+// The catalogue holds genuine duplicates (ten identical "iBall Computer Case"
+// rows), so a rail is de-duplicated by id *and* by name to avoid showing the
+// same product ten times.
+function normalizeProductName(name: unknown): string {
+  return String(name ?? "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/**
+ * Loads the products for one homepage rail.
+ *
+ * When the heading maps to a curated rule the rail is filled strictly from that
+ * rule, so every product genuinely belongs under the title. Admin-configured
+ * rails with no matching rule fall back to their own category's products.
+ */
 async function fetchSectionProducts(
   title: string,
-  categoryIds: (string | { toString(): string })[]
+  slug: string | undefined,
+  categoryIds: unknown[]
 ): Promise<Record<string, unknown>[]> {
-  const regex = keywordRegex(sectionKeywords(title));
-  const active = { isActive: { $ne: false } };
-  const inCategory = categoryIds.length > 0 ? { category: { $in: categoryIds } } : null;
-  const matchesTitle = regex
-    ? { $or: [{ name: regex }, { tags: regex }, { sku: regex }, { shortDescription: regex }] }
-    : null;
+  const rule = ruleForTitle(title, slug);
 
-  const passes: Record<string, unknown>[] = [];
-  if (inCategory && matchesTitle) passes.push({ ...active, ...inCategory, ...matchesTitle });
-  if (matchesTitle) passes.push({ ...active, ...matchesTitle });
-  if (inCategory) passes.push({ ...active, ...inCategory });
+  let filter: Record<string, unknown>;
+  if (rule) {
+    const trusted = [...(await trustedCategoryIds(rule)), ...categoryIds];
+    filter = productFilterForRule(rule, trusted);
+  } else if (categoryIds.length > 0) {
+    filter = { isActive: { $ne: false }, category: { $in: categoryIds } };
+  } else {
+    return [];
+  }
 
-  const seen = new Set<string>();
+  const candidates = await findSectionCandidates(filter);
+
+  const seenIds = new Set<string>();
+  const seenNames = new Set<string>();
   const products: Record<string, unknown>[] = [];
 
-  for (const filter of passes) {
+  for (const candidate of candidates) {
     if (products.length >= SECTION_PRODUCT_LIMIT) break;
 
-    const candidates = await findSectionCandidates(filter);
-    for (const candidate of candidates) {
-      const id = String((candidate._id as { toString(): string })?.toString() ?? "");
-      if (!id || seen.has(id)) continue;
-      seen.add(id);
-      products.push(candidate);
-      if (products.length >= SECTION_PRODUCT_LIMIT) break;
-    }
+    const id = String((candidate._id as { toString(): string })?.toString() ?? "");
+    const name = normalizeProductName(candidate.name);
+    if (!id || seenIds.has(id) || (name && seenNames.has(name))) continue;
+
+    seenIds.add(id);
+    if (name) seenNames.add(name);
+    products.push(candidate);
   }
 
   return products;
