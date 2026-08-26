@@ -34,6 +34,89 @@ interface ProductData {
 // Max products rendered in a single homepage section row
 const SECTION_PRODUCT_LIMIT = 10;
 
+// Sections that must never render on the homepage, no matter how they are
+// configured in the admin or named in the catalogue.
+const EXCLUDED_SECTION_PATTERNS: RegExp[] = [
+  /wi[-\s]?fi|usb\s*adapt|wireless\s*adapt|network\s*adapt|dongle/i,
+  /memory\s*card|micro\s*sd|\bsd\s*card|\bcf\s*card/i,
+  /dash\s*cam/i,
+  /\bsmps\b|switch(ed|ing)?\s*mode\s*power/i,
+];
+
+function isExcludedSection(title: string, slug?: string): boolean {
+  return EXCLUDED_SECTION_PATTERNS.some(
+    (pattern) => pattern.test(title) || (slug ? pattern.test(slug) : false)
+  );
+}
+
+// Fallback slug for a rail that has no matching category in the catalogue.
+function slugifySectionTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Words that carry no meaning when matching a product name against a section
+// title ("All Gaming Laptops" -> /gaming|laptop/i).
+const SECTION_TITLE_STOP_WORDS = new Set([
+  "all", "and", "the", "for", "with", "new", "best", "top", "our", "shop", "deals",
+]);
+
+// Turns a section title into a regex used to match product names, so a rail
+// never shows products unrelated to its heading.
+function sectionTitleRegex(title: string): RegExp | null {
+  const stems = title
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((word) => word.length >= 3 && !SECTION_TITLE_STOP_WORDS.has(word))
+    // Strip a trailing plural so "Laptops" still matches "Laptop".
+    .map((word) => escapeRegex(word.replace(/s$/, "")))
+    .filter(Boolean);
+
+  if (stems.length === 0) return null;
+  return new RegExp(stems.join("|"), "i");
+}
+
+// Loads the products for one homepage rail: everything in the section's own
+// categories first, then — only if the row would be short — products whose name
+// or tags match the section title. Guarantees the row is both full and relevant.
+async function fetchSectionProducts(
+  categoryIds: (string | { toString(): string })[],
+  nameMatch: RegExp | null
+): Promise<Record<string, unknown>[]> {
+  const byCategory = categoryIds.length
+    ? ((await Product.find({ category: { $in: categoryIds }, isActive: true })
+        .select(PRODUCT_LIST_PROJECTION)
+        .populate("brand", "name logo")
+        .sort({ isFeatured: -1, soldCount: -1, createdAt: -1 })
+        .limit(SECTION_PRODUCT_LIMIT)
+        .lean()) as unknown as Record<string, unknown>[])
+    : [];
+
+  if (!nameMatch || byCategory.length >= SECTION_PRODUCT_LIMIT) {
+    return byCategory;
+  }
+
+  const byName = (await Product.find({
+    isActive: true,
+    _id: { $nin: byCategory.map((p) => p._id) },
+    $or: [{ name: nameMatch }, { tags: nameMatch }],
+  })
+    .select(PRODUCT_LIST_PROJECTION)
+    .populate("brand", "name logo")
+    .sort({ isFeatured: -1, soldCount: -1, createdAt: -1 })
+    .limit(SECTION_PRODUCT_LIMIT - byCategory.length)
+    .lean()) as unknown as Record<string, unknown>[];
+
+  return [...byCategory, ...byName];
+}
+
 // Lean projection for product lists (only fields we need)
 const PRODUCT_LIST_PROJECTION = {
   _id: 1,
@@ -409,7 +492,7 @@ export const getHomepageSections = unstable_cache(
     if (homepageSettings?.value && Array.isArray(homepageSettings.value) && homepageSettings.value.length > 0) {
       const sections = homepageSettings.value as HomepageSection[];
       const enabledSections = sections
-        .filter((s) => s.enabled)
+        .filter((s) => s.enabled && !isExcludedSection(s.title, s.slug))
         .sort((a, b) => a.sortOrder - b.sortOrder);
 
       const sectionData: SectionData[] = [];
@@ -429,15 +512,14 @@ export const getHomepageSections = unstable_cache(
           }
 
           if (section.categoryId) {
-            return Product.find({ category: section.categoryId, isActive: true })
-              .select(PRODUCT_LIST_PROJECTION)
-              .populate("brand", "name logo")
-              .sort({ isFeatured: -1, soldCount: -1 })
-              .limit(SECTION_PRODUCT_LIMIT)
-              .lean();
+            // Category products first, then name matches on the section title so
+            // the row is always full of products that belong under that heading.
+            return fetchSectionProducts([section.categoryId], sectionTitleRegex(section.title));
           }
 
-          return Promise.resolve([]);
+          // No category and no explicit products: fall back to matching the
+          // section title against product names.
+          return fetchSectionProducts([], sectionTitleRegex(section.title));
         })
       );
 
@@ -490,9 +572,12 @@ export const getHomepageSections = unstable_cache(
       },
       { $match: { "products.0": { $exists: true } } },
       { $sort: { sortOrder: 1 } },
-      { $limit: 4 },
+      // Fetch a few extra so dropping excluded categories below still leaves 4.
+      { $limit: 12 },
       { $project: { _id: 1, name: 1, slug: 1 } },
-    ]);
+    ]).then((cats: { _id: { toString(): string }; name: string; slug: string }[]) =>
+      cats.filter((cat) => !isExcludedSection(cat.name, cat.slug)).slice(0, 4)
+    );
 
     const sectionData: SectionData[] = [];
 
@@ -597,6 +682,8 @@ const CURATED_SECTIONS: { title: string; match: RegExp }[] = [
   { title: "Laptops", match: /laptop|notebook|macbook|ultrabook/i },
   { title: "Displays", match: /display|monitor|screen/i },
   { title: "Processors", match: /processor|\bcpu\b|ryzen|\bcore\b/i },
+  { title: "Storage", match: /storage|\bssd\b|\bhdd\b|hard\s*(disk|drive)|nvme|\bnas\b/i },
+  { title: "Printers & Scanners", match: /printer|scanner|cartridge|toner|\bmfp\b/i },
   { title: "Peripherals", match: /peripheral|keyboard|\bmouse\b|headset|accessor/i },
 ];
 
@@ -644,13 +731,28 @@ export const getCuratedSections = unstable_cache(
     };
 
     const used = new Set<string>();
-    const resolved: { title: string; category: CategoryNode; categoryIds: string[] }[] = [];
+    const resolved: {
+      title: string;
+      match: RegExp;
+      category: CategoryNode | null;
+      categoryIds: string[];
+    }[] = [];
 
     for (const def of CURATED_SECTIONS) {
+      if (isExcludedSection(def.title)) continue;
+
       const matches = categories.filter(
-        (c) => def.match.test(c.name) || def.match.test(c.slug)
+        (c) =>
+          (def.match.test(c.name) || def.match.test(c.slug)) &&
+          !isExcludedSection(c.name, c.slug)
       );
-      if (matches.length === 0) continue;
+
+      if (matches.length === 0) {
+        // No category for this rail yet — still show it if products match the
+        // title by name, linking through to search instead of a category page.
+        resolved.push({ title: def.title, match: def.match, category: null, categoryIds: [] });
+        continue;
+      }
 
       // Prefer the most generic match: a top-level category first, then the
       // shortest name (e.g. "Laptops" over "Gaming Laptops Under 50K").
@@ -665,20 +767,18 @@ export const getCuratedSections = unstable_cache(
       if (used.has(id)) continue;
       used.add(id);
 
-      resolved.push({ title: def.title, category: best, categoryIds: collectDescendantIds(id) });
+      resolved.push({
+        title: def.title,
+        match: def.match,
+        category: best,
+        categoryIds: collectDescendantIds(id),
+      });
     }
 
     if (resolved.length === 0) return [];
 
     const productsPerSection = await Promise.all(
-      resolved.map((section) =>
-        Product.find({ category: { $in: section.categoryIds }, isActive: true })
-          .select(PRODUCT_LIST_PROJECTION)
-          .populate("brand", "name logo")
-          .sort({ isFeatured: -1, soldCount: -1, createdAt: -1 })
-          .limit(SECTION_PRODUCT_LIMIT)
-          .lean()
-      )
+      resolved.map((section) => fetchSectionProducts(section.categoryIds, section.match))
     );
 
     const sectionData: SectionData[] = [];
@@ -688,16 +788,19 @@ export const getCuratedSections = unstable_cache(
       const products = productsPerSection[i];
       if (products.length === 0) continue;
 
-      const children = (childrenByParent.get(section.category._id.toString()) ?? []).slice(0, 8);
+      const category = section.category;
+      const children = category
+        ? (childrenByParent.get(category._id.toString()) ?? []).slice(0, 8)
+        : [];
 
       sectionData.push({
         title: section.title,
-        slug: section.category.slug,
+        slug: category?.slug ?? slugifySectionTitle(section.title),
         subcategories: [
           { name: `All ${section.title}`, isActive: true },
           ...children.map((sub) => ({
             name: sub.name,
-            href: `/category/${section.category.slug}/${sub.slug}`,
+            href: category ? `/category/${category.slug}/${sub.slug}` : undefined,
           })),
         ],
         products: products.map(mapProductToData),
