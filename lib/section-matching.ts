@@ -120,6 +120,33 @@ export const HOMEPAGE_SECTIONS: SectionConfig[] = [
 ];
 
 /**
+ * The main categories shown in the homepage "Shop by Category" rail, in order.
+ *
+ * This is deliberately an explicit list rather than "all root categories":
+ * a number of narrow categories ("EZVIZ", "Security Camera", "Mouses", "Audio
+ * Products") were also created at the root, so querying root categories with a
+ * limit returned those instead of the real top-level ones.
+ *
+ * Only the homepage uses this list — /categories still shows everything.
+ */
+export const HOMEPAGE_CATEGORY_SLUGS: string[] = [
+  "desktop",
+  "laptops",
+  "storage",
+  "display",
+  "peripherals",
+  "printers-scanners",
+  "security",
+  "networking",
+  "software",
+  "mobility",
+  "cables",
+  "connectors-converters",
+  "accessories",
+  "refurbished-laptops",
+];
+
+/**
  * Sections that must never render on the homepage, no matter how they are
  * configured in the admin or named in the catalogue.
  */

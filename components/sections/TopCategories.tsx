@@ -45,7 +45,23 @@ const TILE_THEMES = [
 ] as const;
 
 export default function TopCategories({ categories }: TopCategoriesProps) {
-  const displayCategories = categories.length > 0 ? categories : defaultCategories;
+  // Always render the full set of main categories in the order defined by
+  // `defaultCategories`, overlaying the live database record (real id, image and
+  // product count) wherever one exists. A category that is missing from the
+  // database still renders from its default tile, so the rail never comes up
+  // short or reordered.
+  const bySlug = new Map(categories.map((c) => [c.slug, c]));
+  const displayCategories = defaultCategories.map((fallback) => {
+    const live = bySlug.get(fallback.slug);
+    if (!live) return fallback;
+    return {
+      ...fallback,
+      id: live.id,
+      name: live.name || fallback.name,
+      image: live.image || fallback.image,
+      productCount: live.productCount,
+    };
+  });
 
   return (
     <section className="bg-card py-4 md:py-6">

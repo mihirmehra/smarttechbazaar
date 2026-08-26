@@ -17,8 +17,7 @@ import {
   generateLocalBusinessSchema 
 } from "@/lib/schema";
 import {
-  getHomepageSections,
-  getCategories,
+  getHomepageCategories,
   getBrands,
   getHeroSliderBanners,
   getAdBanners,
@@ -36,7 +35,10 @@ export const revalidate = 60;
 // A transient MongoDB error must not abort the whole production build (or blank
 // out the page) — the affected section simply renders empty and is refilled on
 // the next revalidation.
-async function safeList<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
+async function safeList<T>(
+  load: () => Promise<T[]>,
+  label: string
+): Promise<T[]> {
   // Keep an unavailable database from blocking the first paint indefinitely, but
   // stay comfortably above the cold-start cost of establishing the MongoDB
   // connection (handshakes to this cluster measured 1.7s-7.9s). A cap below that
@@ -49,7 +51,7 @@ async function safeList<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
         20000
       );
     });
-    return await Promise.race([promise, timeout]);
+    return await Promise.race([load(), timeout]);
   } catch (error) {
     console.error(`[v0] Homepage data fetch failed (${label}):`, error);
     return [];
@@ -62,10 +64,43 @@ async function safeList<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
   }
 }
 
+// How many homepage fetches may be in flight at once.
+//
+// The Mongo pool is capped at `maxPoolSize: 5` and keeps only one socket warm,
+// so firing all nine fetches at once forced the driver to open four more sockets
+// simultaneously. Each new socket pays a 1.7s-7.9s TLS handshake, so the last
+// fetches to get a socket blew the 20s budget above and returned empty — which
+// is why the category rails and New Arrivals silently vanished from the page
+// while the first few sections rendered fine. Running them a few at a time
+// reuses warm sockets: measured queries take ~250ms each.
+const HOMEPAGE_FETCH_CONCURRENCY = 3;
+
+// Run the homepage fetches in small batches, preserving result order. The
+// per-fetch timeout starts when the fetch actually runs, not when the page began.
+async function loadInBatches<T>(
+  tasks: (() => Promise<T[]>)[]
+): Promise<T[][]> {
+  const results: T[][] = new Array(tasks.length);
+  let next = 0;
+
+  const workers = Array.from(
+    { length: Math.min(HOMEPAGE_FETCH_CONCURRENCY, tasks.length) },
+    async () => {
+      while (true) {
+        const index = next++;
+        if (index >= tasks.length) return;
+        results[index] = await tasks[index]();
+      }
+    }
+  );
+
+  await Promise.all(workers);
+  return results;
+}
+
 export default async function HomePage() {
   // Fetch all data in parallel using cached functions
   const [
-    productSections,
     categories,
     brands,
     heroSliderBanners,
@@ -76,8 +111,7 @@ export default async function HomePage() {
     newArrivals,
     curatedSections,
   ] = await Promise.all([
-    safeList(getHomepageSections(), "homepageSections"),
-    safeList(getCategories(), "categories"),
+    safeList(getHomepageCategories(), "homepageCategories"),
     safeList(getBrands(), "brands"),
     safeList(getHeroSliderBanners(), "heroSliderBanners"),
     safeList(getAdBanners(), "adBanners"),
@@ -88,10 +122,15 @@ export default async function HomePage() {
     safeList(getCuratedSections(), "curatedSections"),
   ]);
 
-  // The admin-configured sections and the curated rails can resolve to the same
-  // category, so drop any curated rail that is already rendered above.
-  const configuredSlugs = new Set(productSections.map((s) => s.slug));
-  const extraSections = curatedSections.filter((s) => !configuredSlugs.has(s.slug));
+  // The homepage rails come solely from the category configuration in
+  // lib/section-matching.ts. The admin-configured `homepage_sections` collection
+  // is deliberately not rendered here: it held narrow, brand-level rows
+  // ("PixaPlay", "EZVIZ", "Audio Products") that replaced the main category
+  // sections the homepage is meant to show.
+  const [leadSections, restSections] = [
+    curatedSections.slice(0, 2),
+    curatedSections.slice(2),
+  ];
 
   // Schema markup for homepage
   const schemas = [
@@ -129,13 +168,8 @@ export default async function HomePage() {
           <AdBannerSlider banners={adBanners} />
         )}
 
-        {/* First 2 Product Sections */}
-        {productSections.slice(0, 2).map((section) => (
-          <ProductSection key={section.slug} section={section} />
-        ))}
-
-        {/* Curated category rails - Desktops / Laptops (from the database) */}
-        {extraSections.slice(0, 2).map((section) => (
+        {/* Category rails - Desktop / Laptops */}
+        {leadSections.map((section) => (
           <ProductSection key={section.slug} section={section} />
         ))}
 
@@ -190,13 +224,9 @@ export default async function HomePage() {
           ]} 
         />
 
-        {/* Remaining Product Sections */}
-        {productSections.slice(2).map((section) => (
-          <ProductSection key={section.slug} section={section} />
-        ))}
-
-        {/* Curated category rails - Displays / Processors / Peripherals */}
-        {extraSections.slice(2).map((section) => (
+        {/* Category rails - Storage / Display / Peripherals / Printers &
+            Scanners / Security / Networking */}
+        {restSections.map((section) => (
           <ProductSection key={section.slug} section={section} />
         ))}
 
@@ -204,8 +234,7 @@ export default async function HomePage() {
         <BrandsSection brands={brands} />
 
         {/* Show message if no products */}
-        {productSections.length === 0 &&
-          extraSections.length === 0 &&
+        {curatedSections.length === 0 &&
           newArrivals.length === 0 &&
           bestSellers.length === 0 &&
           mostPopular.length === 0 && (

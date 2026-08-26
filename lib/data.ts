@@ -10,6 +10,7 @@ import {
   SECTION_PRODUCT_LIMIT,
   SECTION_CANDIDATE_LIMIT,
   HOMEPAGE_SECTIONS,
+  HOMEPAGE_CATEGORY_SLUGS,
   isExcludedSection,
   isPlaceholderSection,
   slugifySectionTitle,
@@ -310,6 +311,118 @@ export const getCategories = unstable_cache(
   },
   ["categories"],
   { revalidate: CACHE_DURATIONS.long, tags: [CACHE_TAGS.categories] }
+);
+
+// The homepage "Shop by Category" rail: exactly the main categories listed in
+// HOMEPAGE_CATEGORY_SLUGS, in that order.
+//
+// getCategories() above cannot be used for this, because it takes the first 14
+// *root* categories by sort order — and the catalogue has far more than 14 root
+// categories (narrow ones such as "EZVIZ", "Security Camera", "Mouses" and
+// "Audio Products" were created at the root too), so the rail was filled with
+// those instead of the real top-level categories.
+//
+// The product count is a full subtree count, since products are filed on leaf
+// categories and a top-level category holds none of its own.
+export const getHomepageCategories = unstable_cache(
+  async (): Promise<CategoryData[]> => {
+    await dbConnect();
+
+    const all = (await Category.find({ isActive: { $ne: false } })
+      .select("_id name slug image parent")
+      .lean()) as unknown as {
+      _id: { toString(): string };
+      name: string;
+      slug: string;
+      image?: string;
+      parent?: { toString(): string } | null;
+    }[];
+
+    if (all.length === 0) return [];
+
+    // Index children by parent so subtree ids resolve without extra queries.
+    const childrenByParent = new Map<string, string[]>();
+    for (const cat of all) {
+      if (!cat.parent) continue;
+      const key = cat.parent.toString();
+      const siblings = childrenByParent.get(key) ?? [];
+      siblings.push(cat._id.toString());
+      childrenByParent.set(key, siblings);
+    }
+
+    const subtreeIds = (rootId: string): string[] => {
+      const ids: string[] = [];
+      const queue = [rootId];
+      while (queue.length > 0) {
+        const current = queue.shift() as string;
+        ids.push(current);
+        for (const child of childrenByParent.get(current) ?? []) {
+          queue.push(child);
+        }
+      }
+      return ids;
+    };
+
+    const bySlug = new Map(all.map((c) => [c.slug, c]));
+
+    // Resolve the wanted categories first, then count products for all of them
+    // in a single grouped query rather than one query per tile.
+    const wanted = HOMEPAGE_CATEGORY_SLUGS.map((slug) => bySlug.get(slug)).filter(
+      (c): c is (typeof all)[number] => c !== undefined
+    );
+
+    if (wanted.length === 0) return [];
+
+    // Reuse the ids exactly as they came back from Mongo, so no ObjectId has to
+    // be reconstructed from a string for the count query.
+    const rawIdByString = new Map(all.map((c) => [c._id.toString(), c._id]));
+
+    const idToRoot = new Map<string, string>();
+    for (const cat of wanted) {
+      const rootId = cat._id.toString();
+      for (const id of subtreeIds(rootId)) {
+        // First owner wins, so a shared descendant cannot be counted twice.
+        if (!idToRoot.has(id)) idToRoot.set(id, rootId);
+      }
+    }
+
+    const counts = await Product.aggregate<{ _id: unknown; n: number }>([
+      {
+        $match: {
+          isActive: { $ne: false },
+          category: {
+            $in: Array.from(idToRoot.keys()).map((id) => rawIdByString.get(id)),
+          },
+        },
+      },
+      { $group: { _id: "$category", n: { $sum: 1 } } },
+    ]);
+
+    const countByRoot = new Map<string, number>();
+    for (const row of counts) {
+      const rootId = idToRoot.get(String(row._id));
+      if (!rootId) continue;
+      countByRoot.set(rootId, (countByRoot.get(rootId) ?? 0) + row.n);
+    }
+
+    return wanted.map((cat) => {
+      const id = cat._id.toString();
+      return {
+        id,
+        name: cat.name,
+        image:
+          cat.image ||
+          "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=200&h=200&fit=crop",
+        slug: cat.slug,
+        productCount: countByRoot.get(id) ?? 0,
+      };
+    });
+  },
+  ["homepage-categories"],
+  {
+    revalidate: CACHE_DURATIONS.long,
+    tags: [CACHE_TAGS.categories, CACHE_TAGS.products],
+  }
 );
 
 // ============================================
@@ -779,11 +892,75 @@ export const getCuratedSections = unstable_cache(
 
     if (resolved.length === 0) return [];
 
-    const productsPerSection = await mapWithConcurrency(
-      resolved,
-      SECTION_QUERY_CONCURRENCY,
-      (section) => fetchSectionProducts(section.categoryIds)
+    // Load the products for every rail in ONE query and bucket them in memory.
+    //
+    // One query per rail (even capped to 2 in flight) was too slow against this
+    // cluster: eight rails serialised behind a 5-socket pool blew past the
+    // homepage's 20s fetch budget, so `curatedSections` came back empty and the
+    // page fell through to the admin sections / empty state. A single query over
+    // the union of the rails' categories is one round trip instead of eight.
+    const allCategoryIds = Array.from(
+      new Set(resolved.flatMap((section) => section.categoryIds))
     );
+
+    // Deliberately unsorted: asking Mongo to sort this union blew the server's
+    // 32MB in-memory sort budget ("Sort exceeded memory limit ... did not opt in
+    // to external sorting") because there is no index covering it. The result set
+    // is small enough to order in JS below.
+    const candidates = (await Product.find({
+      isActive: { $ne: false },
+      category: { $in: allCategoryIds },
+    })
+      .select(PRODUCT_LIST_PROJECTION)
+      .populate("brand", "name logo")
+      .lean()) as unknown as Record<string, unknown>[];
+
+    const rank = (product: Record<string, unknown>) => ({
+      featured: product.isFeatured ? 1 : 0,
+      sold: Number(product.soldCount ?? 0),
+    });
+
+    candidates.sort((a, b) => {
+      const left = rank(a);
+      const right = rank(b);
+      return right.featured - left.featured || right.sold - left.sold;
+    });
+
+    // Bucket by category so each rail can be filled from the shared result set.
+    const byCategory = new Map<string, Record<string, unknown>[]>();
+    for (const product of candidates) {
+      const key = String(product.category ?? "");
+      if (!key) continue;
+      const bucket = byCategory.get(key);
+      if (bucket) bucket.push(product);
+      else byCategory.set(key, [product]);
+    }
+
+    const productsPerSection = resolved.map((section) => {
+      const seenIds = new Set<string>();
+      const seenNames = new Set<string>();
+      const products: Record<string, unknown>[] = [];
+
+      for (const categoryId of section.categoryIds) {
+        for (const candidate of byCategory.get(categoryId) ?? []) {
+          if (products.length >= SECTION_PRODUCT_LIMIT) return products;
+
+          const id = String(
+            (candidate._id as { toString(): string })?.toString() ?? ""
+          );
+          const name = normalizeProductName(candidate.name);
+          // The catalogue holds genuine duplicates (ten identical "iBall
+          // Computer Case" rows), so de-duplicate by name as well as by id.
+          if (!id || seenIds.has(id) || (name && seenNames.has(name))) continue;
+
+          seenIds.add(id);
+          if (name) seenNames.add(name);
+          products.push(candidate);
+        }
+      }
+
+      return products;
+    });
 
     const sectionData: SectionData[] = [];
 
