@@ -12,6 +12,7 @@ import Brand from "@/models/Brand";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
 import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
+import { createCachedFunction, CACHE_DURATIONS, CACHE_TAGS } from "@/lib/cache";
 import { 
   generateCollectionPageSchema, 
   generateBreadcrumbSchema,
@@ -94,9 +95,10 @@ const sampleProducts: ProductData[] = [
   { _id: "s6", name: "RouterBoard Advanced", slug: "routerboard-advanced", priceB2C: 4599, priceB2B: 4199, mrp: 5299, stock: 20, images: ["https://images.unsplash.com/photo-1544985562-128e7b377a21?w=300&h=300&fit=crop"], isFeatured: false, isNewArrival: false },
 ];
 
-// Wrapped in React `cache()` so generateMetadata() and the page component share
-// one result per request instead of running every query twice.
-const getBrandData = cache(async (slug: string) => {
+// Wrapped in `unstable_cache` so the Mongo aggregations only run on background
+// revalidation, and in React `cache()` so generateMetadata() and the page
+// component share one result per request instead of querying twice.
+const fetchBrandData = createCachedFunction(async (slug: string) => {
   try {
     await dbConnect();
 
@@ -185,7 +187,12 @@ const getBrandData = cache(async (slug: string) => {
     }
     return null;
   }
+}, ["brand-detail"], {
+  revalidate: CACHE_DURATIONS.medium,
+  tags: [CACHE_TAGS.brands, CACHE_TAGS.products],
 });
+
+const getBrandData = cache((slug: string) => fetchBrandData(slug));
 
 export async function generateMetadata({ params }: BrandPageProps): Promise<Metadata> {
   const { slug } = await params;

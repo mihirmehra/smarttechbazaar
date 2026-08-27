@@ -11,6 +11,7 @@ import Category from "@/models/Category";
 import Product from "@/models/Product";
 import Brand from "@/models/Brand";
 import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
+import { createCachedFunction, CACHE_DURATIONS, CACHE_TAGS } from "@/lib/cache";
 import { generateCollectionPageSchema, generateOrganizationSchema } from "@/lib/schema";
 
 // Incrementally-static: the rendered page is cached and revalidated in the
@@ -45,7 +46,7 @@ interface CategoryPageProps {
 // Wrapped in React `cache()` so generateMetadata() and the page component share
 // one result per request. Without it, every category view ran this entire set of
 // queries twice.
-const getCategoryData = cache(async (slug: string) => {
+const fetchCategoryData = createCachedFunction(async (slug: string) => {
   try {
     await dbConnect();
 
@@ -180,7 +181,12 @@ const getCategoryData = cache(async (slug: string) => {
     console.error("Error fetching category data:", error);
     return null;
   }
+}, ["category-detail"], {
+  revalidate: CACHE_DURATIONS.medium,
+  tags: [CACHE_TAGS.categories, CACHE_TAGS.products],
 });
+
+const getCategoryData = cache((slug: string) => fetchCategoryData(slug));
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
