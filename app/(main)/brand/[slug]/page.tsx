@@ -29,8 +29,10 @@ export const dynamicParams = true;
 // Cap the number of products rendered for a brand, and only select the fields
 // the product cards actually use.
 const BRAND_PRODUCT_LIMIT = 300;
+// `images` excluded: inline base64 blobs (~873KB each). Cards get a
+// /api/media/product/<id>?i=0 URL instead.
 const BRAND_PRODUCT_FIELDS =
-  "_id name slug images priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
+  "_id name slug priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
 
 interface BrandPageProps {
   params: Promise<{ slug: string }>;
@@ -99,8 +101,11 @@ const getBrandData = cache(async (slug: string) => {
     await dbConnect();
 
     // Try to find brand in database
+    // `logo` is omitted on purpose — every brand logo in this catalogue is an
+    // inline base64 data URI, and selecting it made this page a ~575KB payload.
+    // The logo is served by /api/media/brand/<id> instead.
     const brand = await Brand.findOne({ slug, isActive: true })
-      .select("_id name slug description logo website productCount")
+      .select("_id name slug description website productCount")
       .lean();
 
     let brandData: BrandData;
@@ -111,7 +116,7 @@ const getBrandData = cache(async (slug: string) => {
         name: brand.name,
         slug: brand.slug,
         description: brand.description,
-        logo: brand.logo,
+        logo: `/api/media/brand/${brand._id.toString()}`,
         website: brand.website,
         productCount: brand.productCount || 0,
       };
@@ -151,7 +156,10 @@ const getBrandData = cache(async (slug: string) => {
       .lean();
 
     const parsedProducts = productDocs.length > 0
-      ? JSON.parse(JSON.stringify(productDocs))
+      ? JSON.parse(JSON.stringify(productDocs)).map((p: { _id: string }) => ({
+          ...p,
+          images: [`/api/media/product/${p._id}?i=0`],
+        }))
       : sampleProducts.map(p => ({ ...p, brand: brandData.name }));
 
     return {
