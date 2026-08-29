@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import CustomerFilters from "@/components/admin/CustomerFilters";
+import { cachedQuery } from "@/lib/cache";
 
 // Force dynamic rendering for admin pages
 export const dynamic = "force-dynamic";
@@ -35,6 +36,14 @@ interface CustomerWithStats {
 }
 
 async function getCustomers(searchParams: { [key: string]: string | string[] | undefined }) {
+ return cachedQuery(
+  `admin:customers:${JSON.stringify(searchParams)}`,
+  () => fetchCustomers(searchParams),
+  20000
+ );
+}
+
+async function fetchCustomers(searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     await dbConnect();
 

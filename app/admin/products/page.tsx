@@ -10,6 +10,7 @@ import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import ProductImportExport from "@/components/admin/ProductImportExport";
 import ProductsFilters from "@/components/admin/ProductsFilters";
 import { formatPrice } from "@/lib/pricing";
+import { cachedQuery } from "@/lib/cache";
 
 // Force dynamic rendering for admin pages to always show fresh data
 export const dynamic = "force-dynamic";
@@ -19,6 +20,14 @@ interface ProductsPageProps {
 }
 
 async function getProducts(searchParams: { [key: string]: string | string[] | undefined }) {
+ return cachedQuery(
+  `admin:products:${JSON.stringify(searchParams)}`,
+  () => fetchProducts(searchParams),
+  20000
+ );
+}
+
+async function fetchProducts(searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     await dbConnect();
 

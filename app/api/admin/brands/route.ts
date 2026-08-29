@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Brand from "@/models/Brand";
 import Product from "@/models/Product";
-import { CACHE_TAGS } from "@/lib/cache";
+import { CACHE_TAGS, invalidateMemoryCache } from "@/lib/cache";
 import { brandMediaUrl } from "@/lib/data";
 
 // GET all brands (admin)
@@ -122,6 +122,7 @@ export async function POST(request: NextRequest) {
     revalidatePath(`/brand/${slug}`);
     revalidatePath("/brands");
     revalidatePath("/");
+    invalidateMemoryCache("admin:brands");
 
     return NextResponse.json(
       { message: "Brand created successfully", brand },

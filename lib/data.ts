@@ -33,17 +33,22 @@ import {
 // browser fetches each image lazily, in parallel, then caches it immutably.
 // /api/media transparently redirects images that are already hosted on
 // ImageKit/Blob, so nothing regresses for those.
-function productImageUrl(id: string, index = 0): string {
+export function productImageUrl(id: string, index = 0): string {
   return `/api/media/product/${id}?i=${index}`;
 }
 
-function brandLogoUrl(id: string): string {
+export function brandLogoUrl(id: string): string {
   return `/api/media/brand/${id}`;
 }
 
-function categoryImageUrl(id: string): string {
+export function categoryImageUrl(id: string): string {
   return `/api/media/category/${id}`;
 }
+
+// Aliases used by admin routes for clarity.
+export const productMediaUrl = productImageUrl;
+export const brandMediaUrl = brandLogoUrl;
+export const categoryMediaUrl = categoryImageUrl;
 
 function bannerImageUrl(id: string, field: "image" | "imageMobile"): string {
   return `/api/media/banner/${id}?f=${field}`;

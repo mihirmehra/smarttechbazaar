@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
-import { CACHE_TAGS } from "@/lib/cache";
+import { CACHE_TAGS, invalidateMemoryCache } from "@/lib/cache";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -162,6 +162,8 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     revalidateTag(CACHE_TAGS.categories);
     revalidatePath(`/category/${category.slug}`);
     revalidatePath("/");
+    invalidateMemoryCache("admin:categories");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json({ message: "Category deleted successfully" });
   } catch (error) {

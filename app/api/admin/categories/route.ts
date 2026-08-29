@@ -6,7 +6,7 @@ import dbConnect from "@/lib/mongodb";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
 import { logAdminAction } from "@/lib/activity-logger";
-import { CACHE_TAGS } from "@/lib/cache";
+import { CACHE_TAGS, invalidateMemoryCache } from "@/lib/cache";
 import { categoryMediaUrl } from "@/lib/data";
 
 // GET all categories (admin)
@@ -143,6 +143,8 @@ export async function POST(request: NextRequest) {
     revalidateTag(CACHE_TAGS.categories);
     revalidatePath(`/category/${slug}`);
     revalidatePath("/");
+    invalidateMemoryCache("admin:categories");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json(
       { message: "Category created successfully", category },
