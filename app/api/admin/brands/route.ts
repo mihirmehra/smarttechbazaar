@@ -6,6 +6,7 @@ import dbConnect from "@/lib/mongodb";
 import Brand from "@/models/Brand";
 import Product from "@/models/Product";
 import { CACHE_TAGS } from "@/lib/cache";
+import { brandMediaUrl } from "@/lib/data";
 
 // GET all brands (admin)
 export async function GET(request: NextRequest) {
@@ -51,10 +52,22 @@ export async function GET(request: NextRequest) {
     // Create a map for quick lookup
     const countMap = new Map(productCounts.map((p) => [p._id, p.count]));
 
-    const brandsWithCounts = brands.map((brand) => ({
-      ...brand,
-      productCount: countMap.get(brand.name) || 0,
-    }));
+    const brandsWithCounts = brands.map((brand) => {
+      const logo = (brand as { logo?: unknown }).logo;
+      const hasLogo = typeof logo === "string" && logo.length > 0;
+      const isUrl = hasLogo && /^https?:\/\//.test(logo as string);
+      return {
+        ...brand,
+        // Replace embedded base64 logos with a lightweight media URL so the
+        // brands list stays small and fast. Real URLs pass through unchanged.
+        logo: hasLogo
+          ? isUrl
+            ? (logo as string)
+            : brandMediaUrl(brand._id.toString())
+          : "",
+        productCount: countMap.get(brand.name) || 0,
+      };
+    });
 
     return NextResponse.json({
       brands: brandsWithCounts,

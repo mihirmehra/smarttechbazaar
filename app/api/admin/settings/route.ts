@@ -3,6 +3,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Settings from "@/models/Settings";
+import { getFromMemoryCache, setInMemoryCache, invalidateMemoryCache } from "@/lib/cache";
+
+// Settings are a single document read on many admin pages but changed rarely,
+// so cache the payload in-process. Any update below clears it immediately.
+const SETTINGS_CACHE_KEY = "admin:settings:v1";
+const SETTINGS_TTL_MS = 60_000;
 
 // GET settings
 export async function GET() {
@@ -11,6 +17,11 @@ export async function GET() {
 
     if (!session?.user?.role || !["admin", "super_admin"].includes(session.user.role)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const cached = getFromMemoryCache<Record<string, unknown>>(SETTINGS_CACHE_KEY);
+    if (cached) {
+      return NextResponse.json(cached);
     }
 
     await dbConnect();
@@ -68,6 +79,8 @@ export async function PUT(request: NextRequest) {
       settings.updatedAt = new Date();
       await settings.save();
     }
+
+    invalidateMemoryCache(SETTINGS_CACHE_KEY);
 
     return NextResponse.json({
       message: "Settings updated successfully",

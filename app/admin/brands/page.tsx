@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Brand from "@/models/Brand";
 import Product from "@/models/Product";
+import { brandMediaUrl } from "@/lib/data";
 import { Plus, Edit, Tag, Package, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -38,6 +39,10 @@ async function getBrands(searchParams: { [key: string]: string | string[] | unde
     // Use aggregation to get brand product counts in a single query (no N+1)
     const [brands, total, productCounts] = await Promise.all([
       Brand.find(query)
+        // `logo` is deliberately not selected: all 43 brand logos are stored
+        // as base64 data URIs (~74KB each = ~3.2MB), which would inline into
+        // this page's HTML. We derive a lightweight /api/media URL from the id
+        // instead, and record whether a logo exists to know when to show it.
         .select("_id name slug description logo website isActive sortOrder")
         .sort({ sortOrder: 1, name: 1 })
         .skip(skip)
@@ -53,10 +58,21 @@ async function getBrands(searchParams: { [key: string]: string | string[] | unde
     // Create a map for quick lookup
     const countMap = new Map(productCounts.map((p) => [p._id, p.count]));
 
-    const brandsWithCounts = brands.map((brand) => ({
-      ...brand,
-      productCount: countMap.get(brand.name) || 0,
-    }));
+    const brandsWithCounts = brands.map((brand) => {
+      const hasLogo = typeof brand.logo === "string" && brand.logo.length > 0;
+      const isUrl = hasLogo && /^https?:\/\//.test(brand.logo as string);
+      return {
+        ...brand,
+        // Pass through real URLs; route base64 logos through /api/media so the
+        // 74KB blob is fetched on demand instead of inlined into the HTML.
+        logo: hasLogo
+          ? isUrl
+            ? (brand.logo as string)
+            : brandMediaUrl(String(brand._id))
+          : undefined,
+        productCount: countMap.get(brand.name) || 0,
+      };
+    });
 
     return {
       brands: JSON.parse(JSON.stringify(brandsWithCounts)),
