@@ -176,9 +176,8 @@ export default function ShippingPage() {
               {shippingZones.map((zone, i) => (
                 <div
                   key={zone.zone}
-                  className={`flex flex-col gap-2 px-4 py-4 md:grid md:grid-cols-4 md:items-center md:gap-4 md:px-5 ${
-                    i < shippingZones.length - 1 ? "border-b border-border" : ""
-                  }`}
+                  className={`flex flex-col gap-2 px-4 py-4 md:grid md:grid-cols-4 md:items-center md:gap-4 md:px-5 ${i < shippingZones.length - 1 ? "border-b border-border" : ""
+                    }`}
                 >
                   <div className="flex items-center gap-2">
                     <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />
@@ -287,7 +286,7 @@ export default function ShippingPage() {
                 Call Support
               </a>
               <a
-                href="mailto:sales@smarttechbazaar.com"
+                href="mailto:smarttechbazaar@gmail.com"
                 className="flex h-10 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-5 text-sm font-medium text-white hover:bg-white/20"
               >
                 <Mail className="h-4 w-4" />
