@@ -10,15 +10,25 @@ interface Category {
   slug: string;
 }
 
+interface Brand {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
 interface ProductsFiltersProps {
   categories: Category[];
+  brands: Brand[];
   currentCategory?: string;
+  currentBrand?: string;
   currentFilter?: string;
 }
 
 export default function ProductsFilters({
   categories,
+  brands,
   currentCategory,
+  currentBrand,
   currentFilter,
 }: ProductsFiltersProps) {
   const { searchValue, setSearchValue, updateParam } = useAdminSearch(
@@ -49,6 +59,20 @@ export default function ProductsFilters({
         {categories.map((cat) => (
           <option key={cat._id} value={cat.slug}>
             {cat.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Brand select — immediate */}
+      <select
+        value={currentBrand ?? ""}
+        onChange={(e) => updateParam("brand", e.target.value)}
+        className="h-10 rounded-md border border-border bg-background px-3 text-sm"
+      >
+        <option value="">All Brands</option>
+        {brands.map((brand) => (
+          <option key={brand._id} value={brand.name}>
+            {brand.name}
           </option>
         ))}
       </select>

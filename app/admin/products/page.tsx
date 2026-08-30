@@ -3,6 +3,7 @@ import Image from "next/image";
 import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
+import Brand from "@/models/Brand";
 import { Plus, Edit, Eye, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -52,6 +53,14 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
       ];
     }
 
+    // Brand filter — products store the brand as a name string, so match the
+    // selected brand name case-insensitively.
+    if (searchParams.brand) {
+      const brandValue = String(searchParams.brand);
+      const escaped = brandValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      query.brand = { $regex: new RegExp(`^${escaped}$`, "i") };
+    }
+
     // Improved stock filtering
     if (searchParams.filter === "low-stock") {
       query.stock = { $gt: 0, $lt: 10 };
@@ -85,7 +94,7 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
     // demand from the thumbnail endpoint. This keeps the payload at ~6KB.
     const firstImage = { $arrayElemAt: ["$images", 0] };
 
-    const [products, total, categories] = await Promise.all([
+    const [products, total, categories, brands] = await Promise.all([
       Product.aggregate([
         { $match: query },
         { $sort: { createdAt: -1 } },
@@ -142,6 +151,8 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
       Product.countDocuments(query),
       // Cache categories - they don't change often
       Category.find({ isActive: true }).select("_id name slug").sort({ name: 1 }).lean(),
+      // Brands for the filter dropdown - lightweight name/slug only.
+      Brand.find({ isActive: { $ne: false } }).select("_id name slug").sort({ name: 1 }).lean(),
     ]);
 
     return {
@@ -150,6 +161,7 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
       page,
       totalPages: Math.ceil(total / limit),
       categories: JSON.parse(JSON.stringify(categories)),
+      brands: JSON.parse(JSON.stringify(brands)),
       error: null as string | null,
     };
   } catch (error) {
@@ -174,7 +186,7 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
-  const { products, total, page, totalPages, categories, error } = await getProducts(params);
+  const { products, total, page, totalPages, categories, brands, error } = await getProducts(params);
 
   return (
     <div className="flex flex-col gap-6">
@@ -217,7 +229,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       {/* Filters */}
       <ProductsFilters
         categories={categories}
+        brands={brands}
         currentCategory={params.category as string | undefined}
+        currentBrand={params.brand as string | undefined}
         currentFilter={params.filter as string | undefined}
       />
 
