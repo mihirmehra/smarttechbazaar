@@ -251,7 +251,6 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         {[
           { icon: Truck, label: "Fast Delivery", sub: "2–5 days" },
           { icon: Shield, label: "1 Yr Warranty", sub: "Manufacturer" },
-          { icon: RotateCcw, label: "Easy Returns", sub: "7 days" },
         ].map(({ icon: Icon, label, sub }) => (
           <div key={label} className="flex flex-col items-center gap-1 rounded-xl border border-border bg-white p-2.5 text-center md:p-3">
             <Icon className="h-4 w-4 text-primary md:h-5 md:w-5" />
