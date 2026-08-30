@@ -19,11 +19,20 @@ async function getBanners() {
       try {
         await dbConnect();
 
+        // Exclude the base64 `image`/`imageMobile` blobs — pulling them inline
+        // saturated the connection pool and timed the page out (~90s). The
+        // browser loads each image lazily through /api/media/banner/<id>.
         const banners = await Banner.find()
+          .select("-image -imageMobile")
           .sort({ position: 1, sortOrder: 1, createdAt: -1 })
           .lean();
 
-        return JSON.parse(JSON.stringify(banners));
+        return JSON.parse(JSON.stringify(banners)).map(
+          (banner: { _id: string }) => ({
+            ...banner,
+            image: `/api/media/banner/${banner._id}`,
+          })
+        );
       } catch (error) {
         console.error("Error fetching banners:", error);
         return [];

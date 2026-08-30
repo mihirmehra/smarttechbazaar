@@ -18,12 +18,22 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import DeleteCouponButton from "@/components/admin/DeleteCouponButton";
+import { cachedQuery } from "@/lib/cache";
 
 interface CouponsPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 async function getCoupons(searchParams: { [key: string]: string | string[] | undefined }) {
+  const page = Number(searchParams.page) || 1;
+  const status = (searchParams.status as string) || "";
+  const search = (searchParams.search as string) || "";
+  const cacheKey = `admin:coupons:${page}:${status}:${search}`;
+
+  return cachedQuery(cacheKey, () => fetchCoupons(searchParams), 30000);
+}
+
+async function fetchCoupons(searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     await dbConnect();
 
@@ -252,23 +262,23 @@ export default async function CouponsPage({ searchParams }: CouponsPageProps) {
                           {coupon.type === "percentage" ? (
                             <>
                               <Percent className="h-4 w-4 text-stb-success" />
-                              <span className="font-semibold">{coupon.value}%</span>
+                              <span className="font-semibold">{coupon.value ?? 0}%</span>
                             </>
                           ) : (
                             <>
                               <IndianRupee className="h-4 w-4 text-stb-success" />
-                              <span className="font-semibold">{coupon.value.toLocaleString("en-IN")}</span>
+                              <span className="font-semibold">{(coupon.value ?? 0).toLocaleString("en-IN")}</span>
                             </>
                           )}
                         </div>
-                        {coupon.minOrderValue > 0 && (
+                        {(coupon.minOrderValue ?? 0) > 0 && (
                           <p className="text-xs text-muted-foreground">
-                            Min: ₹{coupon.minOrderValue.toLocaleString("en-IN")}
+                            Min: ₹{(coupon.minOrderValue ?? 0).toLocaleString("en-IN")}
                           </p>
                         )}
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <span className="font-medium">{coupon.usageCount}</span>
+                        <span className="font-medium">{coupon.usageCount ?? 0}</span>
                         {coupon.usageLimit && (
                           <span className="text-muted-foreground">/{coupon.usageLimit}</span>
                         )}
