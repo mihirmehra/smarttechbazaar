@@ -50,6 +50,7 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
       query.$or = [
         { name: { $regex: searchParams.search, $options: "i" } },
         { sku: { $regex: searchParams.search, $options: "i" } },
+        { brand: { $regex: searchParams.search, $options: "i" } },
       ];
     }
 
@@ -71,6 +72,7 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
           { $or: [
             { name: { $regex: searchParams.search, $options: "i" } },
             { sku: { $regex: searchParams.search, $options: "i" } },
+            { brand: { $regex: searchParams.search, $options: "i" } },
           ]},
           { $or: [{ stock: 0 }, { stock: { $exists: false } }, { stock: null }] }
         ];
