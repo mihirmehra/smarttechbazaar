@@ -1,16 +1,13 @@
 import Link from "next/link";
-import Image from "next/image";
 import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
 import Brand from "@/models/Brand";
-import { Plus, Edit, Eye, AlertCircle } from "lucide-react";
+import { Plus, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import ProductImportExport from "@/components/admin/ProductImportExport";
 import ProductsFilters from "@/components/admin/ProductsFilters";
-import { formatPrice } from "@/lib/pricing";
+import ProductsTable from "@/components/admin/ProductsTable";
 import { cachedQuery } from "@/lib/cache";
 
 // Force dynamic rendering for admin pages to always show fresh data
@@ -237,205 +234,36 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         currentFilter={params.filter as string | undefined}
       />
 
-      {/* Products Table */}
-      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="border-b border-border bg-muted/50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-muted-foreground">
-                  Product
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-muted-foreground">
-                  SKU
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-muted-foreground">
-                  Category
-                </th>
-                <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
-                  B2C Price
-                </th>
-                <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
-                  B2B Price
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium uppercase text-muted-foreground">
-                  Stock
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium uppercase text-muted-foreground">
-                  Status
-                </th>
-                <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {products.length > 0 ? (
-                products.map((product: {
-                  _id: string;
-                  name: string;
-                  slug: string;
-                  sku: string;
-                  thumbnailUrl?: string | null;
-                  hasEmbeddedImage?: boolean;
-                  category?: { name: string; slug: string };
-                  priceB2C: number;
-                  priceB2B: number;
-                  stock: number;
-                  isActive: boolean;
-                  isFeatured: boolean;
-                }) => (
-                  <tr key={product._id} className="hover:bg-muted/30">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-muted">
-                          {product.thumbnailUrl || product.hasEmbeddedImage ? (
-                            <Image
-                              // Use the URL when there is one; otherwise load
-                              // the base64 image through the thumbnail route so
-                              // it stays out of this page's payload.
-                              src={
-                                product.thumbnailUrl ??
-                                `/api/admin/products/${product._id}/thumbnail`
-                              }
-                              alt={product.name}
-                              width={48}
-                              height={48}
-                              className="h-full w-full object-cover"
-                              unoptimized
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                              <Eye className="h-5 w-5" />
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          <p className="font-medium text-foreground line-clamp-1">
-                            {product.name}
-                          </p>
-                          {product.isFeatured && (
-                            <Badge variant="secondary" className="mt-1 text-xs">
-                              Featured
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 font-mono text-sm text-muted-foreground">
-                      {product.sku}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-muted-foreground">
-                      {product.category?.name || "-"}
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium">
-                      {formatPrice(product.priceB2C)}
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-blue-600">
-                      {formatPrice(product.priceB2B)}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span
-                        className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
-                          product.stock === 0
-                            ? "bg-destructive/10 text-destructive"
-                            : product.stock < 10
-                              ? "bg-stb-warning/10 text-stb-warning"
-                              : "bg-stb-success/10 text-stb-success"
-                        }`}
-                      >
-                        {product.stock}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <Badge
-                        variant={product.isActive ? "default" : "secondary"}
-                        className={
-                          product.isActive
-                            ? "bg-stb-success/10 text-stb-success"
-                            : ""
-                        }
-                      >
-                        {product.isActive ? "Active" : "Inactive"}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          href={`/product/${product.slug}`}
-                          target="_blank"
-                          className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Link>
-                        <Link
-                          href={`/admin/products/${product._id}/edit`}
-                          className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Link>
-                        <DeleteProductButton
-                          productId={product._id}
-                          productName={product.name}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={8} className="px-4 py-12 text-center">
-                    {error ? (
-                      <p className="text-muted-foreground">
-                        Products could not be loaded. See the error above.
-                      </p>
-                    ) : (
-                      <>
-                        <p className="text-muted-foreground">No products found</p>
-                        <Link
-                          href="/admin/products/new"
-                          className="mt-2 inline-flex items-center gap-2 text-primary hover:underline"
-                        >
-                          <Plus className="h-4 w-4" />
-                          Add your first product
-                        </Link>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+      {/* Products Table with bulk selection + bulk price updater */}
+      <ProductsTable products={products} error={error} />
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-border px-4 py-3">
-            <p className="body-sm text-muted-foreground">
-              Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, total)} of{" "}
-              {total} products
-            </p>
-            <div className="flex gap-2">
-              {page > 1 && (
-                <Link
-                  href={`/admin/products?page=${page - 1}`}
-                  className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
-                >
-                  Previous
-                </Link>
-              )}
-              {page < totalPages && (
-                <Link
-                  href={`/admin/products?page=${page + 1}`}
-                  className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
-                >
-                  Next
-                </Link>
-              )}
-            </div>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+          <p className="body-sm text-muted-foreground">
+            Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, total)} of{" "}
+            {total} products
+          </p>
+          <div className="flex gap-2">
+            {page > 1 && (
+              <Link
+                href={`/admin/products?page=${page - 1}`}
+                className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
+              >
+                Previous
+              </Link>
+            )}
+            {page < totalPages && (
+              <Link
+                href={`/admin/products?page=${page + 1}`}
+                className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
+              >
+                Next
+              </Link>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
