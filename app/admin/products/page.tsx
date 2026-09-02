@@ -8,7 +8,23 @@ import { Button } from "@/components/ui/button";
 import ProductImportExport from "@/components/admin/ProductImportExport";
 import ProductsFilters from "@/components/admin/ProductsFilters";
 import ProductsTable from "@/components/admin/ProductsTable";
+import ProductsPageSize from "@/components/admin/ProductsPageSize";
 import { cachedQuery } from "@/lib/cache";
+
+// Build a pagination link that preserves the current filters (search, category,
+// brand, status, pageSize) and only changes the page number.
+function buildPageQuery(
+  params: { [key: string]: string | string[] | undefined },
+  nextPage: number
+) {
+  const sp = new URLSearchParams();
+  for (const [key, val] of Object.entries(params)) {
+    if (key === "page" || val == null) continue;
+    sp.set(key, Array.isArray(val) ? val[0] : val);
+  }
+  sp.set("page", String(nextPage));
+  return sp.toString();
+}
 
 // Force dynamic rendering for admin pages to always show fresh data
 export const dynamic = "force-dynamic";
@@ -30,8 +46,17 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
     await dbConnect();
 
     const page = Number(searchParams.page) || 1;
-    const limit = 20;
-    const skip = (page - 1) * limit;
+
+    // Page size — allow 20/30/.../90 or "all". Anything else falls back to 20.
+    const ALLOWED_PAGE_SIZES = [20, 30, 40, 50, 60, 70, 80, 90];
+    const rawPageSize = String(searchParams.pageSize ?? "");
+    const showAll = rawPageSize === "all";
+    const limit = showAll
+      ? 0
+      : ALLOWED_PAGE_SIZES.includes(Number(rawPageSize))
+        ? Number(rawPageSize)
+        : 20;
+    const skip = showAll ? 0 : (page - 1) * limit;
 
     const query: Record<string, unknown> = {};
 
@@ -158,7 +183,9 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
       products: JSON.parse(JSON.stringify(products)),
       total,
       page,
-      totalPages: Math.ceil(total / limit),
+      pageSize: showAll ? total || 1 : limit,
+      showAll,
+      totalPages: showAll ? 1 : Math.ceil(total / limit),
       categories: JSON.parse(JSON.stringify(categories)),
       brands: JSON.parse(JSON.stringify(brands)),
       error: null as string | null,
@@ -173,8 +200,11 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
       products: [],
       total: 0,
       page: 1,
+      pageSize: 20,
+      showAll: false,
       totalPages: 1,
       categories: [],
+      brands: [],
       error:
         error instanceof Error
           ? error.message
@@ -185,7 +215,8 @@ async function fetchProducts(searchParams: { [key: string]: string | string[] | 
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
-  const { products, total, page, totalPages, categories, brands, error } = await getProducts(params);
+  const { products, total, page, pageSize, showAll, totalPages, categories, brands, error } =
+    await getProducts(params);
 
   return (
     <div className="flex flex-col gap-6">
@@ -234,34 +265,41 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         currentFilter={params.filter as string | undefined}
       />
 
+      {/* Page-size selector + results summary */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+        <p className="body-sm text-muted-foreground">
+          {showAll
+            ? `Showing all ${total} products`
+            : `Showing ${total === 0 ? 0 : (page - 1) * pageSize + 1} to ${Math.min(
+                page * pageSize,
+                total
+              )} of ${total} products`}
+        </p>
+        <ProductsPageSize currentPageSize={params.pageSize as string | undefined} />
+      </div>
+
       {/* Products Table with bulk selection + bulk price updater */}
       <ProductsTable products={products} error={error} />
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
-          <p className="body-sm text-muted-foreground">
-            Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, total)} of{" "}
-            {total} products
-          </p>
-          <div className="flex gap-2">
-            {page > 1 && (
-              <Link
-                href={`/admin/products?page=${page - 1}`}
-                className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
-              >
-                Previous
-              </Link>
-            )}
-            {page < totalPages && (
-              <Link
-                href={`/admin/products?page=${page + 1}`}
-                className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
-              >
-                Next
-              </Link>
-            )}
-          </div>
+      {/* Pagination — hidden when showing all products */}
+      {!showAll && totalPages > 1 && (
+        <div className="flex items-center justify-end gap-2 rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+          {page > 1 && (
+            <Link
+              href={`/admin/products?${buildPageQuery(params, page - 1)}`}
+              className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
+            >
+              Previous
+            </Link>
+          )}
+          {page < totalPages && (
+            <Link
+              href={`/admin/products?${buildPageQuery(params, page + 1)}`}
+              className="rounded-md border border-border px-3 py-1 text-sm hover:bg-muted"
+            >
+              Next
+            </Link>
+          )}
         </div>
       )}
     </div>
