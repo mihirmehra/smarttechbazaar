@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -55,6 +55,13 @@ const MODE_LABELS: Record<UpdateMode, string> = {
 
 export default function ProductsTable({ products, error }: ProductsTableProps) {
   const router = useRouter();
+  // Local copy of the rows so bulk price edits can be reflected in-place
+  // without a full page refresh. Re-syncs whenever the server sends new data
+  // (navigation, filter change, pagination).
+  const [rows, setRows] = useState<ProductRow[]>(products);
+  useEffect(() => {
+    setRows(products);
+  }, [products]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [showDialog, setShowDialog] = useState(false);
   const [field, setField] = useState<PriceField>("priceB2C");
@@ -105,10 +112,49 @@ export default function ProductsTable({ products, error }: ProductsTableProps) {
         return;
       }
 
+      // Reflect the new prices in-place, mirroring the server's computation
+      // exactly (see /api/admin/products/bulk-price), so the visible price
+      // fields update immediately without a full page refresh.
+      const round2 = (n: number) => Math.round(n * 100) / 100;
+      const computeNext = (current: number) => {
+        let next = current;
+        switch (mode) {
+          case "set":
+            next = numeric;
+            break;
+          case "increase_amount":
+            next = current + numeric;
+            break;
+          case "decrease_amount":
+            next = current - numeric;
+            break;
+          case "increase_percent":
+            next = current * (1 + numeric / 100);
+            break;
+          case "decrease_percent":
+            next = current * (1 - numeric / 100);
+            break;
+        }
+        return Math.max(0, round2(next));
+      };
+
+      // MRP is not shown in the table, so only patch the displayed fields.
+      if (field === "priceB2C" || field === "priceB2B") {
+        const selectedSet = new Set(selectedIds);
+        setRows((prev) =>
+          prev.map((row) =>
+            selectedSet.has(row._id)
+              ? { ...row, [field]: computeNext(row[field]) }
+              : row
+          )
+        );
+      }
+
       setFeedback({ type: "success", text: data.message || "Prices updated." });
       setSelected(new Set());
       setValue("");
-      // Refresh the server component so the new prices render.
+      // Refresh server data in the background so caches stay in sync, without
+      // clearing the just-updated view the admin is looking at.
       router.refresh();
       setTimeout(() => {
         setShowDialog(false);
@@ -180,8 +226,8 @@ export default function ProductsTable({ products, error }: ProductsTableProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {products.length > 0 ? (
-                products.map((product) => {
+              {rows.length > 0 ? (
+                rows.map((product) => {
                   const isChecked = selected.has(product._id);
                   return (
                     <tr
