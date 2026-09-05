@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import { logAdminAction } from "@/lib/activity-logger";
-import { CACHE_TAGS } from "@/lib/cache";
+import { CACHE_TAGS, invalidateMemoryCache } from "@/lib/cache";
 import { makeUniqueSku, duplicateKeyField } from "@/lib/product-helpers";
 
 interface RouteParams {
@@ -123,6 +123,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     revalidatePath("/products");
     // Revalidate homepage for featured/new products
     revalidatePath("/");
+    // Clear admin in-memory caches so the list/dashboard reflect the change now
+    invalidateMemoryCache("admin:products");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json({
       message: "Product updated successfully",
@@ -177,6 +180,9 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     revalidatePath("/products");
     // Revalidate homepage for featured/new products
     revalidatePath("/");
+    // Clear admin in-memory caches so the list/dashboard reflect the change now
+    invalidateMemoryCache("admin:products");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json({ message: "Product deleted successfully" });
   } catch (error) {

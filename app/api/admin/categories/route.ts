@@ -6,7 +6,8 @@ import dbConnect from "@/lib/mongodb";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
 import { logAdminAction } from "@/lib/activity-logger";
-import { CACHE_TAGS } from "@/lib/cache";
+import { CACHE_TAGS, invalidateMemoryCache } from "@/lib/cache";
+import { categoryMediaUrl } from "@/lib/data";
 
 // GET all categories (admin)
 export async function GET(request: NextRequest) {
@@ -60,10 +61,22 @@ export async function GET(request: NextRequest) {
     // Create a map for quick lookup
     const countMap = new Map(productCounts.map((p) => [p._id.toString(), p.count]));
 
-    const categoriesWithCounts = categories.map((cat) => ({
-      ...cat,
-      productCount: countMap.get(cat._id.toString()) || 0,
-    }));
+    const categoriesWithCounts = categories.map((cat) => {
+      const image = (cat as { image?: unknown }).image;
+      const hasImage = typeof image === "string" && image.length > 0;
+      const isUrl = hasImage && /^https?:\/\//.test(image as string);
+      return {
+        ...cat,
+        // Replace embedded base64 images with a lightweight media URL so the
+        // categories list stays small and fast. Real URLs pass through.
+        image: hasImage
+          ? isUrl
+            ? (image as string)
+            : categoryMediaUrl(cat._id.toString())
+          : "",
+        productCount: countMap.get(cat._id.toString()) || 0,
+      };
+    });
 
     return NextResponse.json({
       categories: categoriesWithCounts,
@@ -130,6 +143,8 @@ export async function POST(request: NextRequest) {
     revalidateTag(CACHE_TAGS.categories);
     revalidatePath(`/category/${slug}`);
     revalidatePath("/");
+    invalidateMemoryCache("admin:categories");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json(
       { message: "Category created successfully", category },

@@ -6,24 +6,40 @@ import { Plus, Edit, Trash2, Eye, Image as ImageIcon, ExternalLink } from "lucid
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import DeleteBannerButton from "@/components/admin/DeleteBannerButton";
+import { cachedQuery } from "@/lib/cache";
 
 // Admin data depends on the request-time database connection. Prevent Next.js
 // from trying to prerender this page during builds when MongoDB is unavailable.
 export const dynamic = "force-dynamic";
 
 async function getBanners() {
-  try {
-    await dbConnect();
+  return cachedQuery(
+    "admin:banners:list",
+    async () => {
+      try {
+        await dbConnect();
 
-    const banners = await Banner.find()
-      .sort({ position: 1, sortOrder: 1, createdAt: -1 })
-      .lean();
+        // Exclude the base64 `image`/`imageMobile` blobs — pulling them inline
+        // saturated the connection pool and timed the page out (~90s). The
+        // browser loads each image lazily through /api/media/banner/<id>.
+        const banners = await Banner.find()
+          .select("-image -imageMobile")
+          .sort({ position: 1, sortOrder: 1, createdAt: -1 })
+          .lean();
 
-    return JSON.parse(JSON.stringify(banners));
-  } catch (error) {
-    console.error("Error fetching banners:", error);
-    return [];
-  }
+        return JSON.parse(JSON.stringify(banners)).map(
+          (banner: { _id: string }) => ({
+            ...banner,
+            image: `/api/media/banner/${banner._id}`,
+          })
+        );
+      } catch (error) {
+        console.error("Error fetching banners:", error);
+        return [];
+      }
+    },
+    30000
+  );
 }
 
 const positionLabels: Record<string, { label: string; color: string; description?: string }> = {

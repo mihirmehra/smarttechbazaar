@@ -5,6 +5,7 @@ import dbConnect from "@/lib/mongodb";
 import Settings from "@/models/Settings";
 import Product, { IProduct } from "@/models/Product";
 import Category from "@/models/Category";
+import { productMediaUrl } from "@/lib/data";
 import { FlattenMaps } from "mongoose";
 
 interface HomepageSectionInput {
@@ -48,7 +49,9 @@ export async function GET() {
     const [products, categories] = await Promise.all([
       allProductIds.length
         ? Product.find({ _id: { $in: allProductIds } })
-            .select("_id name images priceB2C brand stock")
+            // Only project the first image so a base64 blob is detected without
+            // pulling the whole (up to 1.6MB) images array into this response.
+            .select({ name: 1, priceB2C: 1, brand: 1, stock: 1, images: { $slice: 1 } })
             .lean()
         : Promise.resolve([] as FlattenMaps<IProduct>[]),
       allCategoryIds.length
@@ -59,17 +62,27 @@ export async function GET() {
     ]);
 
     const productById = new Map(
-      products.map((p) => [
-        p._id.toString(),
-        {
-          _id: p._id.toString(),
-          name: p.name,
-          images: p.images,
-          priceB2C: p.priceB2C,
-          brand: p.brand,
-          stock: p.stock,
-        },
-      ])
+      products.map((p) => {
+        const first = Array.isArray(p.images) ? p.images[0] : undefined;
+        const hasImage = typeof first === "string" && first.length > 0;
+        const isUrl = hasImage && /^https?:\/\//.test(first as string);
+        return [
+          p._id.toString(),
+          {
+            _id: p._id.toString(),
+            name: p.name,
+            // Return a lightweight image URL instead of the base64 blob so the
+            // homepage builder loads instantly; real URLs pass through. Keep
+            // the field an array so the existing consumer (images[0]) works.
+            images: hasImage
+              ? [isUrl ? (first as string) : productMediaUrl(p._id.toString(), 0)]
+              : [],
+            priceB2C: p.priceB2C,
+            brand: p.brand,
+            stock: p.stock,
+          },
+        ];
+      })
     );
     const categoryNameById = new Map(
       categories.map((c) => [c._id.toString(), c.name])

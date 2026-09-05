@@ -10,15 +10,25 @@ interface Category {
   slug: string;
 }
 
+interface Brand {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
 interface ProductsFiltersProps {
   categories: Category[];
+  brands: Brand[];
   currentCategory?: string;
+  currentBrand?: string;
   currentFilter?: string;
 }
 
 export default function ProductsFilters({
   categories,
+  brands,
   currentCategory,
+  currentBrand,
   currentFilter,
 }: ProductsFiltersProps) {
   const { searchValue, setSearchValue, updateParam } = useAdminSearch(
@@ -32,7 +42,7 @@ export default function ProductsFilters({
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Search products by name or SKU..."
+          placeholder="Search products by name, SKU, or brand..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="h-10 pl-10"
@@ -49,6 +59,20 @@ export default function ProductsFilters({
         {categories.map((cat) => (
           <option key={cat._id} value={cat.slug}>
             {cat.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Brand select — immediate */}
+      <select
+        value={currentBrand ?? ""}
+        onChange={(e) => updateParam("brand", e.target.value)}
+        className="h-10 rounded-md border border-border bg-background px-3 text-sm"
+      >
+        <option value="">All Brands</option>
+        {brands.map((brand) => (
+          <option key={brand._id} value={brand.name}>
+            {brand.name}
           </option>
         ))}
       </select>

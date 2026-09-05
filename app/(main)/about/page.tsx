@@ -348,7 +348,7 @@ export default function AboutPage() {
                     <MapPin className="h-4 w-4 text-primary" />
                   </div>
                   <span className="body-md text-white/80">
-                    2nd Floor, Industrial Area, Jaipur – 302006, Rajasthan
+                    2nd Floor, No. 94/1, Behind Sharda Theater, SP Road, Bangalore - 560002
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
@@ -356,10 +356,10 @@ export default function AboutPage() {
                     <Mail className="h-4 w-4 text-primary" />
                   </div>
                   <a
-                    href="mailto:sales@smarttechbazaar.com"
+                    href="mailto:smarttechbazaar@gmail.com"
                     className="body-md text-white/80 hover:text-primary"
                   >
-                    sales@smarttechbazaar.com
+                    smarttechbazaar@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
@@ -370,7 +370,7 @@ export default function AboutPage() {
                     href="tel:9876543210"
                     className="body-md text-white/80 hover:text-primary"
                   >
-                    +91 98765 43210 (Sales)
+                    +91 63636 77588
                   </a>
                 </div>
               </div>

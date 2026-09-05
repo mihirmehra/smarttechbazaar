@@ -37,14 +37,25 @@ interface ProductPageProps {
 const getProductFromDb = async (slug: string) => {
   await dbConnect();
 
+  // `-images` is the single most important part of this query. Most images in
+  // this catalogue are stored as inline base64 data URIs on the document itself
+  // (~873KB each), so selecting them made this page a 1.6MB payload that took
+  // ~10s to render. The gallery now loads each image from /api/media/product/
+  // <id>?i=<n> instead, which the browser fetches in parallel and caches
+  // immutably. `imageCount` below is computed server-side so we know how many
+  // URLs to emit without ever transferring a blob.
+  const projection = "-images";
+
   // First try to find by slug with isActive: true
   let product = await Product.findOne({ slug, isActive: true })
+    .select(projection)
     .populate("category", "name slug")
     .lean();
 
   // If not found, try without isActive filter (in case it's set to false by default)
   if (!product) {
     product = await Product.findOne({ slug })
+      .select(projection)
       .populate("category", "name slug")
       .lean();
     
@@ -57,6 +68,18 @@ const getProductFromDb = async (slug: string) => {
   if (!product) {
     return null;
   }
+
+  // How many images this product has, without downloading any of them.
+  const [imageMeta] = await Product.aggregate<{ count: number }>([
+    { $match: { _id: product._id } },
+    { $project: { count: { $size: { $ifNull: ["$images", []] } } } },
+  ]);
+  const imageCount = Math.min(imageMeta?.count ?? 0, 8);
+  const productId = String(product._id);
+  const imageUrls = Array.from(
+    { length: imageCount },
+    (_, i) => `/api/media/product/${productId}?i=${i}`
+  );
 
   // Get related products from same category (only if category exists)
   let relatedProducts: unknown[] = [];
@@ -75,14 +98,21 @@ const getProductFromDb = async (slug: string) => {
       _id: { $ne: product._id },
       isActive: true,
     })
-      .select("_id name slug images priceB2C priceB2B mrp stock sku brand")
+      .select("_id name slug priceB2C priceB2B mrp stock sku brand")
       .limit(6)
       .lean();
   }
 
+  // The carousel only ever shows the first image, so emit one media URL per
+  // related product rather than the base64 blobs (6 x ~873KB).
+  const relatedWithImages = (relatedProducts as { _id: unknown }[]).map((p) => ({
+    ...p,
+    images: [`/api/media/product/${String(p._id)}?i=0`],
+  }));
+
   return {
-    product: JSON.parse(JSON.stringify(product)),
-    relatedProducts: JSON.parse(JSON.stringify(relatedProducts)),
+    product: { ...JSON.parse(JSON.stringify(product)), images: imageUrls },
+    relatedProducts: JSON.parse(JSON.stringify(relatedWithImages)),
   };
 };
 

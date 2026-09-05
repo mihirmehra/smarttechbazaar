@@ -14,7 +14,20 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   useEffect(() => {
     // Log the error for debugging
     console.error("Application error:", error);
-  }, [error]);
+
+    // Automatically attempt to recover by reloading the same route after 2s.
+    // reset() re-renders the segment that threw; if that still fails we fall
+    // back to a hard reload of the current URL.
+    const timer = setTimeout(() => {
+      try {
+        reset();
+      } catch {
+        window.location.reload();
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [error, reset]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 text-center">
