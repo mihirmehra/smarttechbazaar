@@ -130,8 +130,12 @@ export default async function BrandsPage({ searchParams }: BrandsPageProps) {
               key={brand._id}
               className="group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
             >
-              {/* Logo */}
-              <div className="flex h-32 items-center justify-center bg-muted/30 p-4">
+              {/* Logo — links to the brand's product list */}
+              <Link
+                href={`/admin/brands/${brand._id}`}
+                className="flex h-32 items-center justify-center bg-muted/30 p-4"
+                aria-label={`View ${brand.name} products`}
+              >
                 {brand.logo ? (
                   <Image
                     src={brand.logo}
@@ -146,15 +150,17 @@ export default async function BrandsPage({ searchParams }: BrandsPageProps) {
                     <Tag className="h-8 w-8 text-primary" />
                   </div>
                 )}
-              </div>
+              </Link>
 
               {/* Content */}
               <div className="p-4">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-foreground">{brand.name}</h3>
+                  <Link href={`/admin/brands/${brand._id}`} className="group/name">
+                    <h3 className="font-semibold text-foreground group-hover/name:text-primary">
+                      {brand.name}
+                    </h3>
                     <p className="font-mono text-xs text-muted-foreground">{brand.slug}</p>
-                  </div>
+                  </Link>
                   <Badge
                     variant={brand.isActive ? "default" : "secondary"}
                     className={brand.isActive ? "bg-stb-success/10 text-stb-success" : ""}
@@ -170,10 +176,13 @@ export default async function BrandsPage({ searchParams }: BrandsPageProps) {
                 )}
 
                 <div className="mt-3 flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
+                  <Link
+                    href={`/admin/brands/${brand._id}`}
+                    className="flex items-center gap-1 hover:text-primary"
+                  >
                     <Package className="h-3.5 w-3.5" />
                     <span>{brand.productCount} products</span>
-                  </div>
+                  </Link>
                   {brand.website && (
                     <a
                       href={brand.website}

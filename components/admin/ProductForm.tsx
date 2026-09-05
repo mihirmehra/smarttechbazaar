@@ -73,9 +73,17 @@ interface Product {
 interface ProductFormProps {
   product?: Product;
   isEdit?: boolean;
+  // Where to send the admin after a successful save / cancel. Defaults to the
+  // bare list, but the edit page passes the filtered list URL so the current
+  // search/category/brand/status/page filters are preserved.
+  returnTo?: string;
 }
 
-export default function ProductForm({ product, isEdit = false }: ProductFormProps) {
+export default function ProductForm({
+  product,
+  isEdit = false,
+  returnTo = "/admin/products",
+}: ProductFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -342,7 +350,7 @@ export default function ProductForm({ product, isEdit = false }: ProductFormProp
       }
 
       if (response.ok) {
-        router.push("/admin/products");
+        router.push(returnTo);
         router.refresh();
         return;
       }

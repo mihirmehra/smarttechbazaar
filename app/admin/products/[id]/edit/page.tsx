@@ -7,6 +7,7 @@ import ProductForm from "@/components/admin/ProductForm";
 
 interface EditProductPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 async function getProduct(id: string) {
@@ -29,20 +30,28 @@ async function getProduct(id: string) {
   }
 }
 
-export default async function EditProductPage({ params }: EditProductPageProps) {
+export default async function EditProductPage({ params, searchParams }: EditProductPageProps) {
   const { id } = await params;
+  const { from } = await searchParams;
   const product = await getProduct(id);
 
   if (!product) {
     notFound();
   }
 
+  // Rebuild the products list URL with the filters the admin came from, so the
+  // back arrow and post-save redirect return to the same filtered view.
+  const fromQuery = typeof from === "string" ? from : "";
+  const backHref = fromQuery
+    ? `/admin/products?${decodeURIComponent(fromQuery)}`
+    : "/admin/products";
+
   return (
     <div className="mx-auto max-w-4xl">
       {/* Header */}
       <div className="mb-6 flex items-center gap-4">
         <Link
-          href="/admin/products"
+          href={backHref}
           className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card transition-colors hover:bg-muted"
         >
           <ArrowLeft className="h-5 w-5" />
@@ -55,7 +64,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         </div>
       </div>
 
-      <ProductForm product={product} isEdit />
+      <ProductForm product={product} isEdit returnTo={backHref} />
     </div>
   );
 }

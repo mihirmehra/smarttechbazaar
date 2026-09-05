@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Edit, Eye, Loader2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -55,6 +55,13 @@ const MODE_LABELS: Record<UpdateMode, string> = {
 
 export default function ProductsTable({ products, error }: ProductsTableProps) {
   const router = useRouter();
+  // Carry the current list filters (search, category, brand, status, page,
+  // pageSize) into the edit link so the edit page can send the admin back to
+  // the exact same filtered view instead of a bare /admin/products.
+  const searchParams = useSearchParams();
+  const fromQuery = searchParams.toString();
+  const editHref = (id: string) =>
+    `/admin/products/${id}/edit${fromQuery ? `?from=${encodeURIComponent(fromQuery)}` : ""}`;
   // Local copy of the rows so bulk price edits can be reflected in-place
   // without a full page refresh. Re-syncs whenever the server sends new data
   // (navigation, filter change, pagination).
@@ -319,7 +326,7 @@ export default function ProductsTable({ products, error }: ProductsTableProps) {
                             <Eye className="h-4 w-4" />
                           </Link>
                           <Link
-                            href={`/admin/products/${product._id}/edit`}
+                            href={editHref(product._id)}
                             className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                           >
                             <Edit className="h-4 w-4" />
