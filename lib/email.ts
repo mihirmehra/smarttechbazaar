@@ -1,6 +1,10 @@
 import nodemailer from "nodemailer";
 import { randomUUID } from "crypto";
 
+// Gmail App Passwords are shown as "abcd efgh ijkl mnop" — the spaces are NOT
+// part of the password and must be stripped, or Gmail returns 535 BadCredentials.
+const SMTP_PASS = (process.env.SMTP_PASSWORD || "").replace(/\s+/g, "");
+
 // SMTP Configuration using environment variables
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.gmail.com",
@@ -8,7 +12,7 @@ const transporter = nodemailer.createTransport({
   secure: process.env.SMTP_PORT === "465", // true for 465, false for other ports
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
+    pass: SMTP_PASS,
   },
 });
 

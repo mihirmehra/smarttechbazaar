@@ -63,13 +63,13 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
                 href={`/brand/${brand.slug}`}
                 className="group flex shrink-0 flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-20 items-center justify-center rounded-lg bg-white p-2 shadow-sm ring-1 ring-border/50 transition-all group-hover:shadow-md group-hover:ring-primary/30 md:h-14 md:w-24 md:p-2.5">
+                <div className="flex h-12 w-20 items-center justify-center overflow-hidden rounded-lg bg-white p-2 shadow-sm ring-1 ring-border/50 transition-all group-hover:shadow-md group-hover:ring-primary/30 md:h-14 md:w-24 md:p-2.5">
                   <Image
                     src={brand.logo}
                     alt={brand.name}
                     width={110}
                     height={50}
-                    className="h-auto w-auto max-w-[110px] object-contain transition-transform group-hover:scale-110 md:max-w-[110px]"
+                    className="max-h-full max-w-full object-contain transition-transform group-hover:scale-110"
                     unoptimized
                   />
                 </div>
