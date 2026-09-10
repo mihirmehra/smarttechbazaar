@@ -7,7 +7,7 @@ import AdminHeader from "@/components/admin/AdminHeader";
 export const metadata = {
   title: {
     default: "Admin Dashboard",
-    template: "%s | Admin - Sabka Tech Bazar",
+    template: "%s | Admin - Smart Tech Bazar",
   },
 };
 

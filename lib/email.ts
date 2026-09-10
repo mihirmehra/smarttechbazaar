@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 
 // Company email for notifications
 export const COMPANY_EMAIL = process.env.COMPANY_EMAIL || process.env.SMTP_USER || "";
-export const COMPANY_NAME = process.env.COMPANY_NAME || "Sabka Tech Bazar";
+export const COMPANY_NAME = process.env.COMPANY_NAME || "Smart Tech Bazar";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 // IMPORTANT: For Gmail SMTP, the FROM address MUST match the SMTP_USER to avoid spam
 export const EMAIL_FROM = process.env.SMTP_USER || "";
@@ -72,7 +72,7 @@ export async function sendEmail({ to, subject, html, text, replyTo }: EmailOptio
       replyTo: replyTo || COMPANY_EMAIL || fromAddress,
       headers: {
         'Message-ID': messageId,
-        'X-Mailer': 'Sabka Tech Bazar Mailer',
+        'X-Mailer': 'Smart Tech Bazar Mailer',
         'X-Priority': '3', // Normal priority
         'Precedence': 'bulk',
       },
