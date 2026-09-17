@@ -74,3 +74,19 @@ export function invalidateMemoryCache(keyPattern?: string): void {
     }
   }
 }
+
+// Wrap an async fetcher with a short-TTL in-memory cache. Repeat requests with
+// the same key return instantly; the TTL keeps admin data fresh (self-healing),
+// and mutation routes can call invalidateMemoryCache(keyPattern) to clear early.
+export async function cachedQuery<T>(
+  key: string,
+  fetcher: () => Promise<T>,
+  ttlMs: number = 30000
+): Promise<T> {
+  const cached = getFromMemoryCache<T>(key);
+  if (cached !== null) return cached;
+
+  const data = await fetcher();
+  setInMemoryCache<T>(key, data, ttlMs);
+  return data;
+}

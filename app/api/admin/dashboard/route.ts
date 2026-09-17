@@ -8,6 +8,15 @@ import Order from "@/models/Order";
 import Category from "@/models/Category";
 import Brand from "@/models/Brand";
 import Ticket from "@/models/Ticket";
+import { productMediaUrl } from "@/lib/data";
+import { getFromMemoryCache, setInMemoryCache } from "@/lib/cache";
+
+// The dashboard aggregates many collections, so recomputing it on every
+// navigation is the main source of latency. Cache the finished payload
+// in-process for a short window: repeat loads are instant, and the data is
+// never more than DASHBOARD_TTL_MS stale.
+const DASHBOARD_CACHE_KEY = "admin:dashboard:v1";
+const DASHBOARD_TTL_MS = 30_000;
 
 const MONTH_NAMES = [
   "Jan",
@@ -42,6 +51,12 @@ export async function GET() {
       !["admin", "super_admin"].includes(session.user.role)
     ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Serve the recently computed payload if it is still fresh.
+    const cached = getFromMemoryCache<Record<string, unknown>>(DASHBOARD_CACHE_KEY);
+    if (cached) {
+      return NextResponse.json(cached);
     }
 
     await dbConnect();
@@ -203,11 +218,12 @@ export async function GET() {
         .populate("user", "name email")
         .lean(),
 
-      // Low stock: most urgent first, minimal projection.
+      // Low stock: most urgent first, minimal projection. Slice one image so a
+      // base64 blob is not pulled into the dashboard payload.
       Product.find({ stock: { $lt: 10 }, isActive: true })
         .sort({ stock: 1 })
         .limit(5)
-        .select("name sku stock priceB2C images")
+        .select({ name: 1, sku: 1, stock: 1, priceB2C: 1, images: { $slice: 1 } })
         .lean(),
     ]);
 
@@ -234,7 +250,7 @@ export async function GET() {
       count: item.count,
     }));
 
-    return NextResponse.json({
+    const payload = {
       stats: {
         totalRevenue: totalRevenue[0]?.total || 0,
         currentMonthRevenue: currentMonthRev,
@@ -254,7 +270,11 @@ export async function GET() {
       },
       recentOrders,
       lowStockProducts,
-    });
+    };
+
+    setInMemoryCache(DASHBOARD_CACHE_KEY, payload, DASHBOARD_TTL_MS);
+
+    return NextResponse.json(payload);
   } catch (error) {
     console.error("Error fetching dashboard stats:", error);
     return NextResponse.json(

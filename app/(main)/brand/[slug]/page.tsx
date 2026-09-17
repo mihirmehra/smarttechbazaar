@@ -12,6 +12,7 @@ import Brand from "@/models/Brand";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
 import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
+import { createCachedFunction, CACHE_DURATIONS, CACHE_TAGS } from "@/lib/cache";
 import { 
   generateCollectionPageSchema, 
   generateBreadcrumbSchema,
@@ -29,8 +30,10 @@ export const dynamicParams = true;
 // Cap the number of products rendered for a brand, and only select the fields
 // the product cards actually use.
 const BRAND_PRODUCT_LIMIT = 300;
+// `images` excluded: inline base64 blobs (~873KB each). Cards get a
+// /api/media/product/<id>?i=0 URL instead.
 const BRAND_PRODUCT_FIELDS =
-  "_id name slug images priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
+  "_id name slug priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
 
 interface BrandPageProps {
   params: Promise<{ slug: string }>;
@@ -92,15 +95,19 @@ const sampleProducts: ProductData[] = [
   { _id: "s6", name: "RouterBoard Advanced", slug: "routerboard-advanced", priceB2C: 4599, priceB2B: 4199, mrp: 5299, stock: 20, images: ["https://images.unsplash.com/photo-1544985562-128e7b377a21?w=300&h=300&fit=crop"], isFeatured: false, isNewArrival: false },
 ];
 
-// Wrapped in React `cache()` so generateMetadata() and the page component share
-// one result per request instead of running every query twice.
-const getBrandData = cache(async (slug: string) => {
+// Wrapped in `unstable_cache` so the Mongo aggregations only run on background
+// revalidation, and in React `cache()` so generateMetadata() and the page
+// component share one result per request instead of querying twice.
+const fetchBrandData = createCachedFunction(async (slug: string) => {
   try {
     await dbConnect();
 
     // Try to find brand in database
+    // `logo` is omitted on purpose — every brand logo in this catalogue is an
+    // inline base64 data URI, and selecting it made this page a ~575KB payload.
+    // The logo is served by /api/media/brand/<id> instead.
     const brand = await Brand.findOne({ slug, isActive: true })
-      .select("_id name slug description logo website productCount")
+      .select("_id name slug description website productCount")
       .lean();
 
     let brandData: BrandData;
@@ -111,7 +118,7 @@ const getBrandData = cache(async (slug: string) => {
         name: brand.name,
         slug: brand.slug,
         description: brand.description,
-        logo: brand.logo,
+        logo: `/api/media/brand/${brand._id.toString()}`,
         website: brand.website,
         productCount: brand.productCount || 0,
       };
@@ -151,7 +158,10 @@ const getBrandData = cache(async (slug: string) => {
       .lean();
 
     const parsedProducts = productDocs.length > 0
-      ? JSON.parse(JSON.stringify(productDocs))
+      ? JSON.parse(JSON.stringify(productDocs)).map((p: { _id: string }) => ({
+          ...p,
+          images: [`/api/media/product/${p._id}?i=0`],
+        }))
       : sampleProducts.map(p => ({ ...p, brand: brandData.name }));
 
     return {
@@ -177,7 +187,12 @@ const getBrandData = cache(async (slug: string) => {
     }
     return null;
   }
+}, ["brand-detail"], {
+  revalidate: CACHE_DURATIONS.medium,
+  tags: [CACHE_TAGS.brands, CACHE_TAGS.products],
 });
+
+const getBrandData = cache((slug: string) => fetchBrandData(slug));
 
 export async function generateMetadata({ params }: BrandPageProps): Promise<Metadata> {
   const { slug } = await params;

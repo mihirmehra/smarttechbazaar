@@ -10,16 +10,13 @@ import Brand from "@/models/Brand";
 import Product from "@/models/Product";
 import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
 import { generateWebPageSchema, generateOrganizationSchema } from "@/lib/schema";
+import { createCachedFunction, CACHE_DURATIONS, CACHE_TAGS } from "@/lib/cache";
 
 
-// Render on demand rather than prerendering at build time.
-//
-// Brand logos are stored in Mongo as inline base64 data URIs, so this page's
-// query transfers 2.81MB and takes ~31s (measured). That is perilously close to
-// the 60s static-generation budget on its own, and it exceeds it once the build
-// renders several pages at a time against the 5-socket pool. Freshness comes
-// from the request-time query instead.
-export const dynamic = "force-dynamic";
+// Serve from the cache and refresh in the background every hour. The query no
+// longer pulls base64 logos, so it is small enough to prerender and cache;
+// visitors get a static-speed response instead of a fresh database round trip.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "All Brands",
@@ -59,14 +56,34 @@ const defaultBrands: BrandWithCount[] = [
   { _id: "dlink", name: "D-Link", slug: "d-link", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/D-Link_logo.svg/120px-D-Link_logo.svg.png", productCount: 24, description: "D-Link - Building networks for people" },
 ];
 
-async function getBrands(): Promise<BrandWithCount[]> {
+// Grouping products by brand costs ~3.6s: `brand` is an unindexed string, so
+// the aggregation scans every product document. Cache the result so only one
+// background revalidation per hour pays that price and visitors never do.
+const getBrands = createCachedFunction(
+  fetchBrands,
+  ["brands-page"],
+  { revalidate: CACHE_DURATIONS.medium, tags: [CACHE_TAGS.brands, CACHE_TAGS.products] }
+);
+
+async function fetchBrands(): Promise<BrandWithCount[]> {
   try {
     await dbConnect();
     
     // Use aggregation to get brand product counts in a single query (no N+1)
     const [brands, productCounts] = await Promise.all([
+      // Never select `logo`: brand logos are stored as inline base64 data URIs
+      // (~2.8MB across all brands), which made this page take ~31s. Fetch a
+      // boolean instead and let the browser pull each logo from /api/media in
+      // parallel, where it is cached immutably.
       Brand.find({ isActive: true })
-        .select("_id name slug description logo productCount")
+        .select({
+          _id: 1,
+          name: 1,
+          slug: 1,
+          description: 1,
+          productCount: 1,
+          hasLogo: { $gt: [{ $strLenCP: { $ifNull: ["$logo", ""] } }, 0] },
+        })
         .sort({ sortOrder: 1, name: 1 })
         .lean(),
       Product.aggregate([
@@ -82,14 +99,18 @@ async function getBrands(): Promise<BrandWithCount[]> {
     // Create a map for quick lookup
     const countMap = new Map(productCounts.map((p) => [p._id, p.count]));
 
-    const brandsWithCounts = brands.map((brand) => ({
-      _id: brand._id.toString(),
-      name: brand.name,
-      slug: brand.slug,
-      description: brand.description,
-      logo: brand.logo,
-      productCount: countMap.get(brand.name) || brand.productCount || 0,
-    }));
+    const brandsWithCounts = brands.map((brand) => {
+      const id = brand._id.toString();
+      const hasLogo = (brand as unknown as { hasLogo?: boolean }).hasLogo;
+      return {
+        _id: id,
+        name: brand.name,
+        slug: brand.slug,
+        description: brand.description,
+        logo: hasLogo ? `/api/media/brand/${id}` : undefined,
+        productCount: countMap.get(brand.name) || brand.productCount || 0,
+      };
+    });
 
     return brandsWithCounts.length > 0 ? brandsWithCounts : defaultBrands;
   } catch {

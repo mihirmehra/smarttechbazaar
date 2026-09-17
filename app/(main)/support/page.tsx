@@ -48,8 +48,8 @@ const contactMethods = [
     icon: Mail,
     title: "Email Us",
     description: "Send us a detailed message and we will reply within one business day.",
-    action: "sales@smarttechbazaar.com",
-    href: "mailto:sales@smarttechbazaar.com",
+    action: "smarttechbazaar@gmail.com",
+    href: "mailto:smarttechbazaar@gmail.com",
     primary: false,
   },
   {

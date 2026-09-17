@@ -40,7 +40,12 @@ import {
 // Rendering on demand makes the build independent of the database. Freshness and
 // speed still come from the per-query `unstable_cache` wrappers in lib/data.ts,
 // so this is not an uncached page.
-export const dynamic = "force-dynamic";
+//
+// `revalidate` turns the on-demand render into an ISR render: the first visitor
+// after a deploy pays the database cost once, then every subsequent visitor is
+// served the cached HTML instantly until the window expires and the page is
+// rebuilt in the background (stale-while-revalidate). Nobody waits on Mongo.
+export const revalidate = 300;
 
 // Resolve a data fetch, falling back to an empty list if it fails.
 // A transient MongoDB error must not abort the whole production build (or blank

@@ -18,6 +18,15 @@ import {
   Zap,
 } from "lucide-react";
 import { getPricingInfo, formatPrice } from "@/lib/pricing";
+import { GST_RATE } from "@/lib/gst";
+
+/** Format a rupee amount with 2 decimals (e.g. ₹1,293.00) for the GST-inclusive line */
+function formatPriceWithDecimals(value: number): string {
+  return `₹${(Number(value) || 0).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
 
 interface ProductInfoProps {
   product: {
@@ -60,6 +69,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const inStock = (Number(product.stock) || 0) > 0;
   const wishlisted = isInWishlist(product._id);
   const totalPrice = price * qty;
+  // Stored prices are GST-exclusive; GST is added at checkout. Show the inclusive figure too.
+  const priceInclGst = Math.round(price * (1 + GST_RATE / 100) * 100) / 100;
 
   const changeQty = (d: number) => {
     const next = qty + d;
@@ -165,17 +176,31 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         ) : (
           /* Customer view */
           <>
-            <div className="flex items-end gap-2.5">
-              <span className="text-xl font-extrabold text-foreground md:text-3xl">
-                {formatPrice(price)}
-              </span>
+            {/* Amazon-style boxed price: bold excl. GST primary, incl. GST secondary */}
+            <div className="inline-block rounded-lg border-2 border-amber-400 bg-white px-3 py-2 md:px-4 md:py-2.5">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-sm font-medium text-foreground md:text-base">Price:</span>
+                <span className="text-xl font-extrabold text-primary md:text-2xl">
+                  {formatPriceWithDecimals(price)}
+                </span>
+                <span className="text-xs font-bold uppercase tracking-wide text-primary md:text-sm">
+                  excl. GST
+                </span>
+              </div>
+              <div className="mt-0.5 text-sm font-semibold text-foreground/80 md:text-base">
+                {formatPriceWithDecimals(priceInclGst)}{" "}
+                <span className="font-bold">incl. GST</span>
+              </div>
+            </div>
+            <p className="mt-1.5 text-[10px] text-muted-foreground md:text-[11px]">
+              Inclusive of all taxes ({GST_RATE}% GST)
+            </p>
+            <div className="mt-1 flex flex-wrap items-center gap-2">
               {mrp > price && (
-                <span className="pb-0.5 text-sm text-muted-foreground line-through md:text-base">
-                  {formatPrice(mrp)}
+                <span className="text-sm text-muted-foreground line-through md:text-base">
+                  MRP: {formatPrice(mrp)}
                 </span>
               )}
-            </div>
-            <div className="mt-1 flex flex-wrap items-center gap-2">
               {savings > 0 && (
                 <span className="text-[11px] font-semibold text-stb-success md:text-xs">
                   You save {formatPrice(savings)} ({discount}%)
@@ -251,7 +276,6 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         {[
           { icon: Truck, label: "Fast Delivery", sub: "2–5 days" },
           { icon: Shield, label: "1 Yr Warranty", sub: "Manufacturer" },
-          { icon: RotateCcw, label: "Easy Returns", sub: "7 days" },
         ].map(({ icon: Icon, label, sub }) => (
           <div key={label} className="flex flex-col items-center gap-1 rounded-xl border border-border bg-white p-2.5 text-center md:p-3">
             <Icon className="h-4 w-4 text-primary md:h-5 md:w-5" />

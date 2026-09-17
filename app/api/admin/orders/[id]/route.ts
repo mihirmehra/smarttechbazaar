@@ -10,6 +10,7 @@ import Notification from "@/models/Notification";
 import { sendEmail } from "@/lib/email";
 import { orderStatusUpdateTemplate, refundProcessedTemplate, shippingNotificationTemplate, deliveryConfirmationTemplate } from "@/lib/email-templates";
 import { validateObjectId, sanitizeString } from "@/lib/validation";
+import { invalidateMemoryCache } from "@/lib/cache";
 import { sendOrderStatusNotification } from "@/lib/push-notifications";
 import { logAdminAction } from "@/lib/activity-logger";
 
@@ -344,6 +345,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       { orderNumber: order.orderNumber, previousStatus, newStatus: data.status, data }
     );
 
+    invalidateMemoryCache("admin:orders");
+    invalidateMemoryCache("admin:customers");
+    invalidateMemoryCache("admin:dashboard");
+
     return NextResponse.json({
       message: "Order updated successfully",
       order: JSON.parse(JSON.stringify(order)),
@@ -392,6 +397,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     await Order.findByIdAndDelete(id);
+
+    invalidateMemoryCache("admin:orders");
+    invalidateMemoryCache("admin:customers");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json({ message: "Order deleted successfully" });
   } catch (error) {

@@ -6,6 +6,7 @@ import Product from "@/models/Product";
 import Category from "@/models/Category";
 import Brand from "@/models/Brand";
 import { siteConfig } from "@/lib/site-config";
+import { productMediaUrl, categoryMediaUrl, brandMediaUrl } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
   try {
@@ -66,26 +67,51 @@ export async function GET(request: NextRequest) {
     const staticPagesCount = 9; // home, products, brands, about, contact, privacy, terms, shipping, refund
     const totalSitemapUrls = staticPagesCount + productsCount + categoriesCount + brandsCount;
 
-    // Get recent products for sample schema preview
-    const recentProducts = await Product.find({ isActive: true })
+    // Get recent products for sample schema preview. Slice one image so a
+    // base64 blob is never pulled into this response.
+    const recentProductsRaw = await Product.find({ isActive: true })
       .sort({ updatedAt: -1 })
       .limit(5)
-      .select("name slug metaTitle metaDescription images")
+      .select({ name: 1, slug: 1, metaTitle: 1, metaDescription: 1, images: { $slice: 1 } })
       .lean();
 
-    // Get recent categories
-    const recentCategories = await Category.find({ isActive: true })
+    // Get recent categories (id only for the image; derive a media URL).
+    const recentCategoriesRaw = await Category.find({ isActive: true })
       .sort({ updatedAt: -1 })
       .limit(5)
       .select("name slug description image")
       .lean();
 
-    // Get recent brands
-    const recentBrands = await Brand.find({ isActive: true })
+    // Get recent brands (logo replaced with a media URL below).
+    const recentBrandsRaw = await Brand.find({ isActive: true })
       .sort({ updatedAt: -1 })
       .limit(5)
       .select("name slug description logo")
       .lean();
+
+    // Replace embedded base64 image data with lightweight media URLs so the
+    // SEO preview panels load instantly. Real http(s) URLs pass through.
+    const toUrl = (val: unknown, fallback: string) =>
+      typeof val === "string" && val.length > 0
+        ? /^https?:\/\//.test(val)
+          ? val
+          : fallback
+        : "";
+    const recentProducts = recentProductsRaw.map((p) => {
+      const first = Array.isArray(p.images) ? (p.images[0] as unknown) : undefined;
+      return {
+        ...p,
+        images: first ? [toUrl(first, productMediaUrl(p._id.toString(), 0))] : [],
+      };
+    });
+    const recentCategories = recentCategoriesRaw.map((c) => ({
+      ...c,
+      image: toUrl((c as { image?: unknown }).image, categoryMediaUrl(c._id.toString())),
+    }));
+    const recentBrands = recentBrandsRaw.map((b) => ({
+      ...b,
+      logo: toUrl((b as { logo?: unknown }).logo, brandMediaUrl(b._id.toString())),
+    }));
 
     // Generate robots.txt content
     const robotsTxt = `User-agent: *

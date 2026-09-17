@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Brand from "@/models/Brand";
 import Product from "@/models/Product";
-import { CACHE_TAGS } from "@/lib/cache";
+import { CACHE_TAGS, invalidateMemoryCache } from "@/lib/cache";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -109,6 +109,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     revalidatePath(`/brand/${brand.slug}`);
     revalidatePath("/brands");
     revalidatePath("/");
+    invalidateMemoryCache("admin:brands");
+    invalidateMemoryCache("admin:products");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json({
       message: "Brand updated successfully",
@@ -159,6 +162,8 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     revalidatePath(`/brand/${brand.slug}`);
     revalidatePath("/brands");
     revalidatePath("/");
+    invalidateMemoryCache("admin:brands");
+    invalidateMemoryCache("admin:dashboard");
 
     return NextResponse.json({ message: "Brand deleted successfully" });
   } catch (error) {

@@ -16,6 +16,44 @@ import {
   slugifySectionTitle,
 } from "@/lib/section-matching";
 
+// Point at /api/media instead of embedding the image itself.
+//
+// Most images in this catalogue live inside the document as an inline base64
+// data URI (~873KB per product image, and every one of the 43 brand logos).
+// Selecting those fields in a list query is what broke the site:
+//   - `unstable_cache` rejects entries over 2MB, and it throws AFTER returning
+//     the value, so `getBrands()` (43 logos = 4,051,200 bytes) produced an
+//     unhandled rejection that aborted the render — the homepage never finished
+//     loading.
+//   - the transfer alone took 13s-90s per query (the same query projecting only
+//     `name` returns in ~210ms), which also blew the 60s static-generation
+//     budget and failed `next build`.
+//
+// Referencing the blob by URL keeps these payloads small and cacheable, and the
+// browser fetches each image lazily, in parallel, then caches it immutably.
+// /api/media transparently redirects images that are already hosted on
+// ImageKit/Blob, so nothing regresses for those.
+export function productImageUrl(id: string, index = 0): string {
+  return `/api/media/product/${id}?i=${index}`;
+}
+
+export function brandLogoUrl(id: string): string {
+  return `/api/media/brand/${id}`;
+}
+
+export function categoryImageUrl(id: string): string {
+  return `/api/media/category/${id}`;
+}
+
+// Aliases used by admin routes for clarity.
+export const productMediaUrl = productImageUrl;
+export const brandMediaUrl = brandLogoUrl;
+export const categoryMediaUrl = categoryImageUrl;
+
+function bannerImageUrl(id: string, field: "image" | "imageMobile"): string {
+  return `/api/media/banner/${id}?f=${field}`;
+}
+
 // ============================================
 // PRODUCT DATA FUNCTIONS
 // ============================================
@@ -134,12 +172,11 @@ const PRODUCT_LIST_PROJECTION = {
   _id: 1,
   name: 1,
   slug: 1,
-  // Only the FIRST image. Images are stored as inline base64 data URIs averaging
-  // ~873KB each, so `$slice: 2` pulled ~8.7MB for a single 10-product rail and
-  // the query took ~90s (vs 217ms projecting `name` alone) — that transfer cost,
-  // not query planning, is what timed the rails out. Dropping the second image
-  // halves the payload; the card's hover image falls back to the first one.
-  images: { $slice: 1 },
+  // `images` is deliberately NOT projected. The images are inline base64 data
+  // URIs averaging ~873KB each, so even `$slice: 1` made a 10-product rail
+  // transfer ~4MB and take tens of seconds, and pushed the cached result past
+  // the 2MB `unstable_cache` limit. The card now loads each image from
+  // /api/media/product/<id>, so this query stays at ~210ms.
   priceB2C: 1,
   priceB2B: 1,
   mrp: 1,
@@ -160,13 +197,20 @@ function mapProductToData(p: Record<string, unknown>): ProductData {
     ? brandObj.name 
     : (typeof brandObj === "string" ? brandObj : "Generic");
   const brandLogo = typeof brandObj === "object" && brandObj?.logo ? brandObj.logo : undefined;
-  
+
+  const id = (p._id as { toString(): string }).toString();
+  // `images` is only present when a caller explicitly projects it (e.g. the
+  // product detail page). List queries omit it, so fall back to the media route.
+  const images = Array.isArray(p.images) ? (p.images as string[]) : undefined;
+
   return {
-    id: (p._id as { toString(): string }).toString(),
+    id,
     name: p.name as string,
     slug: p.slug as string,
-    image: (p.images as string[])?.[0] || "https://picsum.photos/280/280",
-    secondImage: (p.images as string[])?.[1],
+    image: images?.[0] || productImageUrl(id, 0),
+    // Only offer a hover image when we actually know a second one exists.
+    // Guessing would make single-image products flash a placeholder on hover.
+    secondImage: images?.[1],
     priceB2C: (p.priceB2C as number) || (p.mrp as number),
     priceB2B: (p.priceB2B as number) || (p.priceB2C as number) || (p.mrp as number),
     mrp: p.mrp as number,
@@ -312,7 +356,9 @@ export const getCategories = unstable_cache(
     return categories.map((cat) => ({
       id: cat._id.toString(),
       name: cat.name,
-      image: cat.image || "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=200&h=200&fit=crop",
+      // 29 categories store `image` as a base64 data URI; fetch it by URL so
+      // this cached payload stays small. /api/media redirects the rest.
+      image: categoryImageUrl(cat._id.toString()),
       slug: cat.slug,
       productCount: cat.productCount,
     }));
@@ -336,13 +382,15 @@ export const getHomepageCategories = unstable_cache(
   async (): Promise<CategoryData[]> => {
     await dbConnect();
 
+    // `image` is NOT selected: this reads EVERY active category, and 29 of them
+    // store the image as an inline base64 data URI. The tiles load it from
+    // /api/media/category/<id> instead.
     const all = (await Category.find({ isActive: { $ne: false } })
-      .select("_id name slug image parent")
+      .select("_id name slug parent")
       .lean()) as unknown as {
       _id: { toString(): string };
       name: string;
       slug: string;
-      image?: string;
       parent?: { toString(): string } | null;
     }[];
 
@@ -418,9 +466,7 @@ export const getHomepageCategories = unstable_cache(
       return {
         id,
         name: cat.name,
-        image:
-          cat.image ||
-          "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=200&h=200&fit=crop",
+        image: categoryImageUrl(id),
         slug: cat.slug,
         productCount: countByRoot.get(id) ?? 0,
       };
@@ -450,8 +496,12 @@ export const getBrands = unstable_cache(
   async (): Promise<BrandData[]> => {
     await dbConnect();
 
+    // `logo` is NOT selected: every one of the 43 logos is an inline base64
+    // data URI, and returning them made this function's cached payload
+    // 4,051,200 bytes — over the 2MB `unstable_cache` limit, which threw an
+    // unhandled rejection that aborted the homepage render entirely.
     const brands = await Brand.find({ isActive: true })
-      .select("_id name logo slug")
+      .select("_id name slug")
       .sort({ sortOrder: 1, name: 1 })
       .limit(20)
       .lean();
@@ -459,7 +509,7 @@ export const getBrands = unstable_cache(
     return brands.map((brand) => ({
       id: brand._id.toString(),
       name: brand.name,
-      logo: brand.logo || `https://picsum.photos/seed/${brand.slug}/120/60`,
+      logo: brandLogoUrl(brand._id.toString()),
       slug: brand.slug,
     }));
   },
@@ -472,8 +522,9 @@ export const getHotBrands = unstable_cache(
   async (): Promise<BrandData[]> => {
     await dbConnect();
 
+    // See getBrands above: `logo` is a base64 blob, so it is fetched by URL.
     const brands = await Brand.find({ isActive: true })
-      .select("_id name logo slug productCount")
+      .select("_id name slug productCount")
       .sort({ productCount: -1, sortOrder: 1 })
       .limit(12)
       .lean();
@@ -481,7 +532,7 @@ export const getHotBrands = unstable_cache(
     return brands.map((brand) => ({
       id: brand._id.toString(),
       name: brand.name,
-      logo: brand.logo || `https://picsum.photos/seed/${brand.slug}/120/60`,
+      logo: brandLogoUrl(brand._id.toString()),
       slug: brand.slug,
       productCount: brand.productCount || 0,
     }));
@@ -521,15 +572,19 @@ export const getHeroSliderBanners = unstable_cache(
   async (): Promise<BannerData[]> => {
     await dbConnect();
 
+    // Banner artwork is also stored inline (a full-width hero is the largest
+    // blob in the database), so it is fetched by URL rather than selected here.
+    // `banners.find({})` without a projection did not return at all; the same
+    // query with one returns in ~208ms.
     const banners = await Banner.find(getBannersQuery("hero_slider"))
-      .select("_id image imageMobile title link")
+      .select("_id title link")
       .sort({ sortOrder: 1 })
       .lean();
 
     return banners.map((b) => ({
       id: b._id.toString(),
-      image: b.image,
-      imageMobile: b.imageMobile,
+      image: bannerImageUrl(b._id.toString(), "image"),
+      imageMobile: bannerImageUrl(b._id.toString(), "imageMobile"),
       alt: b.title || "Banner",
       href: b.link || "/",
     }));
@@ -543,15 +598,16 @@ export const getAdBanners = unstable_cache(
   async (): Promise<BannerData[]> => {
     await dbConnect();
 
+    // See getHeroSliderBanners: artwork is fetched by URL, not selected here.
     const banners = await Banner.find(getBannersQuery("ad_banner"))
-      .select("_id image imageMobile title link")
+      .select("_id title link")
       .sort({ sortOrder: 1 })
       .lean();
 
     return banners.map((b) => ({
       id: b._id.toString(),
-      image: b.image,
-      imageMobile: b.imageMobile,
+      image: bannerImageUrl(b._id.toString(), "image"),
+      imageMobile: bannerImageUrl(b._id.toString(), "imageMobile"),
       alt: b.title || "Ad Banner",
       href: b.link || "/",
     }));
@@ -565,16 +621,17 @@ export const getPromoBanners = unstable_cache(
   async (): Promise<BannerData[]> => {
     await dbConnect();
 
+    // See getHeroSliderBanners: artwork is fetched by URL, not selected here.
     const banners = await Banner.find(getBannersQuery("promo"))
-      .select("_id image imageMobile title link")
+      .select("_id title link")
       .sort({ sortOrder: 1 })
       .limit(1)
       .lean();
 
     return banners.map((b) => ({
       id: b._id.toString(),
-      image: b.image,
-      imageMobile: b.imageMobile,
+      image: bannerImageUrl(b._id.toString(), "image"),
+      imageMobile: bannerImageUrl(b._id.toString(), "imageMobile"),
       alt: b.title || "Promo Banner",
       href: b.link || "/",
     }));

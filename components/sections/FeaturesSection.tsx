@@ -5,7 +5,6 @@ import { Truck, Shield, Headphones, RefreshCcw, Package, BadgeCheck } from "luci
 const features = [
   { icon: Shield,      title: "Secure Payment", desc: "100% protected",     color: "bg-green-50 text-green-600" },
   { icon: Headphones,  title: "24/7 Support",   desc: "Always available",   color: "bg-purple-50 text-purple-600" },
-  { icon: RefreshCcw,  title: "Easy Returns",   desc: "7-day policy",       color: "bg-amber-50 text-amber-600" },
   { icon: Package,     title: "Fast Delivery",  desc: "Express shipping",   color: "bg-orange-50 text-orange-600" },
   { icon: BadgeCheck,  title: "Authentic",      desc: "100% genuine",       color: "bg-stb-red-light text-primary" },
 ];

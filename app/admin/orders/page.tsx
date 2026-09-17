@@ -16,6 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import OrderFilters from "@/components/admin/OrderFilters";
 import ExportOrdersButton from "@/components/admin/ExportOrdersButton";
+import { cachedQuery } from "@/lib/cache";
 
 // Force dynamic rendering for admin pages
 export const dynamic = "force-dynamic";
@@ -25,6 +26,14 @@ interface OrdersPageProps {
 }
 
 async function getOrders(searchParams: { [key: string]: string | string[] | undefined }) {
+ return cachedQuery(
+  `admin:orders:${JSON.stringify(searchParams)}`,
+  () => fetchOrders(searchParams),
+  20000
+ );
+}
+
+async function fetchOrders(searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     await dbConnect();
 

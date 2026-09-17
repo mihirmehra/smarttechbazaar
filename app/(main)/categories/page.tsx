@@ -11,15 +11,12 @@ import Product from "@/models/Product";
 import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
 import { generateWebPageSchema, generateOrganizationSchema } from "@/lib/schema";
 import { ChevronRight } from "lucide-react";
+import { createCachedFunction, CACHE_DURATIONS, CACHE_TAGS } from "@/lib/cache";
 
-// Render on demand rather than prerendering at build time.
-//
-// Category images are stored in Mongo as inline base64 data URIs, so this page's
-// query transfers 2.04MB and takes ~23s (measured). Combined with the other
-// database-backed pages competing for the 5-socket pool during a build, that
-// exceeds the 60s static-generation budget. Freshness comes from the
-// request-time query instead.
-export const dynamic = "force-dynamic";
+// Serve from the cache and refresh in the background every hour. The query no
+// longer pulls base64 images, so it is small enough to prerender and cache;
+// visitors get a static-speed response instead of a fresh database round trip.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "All Categories",
@@ -67,7 +64,15 @@ const defaultCategories: CategoryWithCount[] = [
   { _id: "refurbished-laptops", name: "Refurbished Laptops", slug: "refurbished-laptops", image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=200&h=200&fit=crop", productCount: 0 },
 ];
 
-async function getCategories(): Promise<CategoryWithCount[]> {
+// Cache the three queries behind this page so repeat visits are served from
+// the data cache instead of re-scanning the products collection.
+const getCategories = createCachedFunction(
+  fetchCategories,
+  ["categories-page"],
+  { revalidate: CACHE_DURATIONS.medium, tags: [CACHE_TAGS.categories, CACHE_TAGS.products] }
+);
+
+async function fetchCategories(): Promise<CategoryWithCount[]> {
   try {
     await dbConnect();
 
@@ -79,7 +84,18 @@ async function getCategories(): Promise<CategoryWithCount[]> {
         isActive: true,
         $or: [{ parent: null }, { parent: { $exists: false } }],
       })
-        .select("_id name slug description image sortOrder")
+        // Never select `image`: category images are stored as inline base64
+        // data URIs (~2MB in total), which made this page take ~23s. Fetch a
+        // boolean instead and let the browser pull each image from /api/media
+        // in parallel, where it is cached immutably.
+        .select({
+          _id: 1,
+          name: 1,
+          slug: 1,
+          description: 1,
+          sortOrder: 1,
+          hasImage: { $gt: [{ $strLenCP: { $ifNull: ["$image", ""] } }, 0] },
+        })
         .sort({ sortOrder: 1, name: 1 })
         .lean(),
       Product.aggregate([
@@ -132,7 +148,9 @@ async function getCategories(): Promise<CategoryWithCount[]> {
         name: category.name,
         slug: category.slug,
         description: category.description,
-        image: category.image,
+        image: (category as unknown as { hasImage?: boolean }).hasImage
+          ? `/api/media/category/${catId}`
+          : undefined,
         productCount: totalCount,
         subcategories: subcategoriesWithCounts.length > 0 ? subcategoriesWithCounts : undefined,
       };

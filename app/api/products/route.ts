@@ -125,9 +125,12 @@ export async function GET(request: NextRequest) {
 
     // Execute query with optimized projection
     const skip = (page - 1) * limit;
-    const [products, total] = await Promise.all([
+    const [productDocs, total] = await Promise.all([
       Product.find(query)
-        .select("_id name slug images priceB2C priceB2B mrp stock brand sku category isFeatured isNewArrival")
+        // `images` is intentionally excluded. Images in this catalogue are
+        // stored as inline base64 data URIs (~873KB each), so including them
+        // made a 20-item response ~17MB. Clients get a media URL instead.
+        .select("_id name slug priceB2C priceB2B mrp stock brand sku category isFeatured isNewArrival")
         .populate("category", "name slug")
         .sort(sort)
         .skip(skip)
@@ -136,13 +139,28 @@ export async function GET(request: NextRequest) {
       Product.countDocuments(query),
     ]);
 
-    return NextResponse.json({
-      products,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
-    });
+    const products = (productDocs as { _id: unknown }[]).map((p) => ({
+      ...p,
+      images: [`/api/media/product/${String(p._id)}?i=0`],
+    }));
+
+    return NextResponse.json(
+      {
+        products,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+      {
+        headers: {
+          // Listing/search results are safe to serve from cache briefly, and
+          // stale-while-revalidate keeps navigation instant while the next
+          // response is refreshed in the background.
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
+        },
+      }
+    );
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json(

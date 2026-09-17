@@ -11,6 +11,7 @@ import Category from "@/models/Category";
 import Product from "@/models/Product";
 import Brand from "@/models/Brand";
 import { siteConfig, getCanonicalUrl } from "@/lib/site-config";
+import { createCachedFunction, CACHE_DURATIONS, CACHE_TAGS } from "@/lib/cache";
 import { generateCollectionPageSchema, generateOrganizationSchema } from "@/lib/schema";
 
 // Incrementally-static: the rendered page is cached and revalidated in the
@@ -30,8 +31,12 @@ const CATEGORY_PRODUCT_LIMIT = 300;
 // Only the fields ProductCard and the filter sidebar actually read. Previously
 // this page sent whole documents — full HTML descriptions, every specification
 // row, meta tags — for every product in the category.
+// `images` is deliberately absent: those are inline base64 data URIs (~873KB
+// each), so selecting them for up to 300 products dominated the render time.
+// Each card gets a `/api/media/product/<id>?i=0` URL instead, which the browser
+// loads lazily, in parallel, and caches immutably.
 const CATEGORY_PRODUCT_FIELDS =
-  "_id name slug images priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
+  "_id name slug priceB2C priceB2B mrp stock brand category isFeatured isNewArrival isBestSeller tags";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
@@ -41,17 +46,23 @@ interface CategoryPageProps {
 // Wrapped in React `cache()` so generateMetadata() and the page component share
 // one result per request. Without it, every category view ran this entire set of
 // queries twice.
-const getCategoryData = cache(async (slug: string) => {
+const fetchCategoryData = createCachedFunction(async (slug: string) => {
   try {
     await dbConnect();
 
     // First check if the slug is for a subcategory
+    // `image` omitted: it is an inline base64 data URI, and it was being
+    // serialized into the RSC payload, the OG/Twitter meta tags AND the JSON-LD
+    // schema — three copies of the same multi-KB blob on every render.
     const categoryDoc = await Category.findOne({ slug, isActive: true })
-      .select("_id name slug description image parent")
+      .select("_id name slug description parent")
       .lean();
     if (!categoryDoc) return null;
 
-    const category = JSON.parse(JSON.stringify(categoryDoc));
+    const category = {
+      ...JSON.parse(JSON.stringify(categoryDoc)),
+      image: `/api/media/category/${String(categoryDoc._id)}`,
+    };
     const categoryId = category._id;
     const isSubcategory = !!category.parent;
 
@@ -109,7 +120,12 @@ const getCategoryData = cache(async (slug: string) => {
       ]),
     ]);
 
-    const products = JSON.parse(JSON.stringify(productDocs));
+    const products = JSON.parse(JSON.stringify(productDocs)).map(
+      (p: { _id: string }) => ({
+        ...p,
+        images: [`/api/media/product/${p._id}?i=0`],
+      })
+    );
     const facets = facetResult[0] ?? { brands: [], tags: [], maxPrice: [] };
 
     // Attach per-subcategory counts from the aggregation result
@@ -134,12 +150,15 @@ const getCategoryData = cache(async (slug: string) => {
       name: { $in: [...brandCountByName.keys()] },
       isActive: true,
     })
-      .select("_id name slug logo")
+      // `logo` omitted for the same reason as product images: every one of the
+      // 43 brand logos is an inline base64 blob.
+      .select("_id name slug")
       .lean();
 
     const brandWithCounts = JSON.parse(JSON.stringify(brandDocs)).map(
-      (brand: { name: string }) => ({
+      (brand: { _id: string; name: string }) => ({
         ...brand,
+        logo: `/api/media/brand/${brand._id}`,
         productCount: brandCountByName.get(brand.name) ?? 0,
       })
     );
@@ -162,7 +181,12 @@ const getCategoryData = cache(async (slug: string) => {
     console.error("Error fetching category data:", error);
     return null;
   }
+}, ["category-detail"], {
+  revalidate: CACHE_DURATIONS.medium,
+  tags: [CACHE_TAGS.categories, CACHE_TAGS.products],
 });
+
+const getCategoryData = cache((slug: string) => fetchCategoryData(slug));
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;

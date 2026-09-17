@@ -63,7 +63,7 @@ function baseTemplate(content: string, preheader: string = ""): string {
     ${content}
     <div class="footer">
       <p>Thank you for choosing ${COMPANY_NAME}!</p>
-      <p>If you have any questions, reply to this email or contact us at <a href="mailto:${process.env.COMPANY_EMAIL || "sabkatechbazarr@gmail.com"}">${process.env.COMPANY_EMAIL || "sabkatechbazarr@gmail.com"}</a></p>
+      <p>If you have any questions, reply to this email or contact us at <a href="mailto:${process.env.COMPANY_EMAIL || "smarttechbazarr@gmail.com"}">${process.env.COMPANY_EMAIL || "smarttechbazarr@gmail.com"}</a></p>
       <div class="divider"></div>
       <p class="text-muted">&copy; ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.</p>
       <p class="text-muted"><a href="${SITE_URL}">Visit our website</a></p>

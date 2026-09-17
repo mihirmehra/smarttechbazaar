@@ -271,11 +271,11 @@ export default function PrivacyPage() {
                 </p>
                 <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                   <a
-                    href="mailto:sales@smarttechbazaar.com"
+                    href="mailto:smarttechbazaar@gmail.com"
                     className="flex h-9 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-xs font-medium text-white hover:bg-stb-red-dark"
                   >
                     <Mail className="h-3.5 w-3.5" />
-                    sales@smarttechbazaar.com
+                    smarttechbazaar@gmail.com
                   </a>
                   <a
                     href="tel:+916363677588"

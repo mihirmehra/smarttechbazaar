@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
+import { categoryMediaUrl } from "@/lib/data";
 import { Plus, Edit, FolderTree, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -71,11 +72,22 @@ async function getCategories(searchParams: { [key: string]: string | string[] | 
     );
 
     // Map counts to categories
-    const categoriesWithCounts = categories.map((cat) => ({
-      ...cat,
-      productCount: productCountMap.get(cat._id.toString()) || 0,
-      subcategoryCount: subcategoryCountMap.get(cat._id.toString()) || 0,
-    }));
+    const categoriesWithCounts = categories.map((cat) => {
+      const hasImage = typeof cat.image === "string" && cat.image.length > 0;
+      const isUrl = hasImage && /^https?:\/\//.test(cat.image as string);
+      return {
+        ...cat,
+        // 29 categories store their image as base64. Pass through real URLs;
+        // route base64 through /api/media so blobs are not inlined into HTML.
+        image: hasImage
+          ? isUrl
+            ? (cat.image as string)
+            : categoryMediaUrl(cat._id.toString())
+          : undefined,
+        productCount: productCountMap.get(cat._id.toString()) || 0,
+        subcategoryCount: subcategoryCountMap.get(cat._id.toString()) || 0,
+      };
+    });
 
     return {
       categories: JSON.parse(JSON.stringify(categoriesWithCounts)),
