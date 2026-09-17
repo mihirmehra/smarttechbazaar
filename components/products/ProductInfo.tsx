@@ -176,28 +176,31 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         ) : (
           /* Customer view */
           <>
-            <div className="flex items-end gap-2.5">
-              <span className="text-xl font-extrabold text-foreground md:text-3xl">
-                {formatPrice(price)}
-              </span>
-              <span className="pb-1 text-[11px] font-bold uppercase tracking-wide text-primary md:pb-1.5 md:text-xs">
-                excl. GST
-              </span>
-              {mrp > price && (
-                <span className="pb-0.5 text-sm text-muted-foreground line-through md:text-base">
-                  {formatPrice(mrp)}
+            {/* Amazon-style boxed price: bold excl. GST primary, incl. GST secondary */}
+            <div className="inline-block rounded-lg border-2 border-amber-400 bg-white px-3 py-2 md:px-4 md:py-2.5">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-sm font-medium text-foreground md:text-base">Price:</span>
+                <span className="text-xl font-extrabold text-primary md:text-2xl">
+                  {formatPriceWithDecimals(price)}
                 </span>
-              )}
+                <span className="text-xs font-bold uppercase tracking-wide text-primary md:text-sm">
+                  excl. GST
+                </span>
+              </div>
+              <div className="mt-0.5 text-sm font-semibold text-foreground/80 md:text-base">
+                {formatPriceWithDecimals(priceInclGst)}{" "}
+                <span className="font-bold">incl. GST</span>
+              </div>
             </div>
-            {/* GST-inclusive price */}
-            <p className="mt-0.5 text-xs font-medium text-muted-foreground md:text-sm">
-              {formatPriceWithDecimals(priceInclGst)}{" "}
-              <span className="font-semibold text-foreground">incl. GST</span>
-            </p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground md:text-[11px]">
+            <p className="mt-1.5 text-[10px] text-muted-foreground md:text-[11px]">
               Inclusive of all taxes ({GST_RATE}% GST)
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-2">
+              {mrp > price && (
+                <span className="text-sm text-muted-foreground line-through md:text-base">
+                  MRP: {formatPrice(mrp)}
+                </span>
+              )}
               {savings > 0 && (
                 <span className="text-[11px] font-semibold text-stb-success md:text-xs">
                   You save {formatPrice(savings)} ({discount}%)
