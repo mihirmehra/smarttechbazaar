@@ -18,6 +18,15 @@ import {
   Zap,
 } from "lucide-react";
 import { getPricingInfo, formatPrice } from "@/lib/pricing";
+import { GST_RATE } from "@/lib/gst";
+
+/** Format a rupee amount with 2 decimals (e.g. ₹1,293.00) for the GST-inclusive line */
+function formatPriceWithDecimals(value: number): string {
+  return `₹${(Number(value) || 0).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
 
 interface ProductInfoProps {
   product: {
@@ -60,6 +69,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const inStock = (Number(product.stock) || 0) > 0;
   const wishlisted = isInWishlist(product._id);
   const totalPrice = price * qty;
+  // Stored prices are GST-exclusive; GST is added at checkout. Show the inclusive figure too.
+  const priceInclGst = Math.round(price * (1 + GST_RATE / 100) * 100) / 100;
 
   const changeQty = (d: number) => {
     const next = qty + d;
@@ -169,12 +180,23 @@ export default function ProductInfo({ product }: ProductInfoProps) {
               <span className="text-xl font-extrabold text-foreground md:text-3xl">
                 {formatPrice(price)}
               </span>
+              <span className="pb-1 text-[11px] font-bold uppercase tracking-wide text-primary md:pb-1.5 md:text-xs">
+                excl. GST
+              </span>
               {mrp > price && (
                 <span className="pb-0.5 text-sm text-muted-foreground line-through md:text-base">
                   {formatPrice(mrp)}
                 </span>
               )}
             </div>
+            {/* GST-inclusive price */}
+            <p className="mt-0.5 text-xs font-medium text-muted-foreground md:text-sm">
+              {formatPriceWithDecimals(priceInclGst)}{" "}
+              <span className="font-semibold text-foreground">incl. GST</span>
+            </p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground md:text-[11px]">
+              Inclusive of all taxes ({GST_RATE}% GST)
+            </p>
             <div className="mt-1 flex flex-wrap items-center gap-2">
               {savings > 0 && (
                 <span className="text-[11px] font-semibold text-stb-success md:text-xs">
